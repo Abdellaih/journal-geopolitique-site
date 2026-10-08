@@ -24,13 +24,21 @@
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root{
+  :root:not([data-theme="light"]){
     --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
     --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
     --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
     color-scheme:dark;
   }
 }
+:root[data-theme="dark"]{
+  --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
+  --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+  --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
+  color-scheme:dark;
+}
+.theme-btn{font-family:var(--f-mono);font-size:11px;padding:4px 8px;border:1px solid var(--ink-soft);background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
@@ -100,14 +108,18 @@ p{margin:0}
 .sitefoot{border-top:3px double var(--ink);padding-top:16px;margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:.88rem;color:var(--ink-soft)}
 @media (max-width:520px){.entry{grid-template-columns:3.4rem minmax(0,1fr);gap:4px 12px}.when .d{font-size:1.9rem}}
 </style>
+<script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
 <main class="wrap">
   <nav class="nav">
     <a class="home" href="../" data-t="home"></a>
-    <div class="seg" role="group" aria-label="Langue / Language">
-      <button type="button" id="langFr" aria-pressed="true" lang="fr">FR</button>
-      <button type="button" id="langEn" aria-pressed="false" lang="en">EN</button>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button type="button" id="themeToggle" class="theme-btn" title="Light / Dark">◐</button>
+      <div class="seg" role="group" aria-label="Langue / Language">
+        <button type="button" id="langFr" aria-pressed="true" lang="fr">FR</button>
+        <button type="button" id="langEn" aria-pressed="false" lang="en">EN</button>
+      </div>
     </div>
   </nav>
   <header class="hero">
@@ -288,6 +300,9 @@ p{margin:0}
   let qT;
   $("q").addEventListener("input", ev => { clearTimeout(qT); qT = setTimeout(() => { filter.q = ev.target.value.trim(); render(); }, 150); });
   $("majorOnly").addEventListener("change", ev => { filter.major = ev.target.checked; render(); });
+
+  const themeBtn = $("themeToggle");
+  if(themeBtn){ const root = document.documentElement; themeBtn.addEventListener("click", () => { const dark = root.dataset.theme === "dark" || (!root.dataset.theme && window.matchMedia("(prefers-color-scheme:dark)").matches); root.dataset.theme = dark ? "light" : "dark"; try { localStorage.setItem("theme", root.dataset.theme); } catch(e){} }); }
 
   applyLang();
   fetch("entries.json", {cache: "no-cache"}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {

@@ -24,13 +24,21 @@
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root{
+  :root:not([data-theme="light"]){
     --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
     --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
     --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF;
     color-scheme:dark;
   }
 }
+:root[data-theme="dark"]{
+  --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
+  --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+  --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF;
+  color-scheme:dark;
+}
+.theme-btn{font-family:var(--f-mono);font-size:11px;padding:3px 8px;border:1px solid var(--ink-soft);background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
@@ -65,6 +73,7 @@ p{margin:0}
 @media (max-width:480px){.latest li{grid-template-columns:1fr;gap:0}}
 footer{border-top:3px double var(--ink);padding-top:16px;font-size:.88rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:6px}
 </style>
+<script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
 <main class="wrap">
@@ -99,9 +108,19 @@ footer{border-top:3px double var(--ink);padding-top:16px;font-size:.88rem;color:
 
   <footer>
     <p>Analyses à but informatif, fondées sur les sources citées dans chaque entrée. Ce ne sont ni des prévisions ni des conseils financiers.</p>
+    <p><button type="button" id="themeToggle" class="theme-btn" title="Thème clair / sombre">◐</button></p>
   </footer>
 </main>
 <script>
+(function(){
+  const root = document.documentElement;
+  const btn = document.getElementById("themeToggle");
+  if(btn) btn.addEventListener("click", () => {
+    const dark = root.dataset.theme === "dark" || (!root.dataset.theme && window.matchMedia("(prefers-color-scheme:dark)").matches);
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch(e){}
+  });
+})();
 (function(){
   const M = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
   fetch("journal/entries.json", {cache: "no-cache"}).then(r => r.ok ? r.json() : null).then(d => {
