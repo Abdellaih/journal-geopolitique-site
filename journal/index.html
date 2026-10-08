@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Journal géopolitique</title>
+<meta name="description" content="Actualités géopolitiques expliquées : ce qui s'est passé, pourquoi c'est important et ce que cela signifie pour le Maroc. En français et en anglais.">
+<meta property="og:title" content="Journal géopolitique">
+<meta property="og:description" content="Actualités géopolitiques expliquées, avec leur impact sur le Maroc. En français et en anglais.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%2313222A' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23A0186B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: a ship's logbook on chart paper, read-only public edition. Same family as the claude.ai logbook. */
+:root{
+  --paper:#ECF0EE; --panel:#F6F8F6; --sea:#D4E4E9; --sea-line:#86AEBD;
+  --ink:#13222A; --ink-soft:#4A5C64; --rule:#B9C6C8;
+  --hazard:#A0186B; --price:#A65C05; --teal:#1C6880; --good:#2C7550;
+  --f-display:"Big Shoulders Display","Arial Narrow","Roboto Condensed",sans-serif;
+  --f-body:"Source Serif 4","Source Serif Pro",Georgia,serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
+    --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+    --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+img{max-width:100%}
+.wrap{max-width:900px;margin:0 auto;padding-inline:24px;padding-block:20px 72px;display:flex;flex-direction:column;gap:22px}
+@media (max-width:520px){.wrap{padding-inline:16px}body{font-size:16px}}
+a{color:var(--teal);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--hazard);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;color:var(--ink)}
+h1{font-weight:800;font-size:clamp(2.8rem,9vw,5rem);line-height:.9;text-transform:uppercase}
+h3{font-weight:600;font-size:1.35rem;line-height:1.15;letter-spacing:.02em}
+p{margin:0}
+.eyebrow,.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.nav{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:12px}
+.nav a.home{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ink-soft)}
+.nav a.home:hover{color:var(--ink)}
+.hero{display:flex;flex-direction:column;gap:14px}
+.hero-sub{font-size:clamp(1.1rem,2.4vw,1.35rem);font-style:italic;color:var(--teal);max-width:46ch;line-height:1.35}
+.seg{display:inline-flex;border:1px solid var(--ink)}
+.seg button{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;padding:6px 12px;border:0;background:var(--panel);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:6px}
+.stats div{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stats .v{font-family:var(--f-mono);font-size:1.5rem;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.2}
+.stats .v.up{color:var(--price)} .stats .v.hz{color:var(--hazard)}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.toolbar input[type=search]{flex:1 1 220px;min-width:0;font:inherit;font-size:.95rem;padding:8px 12px;border:1px solid var(--ink-soft);background:var(--panel);color:var(--ink)}
+.toggle{display:inline-flex;gap:8px;align-items:center;font-size:.95rem;cursor:pointer}
+.toggle input{accent-color:var(--hazard);width:16px;height:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--f-mono);font-size:12px;padding:6px 10px;border:1px solid var(--ink-soft);background:var(--panel);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip span{opacity:.7;margin-left:4px}
+.feed{display:flex;flex-direction:column;gap:6px}
+.month{font-family:var(--f-display);font-weight:800;font-size:1.6rem;text-transform:uppercase;letter-spacing:.02em;border-bottom:2px solid var(--ink);padding-bottom:4px;margin-top:22px}
+.entries{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.entry{display:grid;grid-template-columns:4.6rem minmax(0,1fr);gap:4px 18px;padding-block:18px;border-bottom:1px solid var(--rule);scroll-margin-top:12px}
+.entry:target{background:var(--panel);box-shadow:inset 3px 0 0 var(--hazard)}
+.when{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.when .d{font-family:var(--f-display);font-weight:800;font-size:2.4rem;color:var(--ink)}
+.when .m{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+.body{display:flex;flex-direction:column;gap:10px;min-width:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor;color:var(--ink-soft)}
+.pill.cat{color:var(--teal)}
+.pill.up{color:var(--price)} .pill.down{color:var(--good)} .pill.mixed{color:var(--hazard)} .pill.none{color:var(--ink-soft);border-style:dashed}
+.pill.lang{color:var(--ink-soft);border-style:dotted}
+.region{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft)}
+.imp{display:inline-flex;gap:3px;align-items:center;font-family:var(--f-mono);font-size:11px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
+.imp i{width:8px;height:8px;border:1.5px solid var(--hazard)}
+.imp i.on{background:var(--hazard)}
+.imp span{margin-left:4px}
+.blk{display:flex;flex-direction:column;gap:3px}
+.blk p{white-space:pre-line}
+.blk.why{border-left:3px solid var(--hazard);padding-left:12px}
+.more summary{cursor:pointer;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);padding-block:2px}
+.more[open] summary{margin-bottom:8px}
+.more .inner{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px;background:var(--panel);border:1px solid var(--rule);padding:12px 14px}
+@media (max-width:600px){.more .inner{grid-template-columns:1fr}}
+.foot{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:.85rem;color:var(--ink-soft)}
+.foot .by{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.foot .perma{margin-left:auto;font-family:var(--f-mono);font-size:12px;text-decoration:none;color:var(--ink-soft)}
+.foot .perma:hover{color:var(--ink)}
+.empty{border:1px dashed var(--ink-soft);padding:22px;display:flex;flex-direction:column;gap:8px;background:var(--panel)}
+.sitefoot{border-top:3px double var(--ink);padding-top:16px;margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:.88rem;color:var(--ink-soft)}
+@media (max-width:520px){.entry{grid-template-columns:3.4rem minmax(0,1fr);gap:4px 12px}.when .d{font-size:1.9rem}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="nav">
+    <a class="home" href="../" data-t="home"></a>
+    <div class="seg" role="group" aria-label="Langue / Language">
+      <button type="button" id="langFr" aria-pressed="true" lang="fr">FR</button>
+      <button type="button" id="langEn" aria-pressed="false" lang="en">EN</button>
+    </div>
+  </nav>
+  <header class="hero">
+    <p class="eyebrow" data-t="eyebrow"></p>
+    <h1 id="h1"></h1>
+    <p class="hero-sub" data-t="heroSub"></p>
+    <div class="stats">
+      <div><span class="label" data-t="stTotal"></span><span class="v" id="stTotal">–</span></div>
+      <div><span class="label" data-t="stLatest"></span><span class="v" id="stLatest">–</span></div>
+      <div><span class="label" data-t="stUp"></span><span class="v up" id="stUp">–</span></div>
+      <div><span class="label" data-t="stMajor"></span><span class="v hz" id="stMajor">–</span></div>
+    </div>
+  </header>
+  <div class="toolbar">
+    <input type="search" id="q" data-tp="searchPh">
+    <label class="toggle"><input type="checkbox" id="majorOnly"> <span data-t="majorOnly"></span></label>
+  </div>
+  <div class="chips" id="cats" role="group"></div>
+  <div class="feed" id="feed"></div>
+  <footer class="sitefoot">
+    <p id="updated"></p>
+    <p data-t="disclaimer"></p>
+  </footer>
+</main>
+<script>
+(function(){
+  "use strict";
+  const T = {
+    fr: {
+      home: "← Accueil", eyebrow: "L'actualité, avec les raisons derrière", h1: ["Journal", "géopolitique"],
+      heroSub: "Chaque entrée note ce qui s'est passé, pourquoi c'est important et ce que cela signifie pour le Maroc.",
+      stTotal: "Entrées", stLatest: "Dernière", stUp: "Pétrole en hausse", stMajor: "Événements majeurs",
+      searchPh: "Rechercher titres, explications, régions", majorOnly: "Majeurs seulement", all: "Tout", filterLbl: "Filtrer par thème",
+      whatH: "Ce qui s'est passé", whyH: "Pourquoi c'est important", moreH: "Le Maroc et la suite", forMa: "Pour le Maroc", watch: "À suivre",
+      source: "Source : ", byClaude: "Rédigé avec Claude", link: "Lien", onlyEn: "En anglais seulement", onlyFr: "En français seulement",
+      noMatch: "Aucune entrée ne correspond à ces filtres.", loading: "Chargement du journal…", loadFail: "Le journal n'a pas pu se charger. Rechargez la page.", empty: "Aucune entrée pour l'instant.",
+      updated: "Dernière mise à jour : ", disclaimer: "Analyses à but informatif, fondées sur les sources citées. Ce ne sont ni des prévisions ni des conseils financiers.",
+      oilTag: {up: "Pétrole ↑", down: "Pétrole ↓", mixed: "Pétrole ↕", none: "Sans effet pétrole"}, imp: {3: "Majeur", 2: "Notable", 1: "Mineur"},
+      months: ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."],
+      monthsLong: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"], undated: "Sans date"
+    },
+    en: {
+      home: "← Home", eyebrow: "News with the reasoning behind it", h1: ["Geopolitics", "Logbook"],
+      heroSub: "Each entry records what happened, why it matters, and what it means for Morocco.",
+      stTotal: "Entries", stLatest: "Latest", stUp: "Oil pressure ↑", stMajor: "Major stories",
+      searchPh: "Search titles, explanations, regions", majorOnly: "Major only", all: "All", filterLbl: "Filter by topic",
+      whatH: "What happened", whyH: "Why it matters", moreH: "Morocco & what to watch", forMa: "For Morocco", watch: "Watch next",
+      source: "Source: ", byClaude: "Written with Claude", link: "Link", onlyEn: "English only", onlyFr: "French only",
+      noMatch: "No entries match these filters.", loading: "Loading the logbook…", loadFail: "The logbook couldn't load. Reload the page.", empty: "No entries yet.",
+      updated: "Last updated: ", disclaimer: "Analysis for information only, based on the sources cited. Not forecasts or financial advice.",
+      oilTag: {up: "Oil ↑", down: "Oil ↓", mixed: "Oil ↕", none: "No oil effect"}, imp: {3: "Major", 2: "Notable", 1: "Minor"},
+      months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      monthsLong: ["January","February","March","April","May","June","July","August","September","October","November","December"], undated: "Undated"
+    }
+  };
+  const CATS = ["War & security", "Energy & OPEC", "Sanctions & trade", "Diplomacy", "Economy & markets", "Morocco & region"];
+  const CAT_FR = {"War & security": "Guerre et sécurité", "Energy & OPEC": "Énergie et OPEP", "Sanctions & trade": "Sanctions et commerce", "Diplomacy": "Diplomatie", "Economy & markets": "Économie et marchés", "Morocco & region": "Maroc et région"};
+  const REG_FR = {"Middle East": "Moyen-Orient", "Europe": "Europe", "Russia–Ukraine": "Russie–Ukraine", "Africa": "Afrique", "Americas": "Amériques", "Asia": "Asie", "Global": "Monde", "Morocco": "Maroc"};
+  const FIELDS = ["title", "what", "why", "morocco", "next"];
+
+  let lang = (navigator.language || "fr").toLowerCase().startsWith("en") ? "en" : "fr";
+  try { const s = localStorage.getItem("journal-lang"); if (s === "fr" || s === "en") lang = s; } catch (e) {}
+  const t = k => T[lang][k];
+  const other = () => (lang === "fr" ? "en" : "fr");
+  const catLabel = c => (lang === "fr" ? (CAT_FR[c] || c) : c);
+  const regLabel = r => (lang === "fr" ? (REG_FR[r] || r) : r);
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const str = v => (v == null ? "" : String(v));
+  const isDate = d => /^\d{4}-\d{2}-\d{2}$/.test(str(d));
+  function safeUrl(u){ try { const x = new URL(String(u)); return (x.protocol === "https:" || x.protocol === "http:") ? x.href : null; } catch (e) { return null; } }
+
+  let entries = [], updated = "", state = "loading", filter = {cat: "All", q: "", major: false};
+
+  function ver(e, l){ const v = e && e[l]; return v && typeof v === "object" && (v.title || v.what) ? v : null; }
+  function view(e){ const o = ver(e, lang); if (o) return {v: o, from: lang}; const x = ver(e, other()); return {v: x || {}, from: x ? other() : lang}; }
+  function fmtDate(d){ if (!isDate(d)) return d; return Number(d.slice(8, 10)) + " " + t("monthsLong")[+d.slice(5, 7) - 1].toLowerCase() + " " + d.slice(0, 4); }
+
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-t]").forEach(n => { n.textContent = t(n.dataset.t); });
+    document.querySelectorAll("[data-tp]").forEach(n => { n.placeholder = t(n.dataset.tp); });
+    $("q").setAttribute("aria-label", t("searchPh"));
+    $("cats").setAttribute("aria-label", t("filterLbl"));
+    $("h1").replaceChildren(document.createTextNode(t("h1")[0]), document.createElement("br"), document.createTextNode(t("h1")[1]));
+    document.title = t("h1").join(" ");
+    $("langFr").setAttribute("aria-pressed", lang === "fr" ? "true" : "false");
+    $("langEn").setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+    render();
+  }
+  function setLang(l){ if (l === lang) return; lang = l; try { localStorage.setItem("journal-lang", l); } catch (e) {} applyLang(); }
+  $("langFr").addEventListener("click", () => setLang("fr"));
+  $("langEn").addEventListener("click", () => setLang("en"));
+
+  function hay(e){ const a = ver(e, "fr") || {}, b = ver(e, "en") || {}; return FIELDS.map(f => str(a[f]) + " " + str(b[f])).join(" ") + " " + str(e.region) + " " + (REG_FR[e.region] || "") + " " + str(e.category) + " " + (CAT_FR[e.category] || ""); }
+  function matches(e){
+    if (filter.cat !== "All" && e.category !== filter.cat) return false;
+    if (filter.major && Number(e.importance) !== 3) return false;
+    if (filter.q && !hay(e).toLowerCase().includes(filter.q.toLowerCase())) return false;
+    return true;
+  }
+  function renderStats(){
+    const ok = state === "ready";
+    $("stTotal").textContent = ok ? String(entries.length) : "–";
+    const l = entries[0];
+    $("stLatest").textContent = ok && l && isDate(l.date) ? (Number(l.date.slice(8, 10)) + " " + t("months")[+l.date.slice(5, 7) - 1]) : "–";
+    $("stUp").textContent = ok ? String(entries.filter(e => e.oil === "up").length) : "–";
+    $("stMajor").textContent = ok ? String(entries.filter(e => Number(e.importance) === 3).length) : "–";
+    $("updated").textContent = updated ? t("updated") + fmtDate(updated) : "";
+  }
+  function renderChips(){
+    const box = $("cats"); box.replaceChildren();
+    if (state !== "ready" || !entries.length) return;
+    ["All"].concat(CATS).forEach(c => {
+      const n = c === "All" ? entries.length : entries.filter(e => e.category === c).length;
+      if (c !== "All" && n === 0) return;
+      const b = el("button", "chip", c === "All" ? t("all") : catLabel(c)); b.type = "button";
+      b.appendChild(el("span", null, String(n)));
+      b.setAttribute("aria-pressed", filter.cat === c ? "true" : "false");
+      b.addEventListener("click", () => { filter.cat = c; render(); });
+      box.appendChild(b);
+    });
+  }
+  function block(cls, label, text){ const b = el("div", "blk" + (cls ? " " + cls : "")); b.appendChild(el("span", "label", label)); b.appendChild(el("p", null, text)); return b; }
+  function entryNode(e){
+    const {v, from} = view(e);
+    const li = el("li", "entry"); li.id = e.id;
+    if (from !== lang) li.lang = from;
+    const when = el("div", "when");
+    when.appendChild(el("span", "d", isDate(e.date) ? e.date.slice(8, 10) : "??"));
+    when.appendChild(el("span", "m", isDate(e.date) ? t("months")[+e.date.slice(5, 7) - 1] : ""));
+    li.appendChild(when);
+    const body = el("div", "body");
+    const tags = el("div", "tags");
+    if (e.category) tags.appendChild(el("span", "pill cat", catLabel(e.category)));
+    if (t("oilTag")[e.oil]) tags.appendChild(el("span", "pill " + e.oil, t("oilTag")[e.oil]));
+    const imp = Number(e.importance) || 0;
+    if (t("imp")[imp]){ const im = el("span", "imp"); for (let i = 1; i <= 3; i++) im.appendChild(el("i", i <= imp ? "on" : null)); im.appendChild(el("span", null, t("imp")[imp])); tags.appendChild(im); }
+    if (e.region) tags.appendChild(el("span", "region", regLabel(e.region)));
+    if (from !== lang) tags.appendChild(el("span", "pill lang", from === "en" ? t("onlyEn") : t("onlyFr")));
+    body.appendChild(tags);
+    body.appendChild(el("h3", null, str(v.title) || "—"));
+    if (v.what) body.appendChild(block("", t("whatH"), v.what));
+    if (v.why) body.appendChild(block("why", t("whyH"), v.why));
+    if (v.morocco || v.next){
+      const d = el("details", "more"); d.appendChild(el("summary", null, t("moreH")));
+      const inner = el("div", "inner");
+      if (v.morocco) inner.appendChild(block("", t("forMa"), v.morocco));
+      if (v.next) inner.appendChild(block("", t("watch"), v.next));
+      d.appendChild(inner); body.appendChild(d);
+    }
+    const foot = el("div", "foot");
+    const url = safeUrl(e.url);
+    if (url){ const a = el("a", null, t("source") + (str(e.source) || new URL(url).hostname)); a.href = url; a.target = "_blank"; a.rel = "noopener"; foot.appendChild(a); }
+    else if (e.source) foot.appendChild(el("span", null, t("source") + e.source));
+    if (e.addedBy === "claude") foot.appendChild(el("span", "by", t("byClaude")));
+    const perma = el("a", "perma", "#"); perma.href = "#" + e.id; perma.title = t("link"); perma.setAttribute("aria-label", t("link"));
+    foot.appendChild(perma);
+    body.appendChild(foot);
+    li.appendChild(body);
+    return li;
+  }
+  function render(){
+    renderStats(); renderChips();
+    const feed = $("feed"); feed.replaceChildren();
+    if (state === "loading"){ const b = el("div", "empty"); b.appendChild(el("p", null, t("loading"))); feed.appendChild(b); return; }
+    if (state === "error"){ const b = el("div", "empty"); b.appendChild(el("p", null, t("loadFail"))); feed.appendChild(b); return; }
+    if (!entries.length){ const b = el("div", "empty"); b.appendChild(el("p", null, t("empty"))); feed.appendChild(b); return; }
+    const list = entries.filter(matches);
+    if (!list.length){ const b = el("div", "empty"); b.appendChild(el("p", null, t("noMatch"))); feed.appendChild(b); return; }
+    let cur = null, ol = null;
+    list.forEach(e => {
+      const key = /^\d{4}-\d{2}/.test(str(e.date)) ? e.date.slice(0, 7) : "undated";
+      if (key !== cur){ cur = key; feed.appendChild(el("h2", "month", key === "undated" ? t("undated") : t("monthsLong")[+key.slice(5, 7) - 1] + " " + key.slice(0, 4))); ol = el("ol", "entries"); feed.appendChild(ol); }
+      ol.appendChild(entryNode(e));
+    });
+  }
+  let qT;
+  $("q").addEventListener("input", ev => { clearTimeout(qT); qT = setTimeout(() => { filter.q = ev.target.value.trim(); render(); }, 150); });
+  $("majorOnly").addEventListener("change", ev => { filter.major = ev.target.checked; render(); });
+
+  applyLang();
+  fetch("entries.json", {cache: "no-cache"}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    entries = (Array.isArray(d.entries) ? d.entries : []).slice().sort((a, b) => str(b.date).localeCompare(str(a.date)) || (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0));
+    updated = str(d.updated); state = "ready"; render();
+    if (location.hash){ const target = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (target) target.scrollIntoView(); }
+  }).catch(() => { state = "error"; render(); });
+})();
+</script>
+</body>
+</html>

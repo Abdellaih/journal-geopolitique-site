@@ -1,0 +1,213 @@
+{
+ "updated": "2026-10-08",
+ "entries": [
+  {
+   "id": "2026-10-04-opec-holds-november-output",
+   "date": "2026-10-04",
+   "category": "Energy & OPEC",
+   "region": "Global",
+   "oil": "up",
+   "importance": 2,
+   "source": "Nairametrics",
+   "url": "https://nairametrics.com/2026/10/05/opec-keeps-november-oil-production-unchanged-at-31-01-million-bpd/",
+   "addedBy": "claude",
+   "createdAt": 1791459860192,
+   "en": {
+    "morocco": "No extra supply to cool fuel prices this month; pump prices keep tracking the war and the diesel premium.",
+    "next": "The next meeting on 1 November.",
+    "title": "OPEC+ core members hold November output flat",
+    "what": "Saudi Arabia, Russia, Iraq, Kuwait, Kazakhstan, Algeria and Oman kept their required production for November at September levels, a combined 31.01 million barrels a day. It is the second monthly pause after four consecutive increases. Their monitoring committee stressed the need to protect sea routes and energy infrastructure.",
+    "why": "By not adding barrels, the group lets prices stay high while it judges how much supply has returned. It is also a test of cohesion after the UAE's exit."
+   },
+   "fr": {
+    "morocco": "Pas d'offre supplémentaire pour calmer les prix des carburants ce mois-ci : les prix à la pompe continuent de suivre la guerre et la prime du gasoil.",
+    "next": "La prochaine réunion, le 1er novembre.",
+    "title": "Les membres clés de l'OPEP+ maintiennent leur production pour novembre",
+    "what": "L'Arabie saoudite, la Russie, l'Irak, le Koweït, le Kazakhstan, l'Algérie et Oman ont maintenu leur production requise pour novembre au niveau de septembre, soit 31,01 millions de barils par jour au total. C'est la deuxième pause mensuelle après quatre hausses consécutives. Leur comité de suivi a souligné la nécessité de protéger les routes maritimes et les infrastructures énergétiques.",
+    "why": "En n'ajoutant pas de barils, le groupe laisse les prix rester élevés le temps d'évaluer l'offre déjà revenue sur le marché. C'est aussi un test de cohésion après le départ des Émirats."
+   }
+  },
+  {
+   "id": "2026-10-01-morocco-pump-prices-rise",
+   "date": "2026-10-01",
+   "category": "Morocco & region",
+   "region": "Morocco",
+   "oil": "up",
+   "importance": 2,
+   "source": "Le Matin",
+   "url": "https://lematin.ma/economie/carburants-le-gasoil-augmente-de-80-centimes-et-lessence-de-39-centimes/367926/amp",
+   "addedBy": "claude",
+   "createdAt": 1791459860191,
+   "en": {
+    "morocco": "Higher costs for transport, farming and goods delivery. Gasoil has risen about 3.5 DH a litre since its low point on 1 July.",
+    "next": "The 16 October revision, which will reflect oil's moves in early October.",
+    "title": "Moroccan pump prices rise again: gasoil up 0.80 DH",
+    "what": "From 30 September at 23:50, gasoil rose by 0.80 DH a litre and essence by 0.39 DH, according to Le Matin. Hespress reported slightly higher figures (0.85 and 0.44 DH). Gasoil is now around 16 DH a litre and remains dearer than essence.",
+    "why": "Moroccan prices follow international fuel quotes with about a two-week lag. This rise reflects the mid-September spike after attacks on Saudi infrastructure, and diesel's unusually high premium over crude."
+   },
+   "fr": {
+    "morocco": "Des coûts plus élevés pour le transport, l'agriculture et la distribution des marchandises. Le gasoil a gagné environ 3,5 DH le litre depuis son point bas du 1er juillet.",
+    "next": "La révision du 16 octobre, qui reflétera l'évolution du pétrole début octobre.",
+    "title": "Nouvelle hausse à la pompe au Maroc : le gasoil prend 0,80 DH",
+    "what": "À partir du 30 septembre à 23h50, le gasoil a augmenté de 0,80 DH le litre et l'essence de 0,39 DH, selon Le Matin. Hespress fait état de chiffres un peu plus élevés (0,85 et 0,44 DH). Le gasoil tourne désormais autour de 16 DH le litre et reste plus cher que l'essence.",
+    "why": "Les prix marocains suivent les cotations internationales des carburants avec environ deux semaines de décalage. Cette hausse reflète la flambée de la mi-septembre après les attaques contre les infrastructures saoudiennes, ainsi que la prime inhabituellement élevée du gasoil par rapport au brut."
+   }
+  },
+  {
+   "id": "2026-09-25-iran-offers-hormuz-reopening",
+   "date": "2026-09-25",
+   "category": "Diplomacy",
+   "region": "Middle East",
+   "oil": "mixed",
+   "importance": 3,
+   "source": "Trading Economics",
+   "url": "https://tradingeconomics.com/commodity/brent-crude-oil/news/587006",
+   "addedBy": "claude",
+   "createdAt": 1791459860190,
+   "en": {
+    "morocco": "A real reopening would ease pump prices over several fortnightly revisions. Until then, expect volatility.",
+    "next": "The US response, and daily tanker counts through the strait.",
+    "title": "Iran offers to reopen Hormuz within seven days, on conditions",
+    "what": "Iran's foreign minister proposed reopening the Strait of Hormuz and resuming nuclear talks with the United States within seven days, if Washington accepts its conditions: lifting the naval blockade, unfreezing Iranian assets and ending the war on all fronts. Brent traded near $104.",
+    "why": "The reopening of Hormuz is the single biggest factor for oil prices this year. Offers like this pull prices down on hope, but the conditions are hard for Washington to accept, so markets swing on each headline."
+   },
+   "fr": {
+    "morocco": "Une vraie réouverture ferait baisser les prix à la pompe sur plusieurs révisions bimensuelles. En attendant, il faut s'attendre à de la volatilité.",
+    "next": "La réponse américaine, et le nombre quotidien de pétroliers qui traversent le détroit.",
+    "title": "L'Iran propose de rouvrir Ormuz sous sept jours, sous conditions",
+    "what": "Le ministre iranien des Affaires étrangères a proposé de rouvrir le détroit d'Ormuz et de reprendre les négociations nucléaires avec les États-Unis sous sept jours, si Washington accepte ses conditions : levée du blocus naval, dégel des avoirs iraniens et fin de la guerre sur tous les fronts. Le Brent s'échangeait autour de 104 $.",
+    "why": "La réouverture d'Ormuz est le principal facteur des prix du pétrole cette année. Ce type d'offre fait baisser les prix sur l'espoir, mais les conditions sont difficiles à accepter pour Washington : les marchés oscillent donc à chaque annonce."
+   }
+  },
+  {
+   "id": "2026-09-22-bank-al-maghrib-holds-rate",
+   "date": "2026-09-22",
+   "category": "Economy & markets",
+   "region": "Morocco",
+   "oil": "none",
+   "importance": 2,
+   "source": "Hespress",
+   "url": "https://fr.hespress.com/489439-taux-directeur-inchange-bank-al-maghrib-mise-sur-la-resilience-marocaine.html",
+   "addedBy": "claude",
+   "createdAt": 1791459860189,
+   "en": {
+    "morocco": "Borrowing costs stay unchanged for now. A longer war would push oil above the bank's assumptions and worsen its forecasts.",
+    "next": "The December meeting, and HCP's monthly inflation figures, especially the transport line.",
+    "title": "Bank Al-Maghrib holds its rate at 2.25% and cuts its growth forecast",
+    "what": "Bank Al-Maghrib kept its policy rate at 2.25%. It now expects growth of 4.4% in 2026 (5.2% in its June forecast) and inflation of 0.7%. It sees the energy import bill rising 28.4% to 138.1 bn DH and the current account deficit widening to 4.6% of GDP. It assumes Brent averages $87.2 this year and $73.5 in 2027.",
+    "why": "Inflation is low because a big harvest cut food prices, so the central bank has room to wait instead of raising rates. The oil shock shows up instead in slower non-farm growth and a bigger external deficit."
+   },
+   "fr": {
+    "morocco": "Le coût du crédit reste inchangé pour l'instant. Une guerre plus longue ferait passer le pétrole au-dessus des hypothèses de la banque et dégraderait ses prévisions.",
+    "next": "La réunion de décembre, et les chiffres mensuels d'inflation du HCP, en particulier la rubrique transport.",
+    "title": "Bank Al-Maghrib maintient son taux à 2,25 % et réduit sa prévision de croissance",
+    "what": "Bank Al-Maghrib a maintenu son taux directeur à 2,25 %. Elle prévoit désormais une croissance de 4,4 % en 2026 (contre 5,2 % dans sa prévision de juin) et une inflation de 0,7 %. Elle anticipe une hausse de 28,4 % de la facture énergétique, à 138,1 milliards de DH, et un déficit du compte courant porté à 4,6 % du PIB. Elle retient un Brent moyen de 87,2 $ cette année et de 73,5 $ en 2027.",
+    "why": "L'inflation est faible parce qu'une bonne récolte a fait baisser les prix alimentaires : la banque centrale peut donc attendre au lieu de relever ses taux. Le choc pétrolier se voit plutôt dans le ralentissement de la croissance non agricole et le creusement du déficit extérieur."
+   }
+  },
+  {
+   "id": "2026-09-11-saudi-east-west-pipeline-closed",
+   "date": "2026-09-11",
+   "category": "War & security",
+   "region": "Middle East",
+   "oil": "up",
+   "importance": 3,
+   "source": "L'Orient Today",
+   "url": "https://today.lorientlejour.com/article/1547446/oil-prices-are-rising-sharply-above-100.html",
+   "addedBy": "claude",
+   "createdAt": 1791459860188,
+   "en": {
+    "morocco": "This spike fed into the large gasoil increase of about 0.80 DH a litre at the 1 October revision.",
+    "next": "How long repairs take, and whether attacks on energy infrastructure continue.",
+    "title": "Saudi Arabia shuts East-West pipeline after drone attacks",
+    "what": "Saudi authorities temporarily closed the East-West pipeline, the main route for exporting Saudi crude around the Strait of Hormuz, after drone attacks attributed to groups in Iraq. When trading resumed, Brent for November delivery rose to about $107.5. A meeting in Oman between Iran and Gulf states on Hormuz was postponed.",
+    "why": "Bypass pipelines are the market's safety valve while Hormuz is restricted. Hitting them removes one of the few ways Gulf oil can still reach buyers, so prices climbed further above $100."
+   },
+   "fr": {
+    "morocco": "Cette flambée s'est répercutée dans la forte hausse du gasoil, d'environ 0,80 DH le litre, lors de la révision du 1er octobre.",
+    "next": "La durée des réparations, et la poursuite ou non des attaques contre les infrastructures énergétiques.",
+    "title": "L'Arabie saoudite ferme l'oléoduc Est-Ouest après des attaques de drones",
+    "what": "Les autorités saoudiennes ont fermé temporairement l'oléoduc Est-Ouest, principale voie d'exportation du brut saoudien qui contourne le détroit d'Ormuz, après des attaques de drones attribuées à des groupes basés en Irak. À la reprise des échanges, le Brent livrable en novembre est monté à environ 107,5 $. Une réunion prévue à Oman entre l'Iran et les pays du Golfe sur Ormuz a été reportée.",
+    "why": "Les oléoducs de contournement sont la soupape de sécurité du marché tant qu'Ormuz est restreint. Les frapper supprime l'une des rares voies par lesquelles le pétrole du Golfe peut encore atteindre les acheteurs ; les prix sont donc montés encore au-dessus de 100 $."
+   }
+  },
+  {
+   "id": "2026-09-10-ecb-hikes-to-2-5",
+   "date": "2026-09-10",
+   "category": "Economy & markets",
+   "region": "Europe",
+   "oil": "none",
+   "importance": 2,
+   "source": "XTB",
+   "url": "https://www.xtbofficial.com/en/market-analysis/ecb-hikes-to-2-5",
+   "addedBy": "claude",
+   "createdAt": 1791459860187,
+   "en": {
+    "morocco": "The euro area is Morocco's main export and tourism market, and the euro makes up 60% of the dirham's basket. Slower European demand and higher euro rates can weigh on exports and borrowing costs.",
+    "next": "The ECB's December meeting, where another increase is possible.",
+    "title": "ECB raises rates to 2.5% as energy prices lift inflation",
+    "what": "The European Central Bank raised its deposit rate by 0.25 points to 2.5%. Euro-area inflation reached 3.3% in August, its highest in almost three years, while core inflation was 2.4%. Brent traded near $104.",
+    "why": "Central banks raise rates when they fear an energy shock will spread into wages and other prices. Higher rates cool inflation but also slow growth and make borrowing dearer."
+   },
+   "fr": {
+    "morocco": "La zone euro est le premier marché du Maroc pour les exportations et le tourisme, et l'euro pèse 60 % dans le panier du dirham. Une demande européenne plus faible et des taux plus élevés peuvent peser sur les exportations et le coût de l'emprunt.",
+    "next": "La réunion de décembre de la BCE, où une nouvelle hausse est possible.",
+    "title": "La BCE relève ses taux à 2,5 % face à l'inflation énergétique",
+    "what": "La Banque centrale européenne a relevé son taux de dépôt de 0,25 point, à 2,5 %. L'inflation de la zone euro a atteint 3,3 % en août, son plus haut niveau depuis près de trois ans, tandis que l'inflation sous-jacente était de 2,4 %. Le Brent s'échangeait autour de 104 $.",
+    "why": "Les banques centrales relèvent leurs taux lorsqu'elles craignent qu'un choc énergétique se propage aux salaires et aux autres prix. Des taux plus élevés freinent l'inflation, mais ralentissent aussi la croissance et renchérissent le crédit."
+   }
+  },
+  {
+   "id": "2026-05-01-uae-leaves-opec",
+   "date": "2026-05-01",
+   "category": "Energy & OPEC",
+   "region": "Middle East",
+   "oil": "mixed",
+   "importance": 2,
+   "source": "Hellenic Shipping News",
+   "url": "https://www.hellenicshippingnews.com/uae-exits-opec-what-it-means-for-oil-prices/",
+   "addedBy": "claude",
+   "createdAt": 1791459860186,
+   "en": {
+    "morocco": "No effect while Hormuz stays shut, since Emirati oil cannot reach the market. After the war, extra supply could help bring Morocco's fuel import costs down.",
+    "next": "UAE output once shipping resumes, and whether other members follow.",
+    "title": "UAE leaves OPEC and OPEC+",
+    "what": "The United Arab Emirates left OPEC and the wider OPEC+ alliance on 1 May, ending a membership that began in 1967. Under OPEC+ quotas it had been producing about 30% below its capacity of 4.85 million barrels a day.",
+    "why": "The UAE was OPEC's third-largest producer. Free of quotas, it could add up to 1.6 million barrels a day once Hormuz reopens, which would push prices down. A smaller, less united cartel also has less power to steady prices, so swings may get bigger in both directions."
+   },
+   "fr": {
+    "morocco": "Aucun effet tant qu'Ormuz reste fermé, puisque le pétrole émirati ne peut pas atteindre le marché. Après la guerre, cette offre supplémentaire pourrait aider à réduire la facture d'importation de carburants du Maroc.",
+    "next": "La production émiratie à la reprise de la navigation, et la question de savoir si d'autres membres suivront.",
+    "title": "Les Émirats arabes unis quittent l'OPEP et l'OPEP+",
+    "what": "Les Émirats arabes unis ont quitté l'OPEP et l'alliance élargie OPEP+ le 1er mai, mettant fin à une adhésion qui datait de 1967. Avec les quotas de l'OPEP+, ils produisaient environ 30 % en dessous de leur capacité de 4,85 millions de barils par jour.",
+    "why": "Les Émirats étaient le troisième producteur de l'OPEP. Libérés des quotas, ils pourraient ajouter jusqu'à 1,6 million de barils par jour une fois Ormuz rouvert, ce qui ferait baisser les prix. Un cartel plus petit et moins uni a aussi moins de pouvoir pour stabiliser les prix : les variations pourraient s'amplifier dans les deux sens."
+   }
+  },
+  {
+   "id": "2026-02-28-us-israel-strikes-iran-hormuz",
+   "date": "2026-02-28",
+   "category": "War & security",
+   "region": "Middle East",
+   "oil": "up",
+   "importance": 3,
+   "source": "World Bank",
+   "url": "https://blogs.worldbank.org/en/opendata/strait-of-hormuz-disruption-sends-oil-prices-surging",
+   "addedBy": "claude",
+   "createdAt": 1791459860185,
+   "en": {
+    "morocco": "Morocco imports all its fuel, so pump prices followed within two weeks: gasoil rose about 2 DH a litre from mid-March. The state stepped in with over 1.6 bn DH a month to hold butane and electricity prices and to aid transport operators.",
+    "next": "Whether talks restore shipping through the strait, and whether attacks spread to the pipelines and refineries that bypass it.",
+    "title": "US–Israeli strikes on Iran; Hormuz shipping halts",
+    "what": "The United States and Israel struck Iran on 28 February. Brent rose more than 13% in the immediate aftermath. Within days, tanker traffic through the Strait of Hormuz came close to a standstill, and both oil benchmarks briefly topped $119 in early March.",
+    "why": "About a fifth of the world's oil normally passes through Hormuz, and there is almost no way around it. The World Bank calls the closure the largest oil disruption in history: world supply fell by about 10 million barrels a day in March. Diesel rose more than crude because the Gulf is a major fuel exporter."
+   },
+   "fr": {
+    "morocco": "Le Maroc importe tout son carburant : les prix à la pompe ont suivi en deux semaines, avec une hausse du gasoil d'environ 2 DH le litre à partir de la mi-mars. L'État a mobilisé plus de 1,6 milliard de DH par mois pour maintenir les prix du butane et de l'électricité et soutenir les transporteurs.",
+    "next": "Si les négociations rétablissent la navigation dans le détroit, et si les attaques s'étendent aux oléoducs et aux raffineries qui le contournent.",
+    "title": "Frappes américano-israéliennes contre l'Iran : le trafic s'arrête dans le détroit d'Ormuz",
+    "what": "Les États-Unis et Israël ont frappé l'Iran le 28 février. Le Brent a bondi de plus de 13 % dans la foulée. En quelques jours, le trafic des pétroliers dans le détroit d'Ormuz s'est quasiment arrêté, et les deux références du pétrole ont brièvement dépassé 119 $ début mars.",
+    "why": "Environ un cinquième du pétrole mondial passe normalement par Ormuz, et il n'existe presque aucune route alternative. La Banque mondiale qualifie cette fermeture de plus grande perturbation pétrolière de l'histoire : l'offre mondiale a chuté d'environ 10 millions de barils par jour en mars. Le gasoil a augmenté plus que le brut, car le Golfe est un grand exportateur de carburants."
+   }
+  }
+ ]
+}
