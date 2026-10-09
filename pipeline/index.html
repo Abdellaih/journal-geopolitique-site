@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root{
   --paper:#ECF0EE; --panel:#F6F8F6; --sea:#D4E4E9; --sea-line:#86AEBD; --land:#DCCF9F;
@@ -96,17 +97,11 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .chain h3{font-size:1.05rem}
 .chain p{font-size:.93rem}
 
-/* Route map */
-.mapwrap{overflow-x:auto;border:1px solid var(--rule);background:var(--sea)}
-.mapwrap svg{display:block;min-width:560px;width:100%;height:auto}
-.pipe-line{fill:none;stroke:var(--price);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
-.pipe-eu{fill:none;stroke:var(--teal);stroke-width:2.5;stroke-dasharray:8 5;stroke-linecap:round}
-.country-dot{cursor:pointer}
-.country-dot circle.bg{fill:var(--panel);stroke:var(--ink);stroke-width:2;transition:fill .15s}
-.country-dot.active circle.bg{fill:var(--ink)}
-.country-dot circle.bg:hover{fill:var(--ink-soft)}
-.country-lbl{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;fill:var(--ink-soft);text-transform:uppercase}
-.country-dot.active .country-lbl{fill:var(--ink);font-weight:600}
+/* Route map — Leaflet */
+#leafletMap{height:520px;border:1px solid var(--rule);width:100%}
+@media (max-width:520px){#leafletMap{height:380px}}
+.leaflet-control-attribution{font-size:10px}
+.leaflet-popup-content-wrapper{font-family:var(--f-mono);font-size:12px;border-radius:0;border:1px solid var(--ink)}
 .maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
 .maplegend span{display:inline-flex;align-items:center;gap:8px}
 
@@ -282,91 +277,11 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
     <p class="measure">The pipeline runs almost entirely offshore, hugging the Atlantic coast from the Niger Delta to the Strait of Gibraltar. Select a country to see its role.</p>
   </div>
   <div class="stack">
-    <div class="mapwrap">
-      <svg id="routeMap" viewBox="0 0 420 780" role="img" aria-labelledby="mapTitle2">
-        <title id="mapTitle2">Schematic route of the Nigeria-Morocco Gas Pipeline along the West African Atlantic coast</title>
-        <!-- Atlantic Ocean label -->
-        <text font-family="var(--f-body)" font-style="italic" font-size="18" fill="var(--teal)" x="30" y="400" opacity=".6">Atlantic</text>
-        <text font-family="var(--f-body)" font-style="italic" font-size="18" fill="var(--teal)" x="36" y="422" opacity=".6">Ocean</text>
-        <!-- Pipeline route (offshore, running north along the coast) -->
-        <path class="pipe-line" id="pipeRoute"
-          d="M320,730 C290,720 265,705 250,685 C235,665 228,645 222,620 C216,595 210,570 205,545 C200,520 195,495 190,468 C185,440 182,412 178,384 C174,356 170,328 166,300 C162,272 158,245 154,218 C150,192 145,167 138,143 C130,118 118,96 102,78 C86,60 66,48 46,42"/>
-        <!-- Europe connection dashed -->
-        <path class="pipe-eu" d="M46,42 C38,34 30,22 22,10"/>
-        <!-- Country dots (south to north) -->
-        <!-- Nigeria -->
-        <g class="country-dot active" data-id="nigeria" tabindex="0" role="button" aria-label="Nigeria">
-          <circle class="bg" cx="320" cy="730" r="12"/>
-          <text class="country-lbl" x="338" y="734">NIGERIA</text>
-        </g>
-        <!-- Benin -->
-        <g class="country-dot" data-id="benin" tabindex="0" role="button" aria-label="Benin">
-          <circle class="bg" cx="295" cy="700" r="8"/>
-          <text class="country-lbl" x="310" y="704">BENIN</text>
-        </g>
-        <!-- Togo -->
-        <g class="country-dot" data-id="togo" tabindex="0" role="button" aria-label="Togo">
-          <circle class="bg" cx="272" cy="675" r="8"/>
-          <text class="country-lbl" x="287" y="679">TOGO</text>
-        </g>
-        <!-- Ghana -->
-        <g class="country-dot" data-id="ghana" tabindex="0" role="button" aria-label="Ghana">
-          <circle class="bg" cx="248" cy="648" r="10"/>
-          <text class="country-lbl" x="263" y="652">GHANA</text>
-        </g>
-        <!-- Ivory Coast -->
-        <g class="country-dot" data-id="ivorycoast" tabindex="0" role="button" aria-label="Ivory Coast">
-          <circle class="bg" cx="220" cy="615" r="8"/>
-          <text class="country-lbl" x="234" y="619">IVORY COAST</text>
-        </g>
-        <!-- Liberia -->
-        <g class="country-dot" data-id="liberia" tabindex="0" role="button" aria-label="Liberia">
-          <circle class="bg" cx="200" cy="577" r="8"/>
-          <text class="country-lbl" x="214" y="581">LIBERIA</text>
-        </g>
-        <!-- Sierra Leone -->
-        <g class="country-dot" data-id="sierraleone" tabindex="0" role="button" aria-label="Sierra Leone">
-          <circle class="bg" cx="186" cy="538" r="8"/>
-          <text class="country-lbl" x="200" y="542">SIERRA LEONE</text>
-        </g>
-        <!-- Guinea -->
-        <g class="country-dot" data-id="guinea" tabindex="0" role="button" aria-label="Guinea">
-          <circle class="bg" cx="178" cy="497" r="8"/>
-          <text class="country-lbl" x="192" y="501">GUINEA</text>
-        </g>
-        <!-- Guinea-Bissau -->
-        <g class="country-dot" data-id="guineabissau" tabindex="0" role="button" aria-label="Guinea-Bissau">
-          <circle class="bg" cx="172" cy="455" r="8"/>
-          <text class="country-lbl" x="186" y="459">GUINEA-BISSAU</text>
-        </g>
-        <!-- Gambia -->
-        <g class="country-dot" data-id="gambia" tabindex="0" role="button" aria-label="Gambia">
-          <circle class="bg" cx="166" cy="413" r="8"/>
-          <text class="country-lbl" x="180" y="417">GAMBIA</text>
-        </g>
-        <!-- Senegal -->
-        <g class="country-dot" data-id="senegal" tabindex="0" role="button" aria-label="Senegal">
-          <circle class="bg" cx="158" cy="371" r="10"/>
-          <text class="country-lbl" x="172" y="375">SENEGAL</text>
-        </g>
-        <!-- Mauritania -->
-        <g class="country-dot" data-id="mauritania" tabindex="0" role="button" aria-label="Mauritania">
-          <circle class="bg" cx="150" cy="320" r="8"/>
-          <text class="country-lbl" x="164" y="324">MAURITANIA</text>
-        </g>
-        <!-- Morocco -->
-        <g class="country-dot" data-id="morocco" tabindex="0" role="button" aria-label="Morocco">
-          <circle class="bg" cx="82" cy="130" r="14"/>
-          <text class="country-lbl" x="100" y="128">MOROCCO</text>
-          <text font-family="var(--f-mono)" font-size="9" fill="var(--teal)" x="100" y="142">→ SPAIN / EUROPE</text>
-        </g>
-        <!-- Spain label -->
-        <text font-family="var(--f-mono)" font-size="10" fill="var(--teal)" letter-spacing=".08em" x="22" y="8">SPAIN</text>
-      </svg>
-    </div>
+    <div id="leafletMap" aria-label="Interactive map of the Nigeria-Morocco Gas Pipeline route"></div>
     <div class="maplegend">
-      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="var(--price)" stroke-width="4" stroke-linecap="round"/></svg>NMGP pipeline</span>
-      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="var(--teal)" stroke-width="2.5" stroke-dasharray="8 5" stroke-linecap="round"/></svg>Existing connection to Europe</span>
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#A65C05" stroke-width="4" stroke-linecap="round"/></svg>NMGP pipeline</span>
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#1C6880" stroke-width="2.5" stroke-dasharray="8 5" stroke-linecap="round"/></svg>Existing Morocco–Spain connection</span>
+      <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#fff" stroke="#13222A" stroke-width="2"/></svg>Click a country for details</span>
     </div>
     <div class="countrycard" id="countryCard" aria-live="polite">
       <p class="eyebrow">Select a country above</p>
@@ -574,6 +489,7 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
 
 <button type="button" class="btt" id="bttBtn" title="Back to top" aria-label="Back to top" hidden>↑</button>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function(){
 "use strict";
@@ -648,7 +564,90 @@ const COUNTRIES = {
     risk:"Western Sahara sovereignty dispute complicates the route legally. If the MINURSO process produces an adverse outcome, European offtake contracts could face legal challenges."}
 };
 
-function renderCountry(id){
+
+/* Leaflet map */
+const PIPELINE_COORDS = [
+  [6.45,  3.40],  // Nigeria
+  [6.35,  2.42],  // Benin
+  [6.13,  1.22],  // Togo
+  [5.56, -0.20],  // Ghana
+  [5.28, -4.02],  // Ivory Coast
+  [4.80, -8.00],  // offshore Guinea/Liberia
+  [6.32,-10.80],  // Liberia
+  [8.49,-13.23],  // Sierra Leone
+  [9.54,-13.71],  // Guinea
+  [11.86,-15.60], // Guinea-Bissau
+  [13.45,-16.57], // Gambia
+  [14.69,-17.44], // Senegal
+  [18.09,-15.98], // Mauritania
+  [22.00,-16.80], // Western Sahara (offshore)
+  [27.00,-13.50], // Western Sahara (offshore)
+  [33.59, -7.62], // Morocco (Casablanca)
+];
+const EUROPE_COORDS = [
+  [33.59, -7.62], // Casablanca
+  [35.90, -5.60], // Gibraltar / Spain
+];
+const COUNTRY_LATLNG = {
+  nigeria:      [6.45,  3.40],
+  benin:        [6.35,  2.42],
+  togo:         [6.13,  1.22],
+  ghana:        [5.56, -0.20],
+  ivorycoast:   [5.28, -4.02],
+  liberia:      [6.32,-10.80],
+  sierraleone:  [8.49,-13.23],
+  guinea:       [9.54,-13.71],
+  guineabissau: [11.86,-15.60],
+  gambia:       [13.45,-16.57],
+  senegal:      [14.69,-17.44],
+  mauritania:   [18.09,-15.98],
+  morocco:      [33.59, -7.62],
+};
+
+const isDark = ()=> document.documentElement.dataset.theme==="dark" ||
+  (!document.documentElement.dataset.theme && window.matchMedia("(prefers-color-scheme:dark)").matches);
+
+const tileLight = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+const tileDark  = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+const tileAttr  = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+const map = L.map("leafletMap", {
+  center: [14, -8],
+  zoom: 4,
+  scrollWheelZoom: false,
+  zoomControl: true,
+});
+
+let tileLayer = L.tileLayer(isDark() ? tileDark : tileLight, {attribution: tileAttr, maxZoom: 19}).addTo(map);
+
+// Pipeline polyline
+L.polyline(PIPELINE_COORDS, {color:"#A65C05", weight:4, opacity:.9, lineJoin:"round"}).addTo(map);
+// Morocco → Spain dashed
+L.polyline(EUROPE_COORDS, {color:"#1C6880", weight:3, opacity:.85, dashArray:"10 7"}).addTo(map);
+
+// Country markers
+const markerStyle = (active)=>({
+  radius: 8,
+  fillColor: active ? "#13222A" : "#F6F8F6",
+  color: "#13222A",
+  weight: 2,
+  opacity: 1,
+  fillOpacity: 1,
+});
+const markerStyleMorocco = (active)=>({...markerStyle(active), radius:12});
+
+let activeMarker = null;
+const markers = {};
+Object.entries(COUNTRY_LATLNG).forEach(([id, latlng])=>{
+  const isNig = id==="nigeria", isMor = id==="morocco";
+  const opts = isMor ? markerStyleMorocco(false) : (isNig ? {...markerStyle(false), radius:11} : markerStyle(false));
+  const m = L.circleMarker(latlng, opts).addTo(map);
+  m.bindTooltip(COUNTRIES[id]?.name || id, {permanent:false, direction:"top", className:"leaflet-tooltip"});
+  m.on("click", ()=>{ renderCountry(id, m); });
+  markers[id] = m;
+});
+
+function renderCountry(id, marker){
   const c = COUNTRIES[id]; if(!c) return;
   const card = document.getElementById("countryCard");
   const pillClass = "pill "+c.pill;
@@ -662,16 +661,24 @@ function renderCountry(id){
       <dt>What it gains</dt><dd>${c.gain}</dd>
       <dt>Key risk</dt><dd>${c.risk}</dd>
     </dl>`;
-  document.querySelectorAll(".country-dot").forEach(n=>n.classList.remove("active"));
-  const dot = document.querySelector(`.country-dot[data-id="${id}"]`);
-  if(dot) dot.classList.add("active");
+  if(activeMarker){
+    const prevId = Object.keys(markers).find(k=>markers[k]===activeMarker);
+    const prevMor = prevId==="morocco";
+    activeMarker.setStyle(prevMor ? markerStyleMorocco(false) : (prevId==="nigeria"?{...markerStyle(false),radius:11}:markerStyle(false)));
+  }
+  const m = marker || markers[id];
+  if(m){ m.setStyle(id==="morocco"?markerStyleMorocco(true):{...markerStyle(true),radius:id==="nigeria"?11:8}); activeMarker=m; }
+  card.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
-document.querySelectorAll(".country-dot").forEach(n=>{
-  const id = n.dataset.id;
-  n.addEventListener("click",()=>renderCountry(id));
-  n.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();renderCountry(id);}});
+// Swap tiles on theme toggle
+if(themeBtn) themeBtn.addEventListener("click", ()=>{
+  setTimeout(()=>{
+    map.removeLayer(tileLayer);
+    tileLayer = L.tileLayer(isDark()?tileDark:tileLight,{attribution:tileAttr,maxZoom:19}).addTo(map);
+  }, 50);
 });
+
 renderCountry("nigeria");
 
 /* Simulator */
