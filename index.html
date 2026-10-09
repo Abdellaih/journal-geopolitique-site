@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Journal géopolitique</title>
-<meta name="description" content="Actualités géopolitiques expliquées et leur impact sur le Maroc : journal bilingue et dossier interactif sur le pétrole.">
+<meta name="description" content="Actualités géopolitiques expliquées et leur impact sur le Maroc : journal bilingue et dossiers interactifs sur l'énergie et la géopolitique.">
 <meta property="og:title" content="Journal géopolitique">
 <meta property="og:description" content="Actualités géopolitiques expliquées et leur impact sur le Maroc.">
 <meta property="og:type" content="website">
@@ -13,138 +13,195 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
-/* Layout: chart-paper cover page. Big title, two "plates" leading to the journal and the explainer, latest headlines below. */
 :root{
-  --paper:#ECF0EE; --panel:#F6F8F6; --sea:#D4E4E9; --sea-line:#86AEBD;
+  --paper:#ECF0EE; --panel:#F6F8F6; --sea:#D4E4E9;
   --ink:#13222A; --ink-soft:#4A5C64; --rule:#B9C6C8;
-  --hazard:#A0186B; --price:#A65C05; --teal:#1C6880;
+  --hazard:#A0186B; --price:#A65C05; --teal:#1C6880; --good:#2C7550;
   --f-display:"Big Shoulders Display","Arial Narrow","Roboto Condensed",sans-serif;
   --f-body:"Source Serif 4","Source Serif Pro",Georgia,serif;
   --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){
+@media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
+    --paper:#091216; --panel:#0E1A1F; --sea:#0F2129;
     --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
-    --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF;
+    --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A;
+  --paper:#091216; --panel:#0E1A1F; --sea:#0F2129;
   --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
-  --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF;
+  --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
   color-scheme:dark;
 }
-.theme-btn{font-family:var(--f-mono);font-size:11px;padding:3px 8px;border:1px solid var(--ink-soft);background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
-.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
-.wrap{max-width:980px;margin:0 auto;padding-inline:24px;padding-block:40px 64px;display:flex;flex-direction:column;gap:28px}
-@media (max-width:520px){.wrap{padding-inline:16px;padding-block:28px 48px}body{font-size:16px}}
+.wrap{max-width:980px;margin:0 auto;padding-inline:24px;padding-block:20px 64px;display:flex;flex-direction:column;gap:32px}
+@media (max-width:520px){.wrap{padding-inline:16px;padding-block:14px 48px}body{font-size:16px}}
 a{color:var(--teal);text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--hazard);outline-offset:3px}
 h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;color:var(--ink)}
 h1{font-weight:800;font-size:clamp(3.2rem,12vw,7rem);line-height:.86;text-transform:uppercase}
 p{margin:0}
-.eyebrow,.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-.lede{font-size:clamp(1.15rem,2.6vw,1.45rem);font-style:italic;color:var(--teal);max-width:42ch;line-height:1.35}
-.lede-en{font-size:.95rem;color:var(--ink-soft);max-width:60ch}
-.plates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-@media (max-width:720px){.plates{grid-template-columns:1fr}}
-.plate{display:flex;flex-direction:column;gap:12px;padding:22px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);text-decoration:none;min-width:0;transition:border-color .15s, transform .15s}
-.plate:hover{border-color:var(--ink);transform:translateY(-2px)}
-@media (prefers-reduced-motion:reduce){.plate{transition:none}.plate:hover{transform:none}}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+/* Top nav */
+.sitenav{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:14px}
+.site-id{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:10px}
+.site-id::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--hazard)}
+.theme-btn{font-family:var(--f-mono);font-size:11px;padding:3px 8px;border:1px solid var(--ink-soft);background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
+/* Header */
+.hero{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:clamp(1.1rem,2.5vw,1.38rem);font-style:italic;color:var(--teal);max-width:44ch;line-height:1.3}
+.lede-en{font-size:.93rem;color:var(--ink-soft);max-width:60ch;padding-top:2px;border-top:1px solid var(--rule)}
+/* Plates grid */
+.plates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:680px){.plates{grid-template-columns:1fr}}
+/* Base plate — shared by both <a> and <div> variants */
+.plate{display:flex;flex-direction:column;gap:11px;padding:22px;border:1px solid var(--rule);min-width:0}
+a.plate{background:var(--panel);color:var(--ink);text-decoration:none;transition:border-color .15s,transform .15s}
+a.plate:hover{border-color:var(--ink);transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){a.plate{transition:none}a.plate:hover{transform:none}}
+div.plate{background:var(--panel)}
 .plate.sea{background:var(--sea)}
-.plate h2{font-weight:800;font-size:clamp(1.9rem,4.5vw,2.6rem);line-height:.95;text-transform:uppercase}
-.plate .go{margin-top:auto;font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;color:var(--hazard)}
-.plate .tagrow{display:flex;flex-wrap:wrap;gap:6px}
-.pill{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor;color:var(--teal)}
+.plate h2{font-weight:800;font-size:clamp(1.85rem,4.2vw,2.5rem);line-height:.95;text-transform:uppercase}
+.plate p{font-size:.96rem;line-height:1.55}
+.tagrow{display:flex;flex-wrap:wrap;gap:5px}
+.pill{font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border:1.5px solid currentColor}
+.pill.blue{color:var(--teal)}
+.pill.amber{color:var(--price)}
+.pill.green{color:var(--good)}
+.pill.red{color:var(--hazard)}
+/* Single-language plate CTA */
+.go{margin-top:auto;font-family:var(--f-mono);font-size:12.5px;letter-spacing:.06em;color:var(--hazard)}
+/* Bilingual plate CTA links */
+.lang-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:4px}
+.lang-links a{font-family:var(--f-mono);font-size:12px;letter-spacing:.05em;text-decoration:none;padding:5px 11px;border:1px solid var(--hazard);color:var(--hazard);transition:background .12s,color .12s}
+.lang-links a:hover{background:var(--hazard);color:#fff}
+@media (prefers-reduced-motion:reduce){.lang-links a{transition:none}}
+/* Featured full-width plate (pipeline) */
+.plate-featured{grid-column:1/-1;border-color:var(--price);background:var(--panel)}
+.plate-featured h2{color:var(--price)}
+/* Latest entries */
 .latest{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--ink)}
-.latest h3{font-weight:600;font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em;padding-block:12px 4px}
+.latest h3{font-family:var(--f-display);font-weight:600;font-size:1.25rem;text-transform:uppercase;letter-spacing:.04em;padding-block:12px 4px;margin:0}
 .latest ol{list-style:none;margin:0;padding:0}
 .latest li{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:4px 16px;padding-block:10px;border-bottom:1px solid var(--rule)}
-.latest li .d{font-family:var(--f-mono);font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums;padding-top:2px}
+.latest li .d{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;padding-top:2px}
 .latest li a{color:var(--ink);text-decoration:none}
 .latest li a:hover{text-decoration:underline}
-@media (max-width:480px){.latest li{grid-template-columns:1fr;gap:0}}
-footer{border-top:3px double var(--ink);padding-top:16px;font-size:.88rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:6px}
+@media (max-width:480px){.latest li{grid-template-columns:1fr;gap:2px}}
+/* Footer */
+footer{border-top:3px double var(--ink);padding-top:16px;font-size:.87rem;color:var(--ink-soft)}
 </style>
 <script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
 <main class="wrap">
-  <header style="display:flex;flex-direction:column;gap:16px">
+
+  <nav class="sitenav">
+    <span class="site-id">Journal géopolitique</span>
+    <button type="button" id="themeToggle" class="theme-btn" title="Thème clair / sombre">◐</button>
+  </nav>
+
+  <header class="hero">
     <p class="eyebrow">Géopolitique · Énergie · Économie du Maroc</p>
     <h1>Journal<br>géopolitique</h1>
     <p class="lede">Comprendre l'actualité mondiale et ce qu'elle change pour le Maroc.</p>
-    <p class="lede-en">Understanding world news and what it changes for Morocco. Available in French and English.</p>
+    <p class="lede-en">Understanding world events and what they mean for Morocco — bilingual, open-access.</p>
   </header>
 
   <div class="plates">
+
+    <!-- Journal -->
     <a class="plate" href="journal/">
-      <span class="label">Le journal · The logbook</span>
+      <span class="eyebrow">Le journal · The logbook</span>
       <h2>Les actualités, expliquées</h2>
-      <p>Chaque événement avec ce qui s'est passé, pourquoi c'est important, et ce que cela signifie pour le Maroc.</p>
-      <div class="tagrow"><span class="pill">FR</span><span class="pill">EN</span></div>
+      <p>Chaque événement décrypté : ce qui s'est passé, pourquoi c'est important, et ce que ça change pour le Maroc.</p>
+      <div class="tagrow">
+        <span class="pill blue">FR</span>
+        <span class="pill blue">EN</span>
+        <span class="pill green">Bilingue</span>
+      </div>
       <span class="go">Ouvrir le journal →</span>
     </a>
+
+    <!-- Hormuz dossier -->
     <a class="plate sea" href="hormuz/" hreflang="en">
-      <span class="label">Dossier interactif · Explainer</span>
+      <span class="eyebrow">Dossier interactif · Hormuz 2026</span>
       <h2>From Hormuz to the Pump</h2>
-      <p>Comment une guerre dans le Golfe fait monter le prix du gasoil au Maroc : carte des détroits, simulateur de prix, scénarios et quiz.</p>
-      <div class="tagrow"><span class="pill">EN</span></div>
-      <span class="go">Ouvrir le dossier (en anglais) →</span>
+      <p>Comment une guerre dans le Golfe fait monter le prix du gasoil au Maroc. Carte des détroits, simulateur de prix, scénarios et quiz.</p>
+      <div class="tagrow">
+        <span class="pill blue">EN</span>
+        <span class="pill amber">Carte</span>
+        <span class="pill amber">Simulateur</span>
+        <span class="pill amber">Quiz</span>
+      </div>
+      <span class="go">Open dossier →</span>
     </a>
-    <a class="plate" href="pipeline/" hreflang="en" style="grid-column:1/-1">
-      <span class="label">Dossier interactif · Explainer</span>
+
+    <!-- Pipeline dossier — bilingual, so a <div> with explicit language links -->
+    <div class="plate plate-featured">
+      <span class="eyebrow">Dossier interactif · Gazoduc atlantique · oct. 2026</span>
       <h2>From Nigeria to Europe</h2>
-      <p>Le gazoduc Atlantic de 25 milliards de dollars qui ferait du Maroc le pont énergétique entre l'Afrique et l'Europe : carte des 13 pays, simulateur économique, scénarios et quiz.</p>
-      <div class="tagrow"><span class="pill">EN</span><span class="pill">FR</span></div>
-      <span class="go">Ouvrir le dossier →</span>
-    </a>
+      <p>Le gazoduc atlantique africain de 25 milliards de dollars : 13 pays, 6 800 km, et le Maroc au carrefour entre l'Afrique et l'Europe. Carte interactive, simulateur économique, section financement, tableau comparatif et quiz.</p>
+      <div class="tagrow">
+        <span class="pill blue">EN</span>
+        <span class="pill blue">FR</span>
+        <span class="pill amber">Carte</span>
+        <span class="pill amber">Simulateur</span>
+        <span class="pill amber">Quiz</span>
+      </div>
+      <div class="lang-links">
+        <a href="pipeline/">🇬🇧 English version →</a>
+        <a href="pipeline/fr.html">🇫🇷 Version française →</a>
+      </div>
+    </div>
+
   </div>
 
   <section class="latest" id="latest" hidden>
-    <h3>Dernières entrées</h3>
+    <h3>Dernières entrées du journal</h3>
     <ol id="latestList"></ol>
+    <p style="padding-top:10px;font-family:var(--f-mono);font-size:12px"><a href="journal/">Toutes les entrées →</a></p>
   </section>
 
   <footer>
     <p>Analyses à but informatif, fondées sur les sources citées dans chaque entrée. Ce ne sont ni des prévisions ni des conseils financiers.</p>
-    <p><button type="button" id="themeToggle" class="theme-btn" title="Thème clair / sombre">◐</button></p>
   </footer>
+
 </main>
 <script>
 (function(){
   const root = document.documentElement;
   const btn = document.getElementById("themeToggle");
-  if(btn) btn.addEventListener("click", () => {
-    const dark = root.dataset.theme === "dark" || (!root.dataset.theme && window.matchMedia("(prefers-color-scheme:dark)").matches);
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch(e){}
+  if(btn) btn.addEventListener("click", ()=>{
+    const dark = root.dataset.theme==="dark"||(!root.dataset.theme&&window.matchMedia("(prefers-color-scheme:dark)").matches);
+    root.dataset.theme = dark?"light":"dark";
+    try{localStorage.setItem("theme",root.dataset.theme);}catch(e){}
   });
 })();
 (function(){
   const M = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
-  fetch("journal/entries.json", {cache: "no-cache"}).then(r => r.ok ? r.json() : null).then(d => {
-    const list = d && Array.isArray(d.entries) ? d.entries.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 5) : [];
-    if (!list.length) return;
+  fetch("journal/entries.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{
+    const list = d&&Array.isArray(d.entries)?d.entries.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,5):[];
+    if(!list.length) return;
     const ol = document.getElementById("latestList");
-    list.forEach(e => {
-      const v = (e.fr && e.fr.title) ? e.fr : (e.en || {});
-      if (!v.title) return;
-      const li = document.createElement("li");
-      const d = document.createElement("span"); d.className = "d";
-      d.textContent = /^\d{4}-\d{2}-\d{2}$/.test(e.date) ? Number(e.date.slice(8, 10)) + " " + M[+e.date.slice(5, 7) - 1] + " " + e.date.slice(0, 4) : "";
-      const a = document.createElement("a"); a.href = "journal/#" + encodeURIComponent(e.id); a.textContent = v.title;
-      li.append(d, a); ol.appendChild(li);
+    list.forEach(e=>{
+      const v=(e.fr&&e.fr.title)?e.fr:(e.en||{});
+      if(!v.title) return;
+      const li=document.createElement("li");
+      const d=document.createElement("span"); d.className="d";
+      d.textContent=/^\d{4}-\d{2}-\d{2}$/.test(e.date)?Number(e.date.slice(8,10))+" "+M[+e.date.slice(5,7)-1]+" "+e.date.slice(0,4):"";
+      const a=document.createElement("a"); a.href="journal/#"+encodeURIComponent(e.id); a.textContent=v.title;
+      li.append(d,a); ol.appendChild(li);
     });
-    document.getElementById("latest").hidden = false;
-  }).catch(() => {});
+    document.getElementById("latest").hidden=false;
+  }).catch(()=>{});
 })();
 </script>
 </body>
