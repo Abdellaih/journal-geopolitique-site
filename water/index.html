@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Thirst Belt — Water, Food &amp; Power in North Africa</title>
+<meta name="description" content="How drought, dam politics and aquifer depletion are reshaping Morocco and its neighbours. Interactive map, water budget simulator, scenarios and quiz.">
+<meta property="og:title" content="The Thirst Belt — Water, Food &amp; Power in North Africa">
+<meta property="og:description" content="Morocco crossed the water-scarcity threshold. 85% of its water goes to farming. The Sahel is drying. This dossier explains what comes next.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%2313222A' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23A0186B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9/dist/leaflet.min.css">
+<style>
+:root{
+  --paper:#ECF0EE; --panel:#F6F8F6; --sea:#C8DDE8; --land:#DCCF9F;
+  --ink:#13222A; --ink-soft:#4A5C64; --rule:#B9C6C8;
+  --hazard:#A0186B; --price:#A65C05; --teal:#1C6880; --good:#2C7550;
+  --water:#1A5E8A;
+  --ex:#9B1C17; --scar:#B87020; --stress:#1C6880; --adeq:#2C7550;
+  --f-display:"Big Shoulders Display","Arial Narrow","Roboto Condensed",sans-serif;
+  --f-body:"Source Serif 4","Source Serif Pro",Georgia,serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#091216; --panel:#0E1A1F; --sea:#0A1F2C; --land:#5C5330;
+    --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+    --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
+    --water:#5AB0D8;
+    --ex:#D95A54; --scar:#E09A50; --stress:#5DB6CF; --adeq:#6BC290;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#091216; --panel:#0E1A1F; --sea:#0A1F2C; --land:#5C5330;
+  --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+  --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
+  --water:#5AB0D8;
+  --ex:#D95A54; --scar:#E09A50; --stress:#5DB6CF; --adeq:#6BC290;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px;padding-block:28px 72px}
+@media(max-width:520px){.wrap{padding-inline:16px}body{font-size:16px}}
+a{color:var(--teal);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--hazard);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;color:var(--ink)}
+h1{font-weight:800;font-size:clamp(2.8rem,9vw,5.6rem);line-height:.88;text-transform:uppercase}
+h2{font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);line-height:.95;text-transform:uppercase;letter-spacing:.01em}
+h3{font-weight:600;font-size:1.2rem;line-height:1.15;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}
+.measure{max-width:68ch}
+.stack{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.small{font-size:.86rem;color:var(--ink-soft)}
+section{border-top:1px solid var(--rule);padding-block:52px 8px}
+section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.sitenav{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:22px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.sitenav a{color:var(--ink-soft);text-decoration:none}.sitenav a:hover{color:var(--ink)}
+.theme-btn{font-family:var(--f-mono);font-size:11px;padding:3px 8px;border:1px solid var(--ink-soft);background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
+.btt{position:fixed;bottom:24px;right:20px;width:42px;height:42px;font-family:var(--f-mono);font-size:15px;font-weight:600;border:1.5px solid var(--ink-soft);background:var(--panel);color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.btt:hover{border-color:var(--ink);color:var(--ink)}
+.hero{display:flex;flex-direction:column;gap:18px;padding-block:8px 40px}
+.hero-sub{font-size:clamp(1.05rem,2.3vw,1.35rem);font-style:italic;color:var(--water);max-width:46ch;line-height:1.35}
+.lede{font-size:1.05rem;max-width:66ch}
+.ticker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--rule);background:var(--panel);margin-top:10px}
+.tick{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tick+.tick{border-left:1px solid var(--rule)}
+.tick .label{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.tick .val{font-family:var(--f-mono);font-size:clamp(1.4rem,3.5vw,2rem);font-weight:500;line-height:1.1;font-variant-numeric:tabular-nums}
+.tick .val.ok{color:var(--good)}.tick .val.warn{color:var(--price)}.tick .val.hz{color:var(--hazard);font-family:var(--f-display);font-weight:800;text-transform:uppercase}.tick .val.blue{color:var(--water)}
+.tick .sub{font-size:.82rem;color:var(--ink-soft);line-height:1.4}
+@media(max-width:760px){.ticker{grid-template-columns:repeat(2,minmax(0,1fr))}.tick+.tick{border-left:0;border-top:1px solid var(--rule)}}
+.titleblock{border:3px double var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:10px;background:var(--panel);max-width:780px}
+.titleblock ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.titleblock li::marker{color:var(--water)}
+.toc{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px;font-family:var(--f-mono);font-size:12.5px;letter-spacing:.04em}
+.toc a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule)}
+.toc a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:0;counter-reset:leg;border-top:1px solid var(--rule)}
+.chain li{counter-increment:leg;padding:16px 16px 16px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:4px 12px;align-content:start}
+.chain li::before{content:counter(leg);font-family:var(--f-display);font-weight:800;font-size:2rem;line-height:1;color:var(--water);grid-row:span 2}
+.chain h3{font-size:1.05rem}
+.chain p{font-size:.93rem}
+/* Map */
+.map-layout{display:grid;grid-template-columns:minmax(0,1fr) 190px;border:1px solid var(--rule);overflow:hidden;border-radius:2px}
+@media(max-width:680px){.map-layout{grid-template-columns:1fr}}
+#mapWrap{border-right:1px solid var(--rule)}
+#mapDiv{height:420px;background:#A8C8D8}
+.leaflet-container{background:#A8C8D8!important}
+.leaflet-control-zoom{border:none!important;box-shadow:none!important}
+.leaflet-control-zoom a{width:28px!important;height:28px!important;line-height:28px!important;font-size:16px!important;border:1.5px solid var(--ink-soft)!important;background:var(--panel)!important;color:var(--ink)!important;font-family:var(--f-mono)!important;border-radius:0!important;margin-bottom:3px!important}
+.leaflet-tooltip.country-tip{background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:4px 9px;border:none;border-radius:0;box-shadow:0 2px 8px rgba(0,0,0,.25);letter-spacing:.06em}
+.leaflet-tooltip.country-tip::before{display:none}
+.clist{overflow-y:auto;max-height:420px;display:flex;flex-direction:column;background:var(--panel)}
+@media(max-width:680px){.clist{max-height:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+.clist button{all:unset;box-sizing:border-box;width:100%;padding:8px 11px;border-bottom:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink)}
+.clist button:hover{background:var(--sea)}
+.clist button.active{background:var(--water);color:#fff}
+.clist button.active .c-num{color:rgba(255,255,255,.65)}
+.c-num{font-family:var(--f-mono);font-size:10px;color:var(--ink-soft);flex:none;min-width:14px}
+.stress-dot{width:9px;height:9px;border-radius:50%;flex:none}
+/* Country card */
+@keyframes cdfade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.countrycard.fresh{animation:cdfade .18s ease-out}
+.countrycard{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;gap:10px}
+.cc-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cc-flag{font-size:1.7rem;line-height:1;flex:none}
+.cc-stats{display:flex;flex-wrap:wrap;gap:4px 16px;font-family:var(--f-mono);font-size:11px;color:var(--ink-soft);padding:7px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.cc-stats b{color:var(--ink);font-weight:600}
+.cc-note{font-size:.92rem}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor}
+.pill.ex{color:var(--ex)} .pill.scar{color:var(--scar)} .pill.stress{color:var(--stress)} .pill.adeq{color:var(--adeq)}
+/* Map legend */
+.maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
+.maplegend span{display:inline-flex;align-items:center;gap:7px}
+.leg-dot{width:11px;height:11px;border-radius:50%;flex:none}
+/* Timeline */
+.timeline-wrap{padding-block:26px 0}
+.timeline-track{display:flex;align-items:flex-start;gap:0;position:relative;overflow-x:auto;padding-bottom:4px}
+.timeline-track::before{content:'';position:absolute;left:7px;right:7px;top:30px;height:2px;background:var(--rule);z-index:0}
+.ms{flex:1;min-width:90px;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1;padding-inline:4px}
+.ms .my{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-soft);height:20px;display:flex;align-items:center}
+.ms .md{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--rule);background:var(--panel);flex:none}
+.ms.drought .md{background:var(--ex);border-color:var(--ex)}
+.ms.policy .md{background:var(--adeq);border-color:var(--adeq)}
+.ms.now .md{background:var(--price);border-color:var(--price);box-shadow:0 0 0 3px color-mix(in srgb,var(--price) 22%,transparent)}
+.ms .ml{font-size:.72rem;text-align:center;color:var(--ink-soft);line-height:1.35}
+.ms.drought .my,.ms.drought .ml{color:var(--ex)}
+.ms.policy .my,.ms.policy .ml{color:var(--adeq)}
+.ms.now .my,.ms.now .ml{color:var(--price);font-weight:600}
+.ms.future .my,.ms.future .ml{opacity:.6}
+/* Simulator */
+.plate{background:var(--sea);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.plate-title{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+input[type=range]{width:100%;accent-color:var(--water)}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-size:.95rem}
+.ctl label output{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.ctl .hint{font-size:.8rem;color:var(--ink-soft);line-height:1.35}
+.sim{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:760px){.sim{grid-template-columns:1fr}}
+.results{background:var(--panel);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline}
+.kv{display:flex;flex-direction:column;gap:2px}
+.kv .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.kv .v{font-family:var(--f-mono);font-size:1.5rem;font-weight:500;font-variant-numeric:tabular-nums}
+.kv .v.up{color:var(--price)}.kv .v.ok{color:var(--good)}.kv .v.bad{color:var(--ex)}
+.stress-bar-wrap{margin-top:4px}
+.stress-bar{height:20px;background:var(--rule);position:relative;overflow:hidden}
+.stress-bar-fill{height:100%;transition:width .25s,background .25s}
+@media(prefers-reduced-motion:reduce){.stress-bar-fill{transition:none}}
+/* Comparison table */
+.compare-wrap{overflow-x:auto}
+table.ctable{width:100%;border-collapse:collapse;font-size:.87rem;min-width:520px}
+.ctable th{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--ink);text-align:left;color:var(--ink-soft);white-space:nowrap}
+.ctable td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+.ctable tr:hover td{background:var(--sea)}
+.ctable td.hl{font-weight:700;color:var(--water)}
+.ctable .ex-cell{color:var(--ex);font-weight:600}
+.ctable .scar-cell{color:var(--scar);font-weight:600}
+.ctable .stress-cell{color:var(--stress)}
+.ctable .adeq-cell{color:var(--adeq)}
+/* Scenarios */
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:760px){.scen{grid-template-columns:1fr}}
+.scen article{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.scen .tag{align-self:flex-start}
+.scen .meta{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:4px 10px;font-size:.9rem;border-top:1px solid var(--rule);padding-top:8px;margin-top:4px}
+.scen .meta b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;padding-top:2px}
+/* Challenges */
+.challenges{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0 28px}
+.challenges div{border-top:1px solid var(--rule);padding-block:14px;display:flex;flex-direction:column;gap:6px}
+.flag{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--hazard)}
+.flag.blue{color:var(--water)}
+/* Quiz */
+.quiz{display:flex;flex-direction:column;gap:16px;max-width:780px}
+.q{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.q .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(max-width:520px){.q .opts{grid-template-columns:1fr}}
+.q .opt{text-align:left;font:inherit;font-size:.93rem;padding:9px 12px;border:1px solid var(--ink-soft);background:var(--paper);color:var(--ink);cursor:pointer}
+.q .opt:hover:not([disabled]){border-color:var(--ink)}
+.q .opt[disabled]{cursor:default}
+.q .opt.right{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.q .opt.wrong{border-color:var(--hazard);box-shadow:inset 4px 0 0 var(--hazard)}
+.q .why{font-size:.9rem}
+.q .why b{color:var(--good)}.q .why b.no{color:var(--hazard)}
+.score{font-family:var(--f-mono);font-size:.93rem}
+.btn{font-family:var(--f-mono);font-size:13px;padding:8px 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+/* Watch */
+.watch{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.watch{grid-template-columns:1fr}}
+.watch li{border:1px solid var(--rule);background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.watch li b{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.02em}
+/* Sources */
+.sources{columns:2 280px;column-gap:28px;font-size:.85rem;margin:0;padding-left:1.1em}
+.sources li{break-inside:avoid;margin-bottom:6px}
+footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display:flex;flex-direction:column;gap:12px}
+</style>
+<script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<main class="wrap">
+
+<nav class="sitenav">
+  <a href="../">← Accueil / Home</a>
+  <span style="display:flex;gap:16px;align-items:center">
+    <button type="button" id="themeToggle" class="theme-btn" title="Light / Dark">◐</button>
+    <a href="../journal/">Journal géopolitique →</a>
+  </span>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">Explainer · Water &amp; Food Security · Updated October 2026</p>
+  <h1>The Thirst<br>Belt</h1>
+  <p class="hero-sub">Water, food and power in North Africa — and what Morocco does next</p>
+  <p class="lede">Morocco has officially crossed the water-scarcity threshold. The Sahel is drying. Egypt is locked in a dam war with Ethiopia. Lake Chad has shrunk 90%. This is not a distant crisis — it is the frame inside which every economic and security decision in the region is made.</p>
+  <div class="ticker">
+    <div class="tick">
+      <span class="label">Morocco — water/capita</span>
+      <span class="val warn">730 m³</span>
+      <span class="sub">Per year. UN scarcity threshold is 1 000 m³. Morocco crossed it in the 2010s.</span>
+    </div>
+    <div class="tick">
+      <span class="label">Agriculture's share</span>
+      <span class="val warn">85%</span>
+      <span class="sub">Of total water withdrawal. Irrigated farming dominates — and employs 40% of the workforce.</span>
+    </div>
+    <div class="tick">
+      <span class="label">Reservoir fill — 2023 low</span>
+      <span class="val hz">23%</span>
+      <span class="sub">National average. Al Massira dam, main supply for 6 million, hit 5%. Emergency protocol activated.</span>
+    </div>
+    <div class="tick">
+      <span class="label">Lake Chad shrinkage</span>
+      <span class="val blue">−90%</span>
+      <span class="sub">Since 1960. The lake that once fed 30 million people across 4 countries is mostly gone.</span>
+    </div>
+  </div>
+</header>
+
+<aside class="titleblock">
+  <p class="eyebrow">Five things to know</p>
+  <ul>
+    <li>Morocco is officially water-scarce. With 730 m³ per person per year, it is below the UN scarcity threshold of 1 000 m³ — and population growth is tightening the squeeze.</li>
+    <li>Farming takes 85% of Morocco's water but produces only 12% of GDP. The political economy of reform is brutal: irrigated agriculture supports 5 million rural livelihoods.</li>
+    <li>Morocco has 149 large dams — one of the highest dam densities in Africa. Yet the 2023 drought still exposed catastrophic fragility.</li>
+    <li>Morocco's answer is desalination: targeting 1 billion m³/year by 2030, powered partly by solar. If it works, it fundamentally changes the country's water arithmetic.</li>
+    <li>Regional instability is a water story. Lake Chad's collapse enabled Boko Haram. Nile dam politics could trigger conflict between Egypt and Ethiopia. What happens in the Sahel does not stay there.</li>
+  </ul>
+</aside>
+<nav class="toc">
+  <a href="#why">Why it matters</a>
+  <a href="#map">Water-stress map</a>
+  <a href="#timeline">Morocco timeline</a>
+  <a href="#simulator">Budget simulator</a>
+  <a href="#sahel">Shared waters</a>
+  <a href="#response">Morocco's bet</a>
+  <a href="#table">Country data</a>
+  <a href="#scenarios">Three futures</a>
+  <a href="#watch">Watch list</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<!-- 1. Why it matters -->
+<section id="why">
+  <div class="head">
+    <p class="eyebrow">The four drivers</p>
+    <h2>Why water is the new oil</h2>
+    <p class="measure">Four forces are converging simultaneously, and Morocco sits at the intersection of all of them.</p>
+  </div>
+  <ol class="chain">
+    <li>
+      <h3>The climate signal is unambiguous</h3>
+      <p>Average rainfall across Morocco has fallen 30% since 1980. All major IPCC scenarios project a further 10–30% decline by 2050 for the MENA region. The Atlas snowpack — which recharges the major rivers — is retreating. This is not a temporary cycle; it is a structural shift that planning must accept as the baseline.</p>
+    </li>
+    <li>
+      <h3>Agriculture can't carry this burden indefinitely</h3>
+      <p>Irrigated agriculture uses 85% of Morocco's water to generate 12% of GDP. The Souss-Massa aquifer, which feeds citrus and tomato exports to Europe, is being overdrawn at three times its recharge rate. Plan Maroc Vert has converted 450 000 ha to drip irrigation — but efficiency gains can only go so far without also addressing what is grown and where.</p>
+    </li>
+    <li>
+      <h3>Shared rivers mean shared conflict</h3>
+      <p>The Nile, Niger and Lake Chad basins are multinational systems. Ethiopia's Grand Renaissance Dam (GERD) will cut peak Nile flow to Egypt by up to 25% during filling — a near-existential threat for a country 97% dependent on the Nile. Lake Chad has lost 90% of its surface since 1960, displacing millions and providing the grievance environment in which Boko Haram flourished. What happens upstream does not stay upstream.</p>
+    </li>
+    <li>
+      <h3>Food imports are a geopolitical exposure</h3>
+      <p>Morocco imports roughly 38% of its wheat. It learned how exposed that is when Russia's 2022 invasion of Ukraine spiked global grain prices 60% overnight. Food price shocks historically correlate with social unrest in the MENA region (2007–08, 2010–11 Arab Spring). Water efficiency and domestic production are, ultimately, security investments.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- 2. Water-stress map -->
+<section id="map">
+  <div class="head">
+    <p class="eyebrow">Regional picture</p>
+    <h2>Water stress across North Africa &amp; the Sahel</h2>
+    <p class="measure">Annual renewable freshwater per capita — the standard measure of water security. Click a country to see its profile.</p>
+  </div>
+  <div class="stack">
+    <div class="map-layout">
+      <div id="mapWrap" aria-label="Water stress map of North Africa and the Sahel">
+        <div id="mapDiv"></div>
+      </div>
+      <div class="clist" id="countryList" role="list" aria-label="Countries"></div>
+    </div>
+    <div class="maplegend">
+      <span><span class="leg-dot" style="background:var(--ex)"></span>Extreme (&lt;500 m³/cap)</span>
+      <span><span class="leg-dot" style="background:var(--scar)"></span>Scarce (500–1 000)</span>
+      <span><span class="leg-dot" style="background:var(--stress)"></span>Stressed (1 000–3 000)</span>
+      <span><span class="leg-dot" style="background:var(--adeq)"></span>Adequate (&gt;3 000)</span>
+    </div>
+    <div class="countrycard" id="countryCard" aria-live="polite">
+      <p class="eyebrow">Select a country</p>
+      <p>Click a country on the map or a name in the list to see its water profile.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Timeline -->
+<section id="timeline">
+  <div class="head">
+    <p class="eyebrow">Morocco — water milestones</p>
+    <h2>Droughts, dams and policy shifts</h2>
+  </div>
+  <div class="timeline-wrap">
+    <div class="timeline-track">
+      <div class="ms drought"><span class="my">1999</span><div class="md"></div><span class="ml">Severe drought — national emergency declared</span></div>
+      <div class="ms policy"><span class="my">2007</span><div class="md"></div><span class="ml">Plan Maroc Vert — drip irrigation push begins</span></div>
+      <div class="ms drought"><span class="my">2020</span><div class="md"></div><span class="ml">Worst crop drought in 30 years — wheat −40%</span></div>
+      <div class="ms drought"><span class="my">2022</span><div class="md"></div><span class="ml">Al Massira hits 10% — Casablanca restrictions</span></div>
+      <div class="ms drought"><span class="my">2023</span><div class="md"></div><span class="ml">National fill rate 23% — historic low</span></div>
+      <div class="ms now"><span class="my">2026 ★</span><div class="md"></div><span class="ml">Desalination mega-plant online (Casablanca)</span></div>
+      <div class="ms future"><span class="my">2028</span><div class="md"></div><span class="ml">Agadir desal plant target — 450 Mm³/year</span></div>
+      <div class="ms future"><span class="my">2030</span><div class="md"></div><span class="ml">Target: 1 Gm³/year desal capacity</span></div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:12px">Red milestones = drought crisis. Green = policy response. The pattern shows an acceleration: droughts come faster, policy responses lag.</p>
+</section>
+
+<!-- 4. Simulator -->
+<section id="simulator">
+  <div class="head">
+    <p class="eyebrow">Morocco 2040</p>
+    <h2>Water budget simulator</h2>
+    <p class="measure">Adjust three levers to see Morocco's projected water availability per capita in 2040. Base: 22 Gm³ renewable water, population 44 million.</p>
+  </div>
+  <div class="plate">
+    <p class="plate-title">Simulator — Morocco water balance 2040</p>
+    <div class="sim">
+      <div class="stack">
+        <div class="ctl">
+          <label for="sRain"><span>Rainfall departure vs. 1990 average</span><output id="oRain">−10%</output></label>
+          <input id="sRain" type="range" min="-30" max="15" step="1" value="-10">
+          <span class="hint">IPCC central projection: −10 to −20% by 2050 under RCP 4.5. Optimistic scenario: +5% with strengthened Atlantic westerlies.</span>
+        </div>
+        <div class="ctl">
+          <label for="sDesal"><span>Desalination capacity by 2040</span><output id="oDesal">1.0 Gm³/yr</output></label>
+          <input id="sDesal" type="range" min="0.3" max="2.5" step="0.1" value="1.0">
+          <span class="hint">Current capacity ~0.3 Gm³/yr. Morocco's 2030 target is 1 Gm³/yr. Gulf states have scaled to 2–4 Gm³/yr.</span>
+        </div>
+        <div class="ctl">
+          <label for="sIrrig"><span>Irrigation efficiency improvement</span><output id="oIrrig">20%</output></label>
+          <input id="sIrrig" type="range" min="0" max="50" step="5" value="20">
+          <span class="hint">Each 10% efficiency gain on the 10 Gm³ agricultural draw saves ~1 Gm³/yr for recharge or other use. Drip conversion has achieved 40% savings in pilot zones.</span>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="results">
+          <div class="row">
+            <div class="kv"><span class="k">Total available</span><span class="v blue" id="rTotal">—</span></div>
+            <div class="kv"><span class="k">Per capita</span><span class="v" id="rCap">—</span></div>
+          </div>
+          <div class="row">
+            <div class="kv"><span class="k">Agri water freed</span><span class="v ok" id="rSaved">—</span></div>
+            <div class="kv"><span class="k">Stress level</span><span class="v" id="rStress">—</span></div>
+          </div>
+          <div class="stress-bar-wrap">
+            <div class="stress-bar"><div class="stress-bar-fill" id="stressBar"></div></div>
+          </div>
+          <p class="small">Bar shows per-capita water as % of the 1 700 m³ "water stress" threshold.</p>
+        </div>
+        <p class="small">Simplified model. Renewable base = 22 Gm³/yr × rainfall factor. Desal adds directly. Irrigation saving = efficiency gain × 10 Gm³ base agricultural draw × 0.5 (half is genuinely recoverable). Population fixed at 44 M.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Shared waters -->
+<section id="sahel">
+  <div class="head">
+    <p class="eyebrow">Transboundary risk</p>
+    <h2>Shared waters, rising tensions</h2>
+  </div>
+  <div class="challenges">
+    <div>
+      <span class="flag blue">Nile Basin</span>
+      <h3>Ethiopia, Egypt and the GERD</h3>
+      <p>The Grand Ethiopian Renaissance Dam on the Blue Nile will be the largest dam in Africa when complete. Ethiopia sees it as the engine of industrialisation. Egypt, whose 106 million people depend on the Nile for 97% of their water, sees it as an existential threat. Sudan sits in between, sometimes aligned with each side. Three rounds of AU-mediated talks have failed to produce a binding legal framework. The risk of military escalation is real — Egypt has rehearsed strike scenarios.</p>
+    </div>
+    <div>
+      <span class="flag blue">Lake Chad Basin</span>
+      <h3>The lake that nearly disappeared</h3>
+      <p>Lake Chad has lost 90% of its surface area since 1960 — driven by climate change and upstream irrigation abstraction by Nigeria, Niger, Chad and Cameroon. Thirty million people who depended on the lake for fishing, farming and livestock have faced mass displacement. Scholars link the lake's collapse directly to the social conditions that enabled Boko Haram's insurgency from 2009. The Lake Chad Basin Commission has a replenishment plan, but implementation requires financing and political will from four fragile states.</p>
+    </div>
+    <div>
+      <span class="flag blue">Niger River</span>
+      <h3>Nine countries, one artery</h3>
+      <p>The Niger River flows 4 200 km through Guinea, Mali, Niger and Nigeria. It supports 110 million people. Guinea's upstream dams threaten downstream flow; Mali's Office du Niger irrigation scheme already abstracts heavily. After the 2023 Sahel coups, regional governance institutions — including the Niger River Authority — have been weakened. If upstream states pursue unilateral dam construction, downstream droughts will intensify.</p>
+    </div>
+    <div>
+      <span class="flag blue">NWSA Aquifer</span>
+      <h3>The Sahara's fossil water</h3>
+      <p>The North-Western Sahara Aquifer System (NWSA) is shared by Algeria, Tunisia and Libya. It holds an estimated 60 000 km³ of water — but almost none is replenished. Libya's Great Man-Made River pumps it at scale; Algeria and Tunisia abstract heavily for irrigation. Once exhausted, this water is gone. No binding international agreement governs its extraction. It is the slowest-moving water crisis in the region, and among the least discussed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Morocco's response -->
+<section id="response">
+  <div class="head">
+    <p class="eyebrow">Policy response</p>
+    <h2>Morocco's $40 billion water bet</h2>
+    <p class="measure">Morocco's National Water Programme 2020–2050 commits MAD 380 billion (~$40 billion) over three decades. Four pillars.</p>
+  </div>
+  <div class="challenges">
+    <div>
+      <span class="flag" style="color:var(--good)">Desalination</span>
+      <h3>From 0.3 to 1 Gm³/year by 2030</h3>
+      <p>Morocco is building a network of large seawater desalination plants along the Atlantic and Mediterranean coasts. The Casablanca plant (300 Mm³/yr) began operation in 2026. Agadir (450 Mm³/yr) and Dakhla plants follow. Solar-powered desalination reduces the energy cost. Critically, desalination water is priced higher — which creates an incentive to reserve cheaper fresh water for lower-cost uses. Challenge: coastal infrastructure only serves coastal cities; pumping inland is expensive.</p>
+    </div>
+    <div>
+      <span class="flag" style="color:var(--good)">Drip irrigation</span>
+      <h3>Plan Maroc Vert — 700 000 ha target</h3>
+      <p>Morocco launched drip irrigation conversion in 2008. By 2024, ~550 000 ha had been converted — roughly a third of irrigated land. Pilot results show 40–60% water savings per hectare. However, critics note that saved water often gets absorbed by expanded area under irrigation, not freed for ecosystems or cities. The Génération Green 2020–2030 plan targets 700 000 ha. The monitoring and governance of actual aggregate water use remains the weak link.</p>
+    </div>
+    <div>
+      <span class="flag" style="color:var(--good)">Wastewater reuse</span>
+      <h3>Treated water for agriculture</h3>
+      <p>Morocco generates about 750 Mm³ of wastewater annually and currently reuses less than 5%. The national water plan targets 325 Mm³/yr reused by 2030, primarily for irrigating golf courses, green spaces and some crops. Israel reuses over 87% of wastewater — making it a model. The barrier in Morocco is infrastructure cost and public acceptance for food crops.</p>
+    </div>
+    <div>
+      <span class="flag" style="color:var(--good)">Interbasin transfer</span>
+      <h3>Moving water from north to south</h3>
+      <p>Northern Morocco (Sebou, Loukkos basins) receives more rainfall than the south. A network of inter-basin transfer tunnels and canals already moves water from the Sebou basin to the Bouregreg (Rabat water supply). Plans exist to extend transfers to the Oum Er-Rbia and Tensift basins, which supply Marrakech and the Haouz plain. The challenge: northern surpluses are also declining as northern rainfall drops.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Country data table -->
+<section id="table">
+  <div class="head">
+    <p class="eyebrow">Data</p>
+    <h2>Water profiles — North Africa &amp; Sahel</h2>
+  </div>
+  <div class="compare-wrap">
+    <table class="ctable" aria-label="Water stress data by country">
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>Renewable water (m³/cap/yr)</th>
+          <th>Agri. share of withdrawal</th>
+          <th>Stress level</th>
+          <th>Key dependency / risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="hl">Morocco</td><td>730</td><td>85%</td><td class="scar-cell">Scarce</td><td>Snowpack recession; aquifer overdraft in Souss-Massa</td></tr>
+        <tr><td>Algeria</td><td>320</td><td>65%</td><td class="ex-cell">Extreme</td><td>Fossil NWSA aquifer; oil revenues fund desal</td></tr>
+        <tr><td>Tunisia</td><td>420</td><td>78%</td><td class="ex-cell">Extreme</td><td>Medjerda R. fully allocated; NWSA extraction rising</td></tr>
+        <tr><td>Libya</td><td>108</td><td>83%</td><td class="ex-cell">Extreme</td><td>Great Man-Made River draws non-renewable fossil water</td></tr>
+        <tr><td>Egypt</td><td>570</td><td>86%</td><td class="scar-cell">Scarce</td><td>97% Nile-dependent; GERD threatens peak-season flow</td></tr>
+        <tr><td>Mauritania</td><td>150</td><td>91%</td><td class="ex-cell">Extreme</td><td>Senegal River basin; recurring pastoralist displacement</td></tr>
+        <tr><td>Niger</td><td>290</td><td>93%</td><td class="ex-cell">Extreme</td><td>Lake Chad and Niger R.; &gt;50% population rain-fed dependent</td></tr>
+        <tr><td>Burkina Faso</td><td>720</td><td>89%</td><td class="scar-cell">Scarce</td><td>Volta basin; 80% of rain in 4 months; jihadist disruption</td></tr>
+        <tr><td>Sudan</td><td>960</td><td>97%</td><td class="scar-cell">Scarce</td><td>Nile-dependent; civil war halts irrigation infrastructure</td></tr>
+        <tr><td>Chad</td><td>4 100*</td><td>88%</td><td class="stress-cell">Variable</td><td>Lake Chad collapse; water mostly inaccessible or seasonal</td></tr>
+        <tr><td>Mali</td><td>4 700</td><td>90%</td><td class="stress-cell">Moderate</td><td>Niger R. basin; conflict disrupts Office du Niger irrigation</td></tr>
+        <tr><td>Senegal</td><td>2 200</td><td>92%</td><td class="stress-cell">Stressed</td><td>Senegal R. shared with Mauritania; seasonal dry spells</td></tr>
+        <tr><td>Ethiopia</td><td>1 280</td><td>94%</td><td class="stress-cell">Stressed</td><td>Upstream power (GERD); high population growth</td></tr>
+        <tr><td>Nigeria</td><td>1 600</td><td>45%</td><td class="adeq-cell">Adequate</td><td>Infrastructure gap; Lake Chad borderlands severely stressed</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small" style="margin-top:10px">m³/cap/yr = cubic metres per capita per year of internal renewable freshwater. *Chad: national average masks extreme regional variation. Source: FAO AQUASTAT, World Bank.</p>
+</section>
+
+<!-- 8. Scenarios -->
+<section id="scenarios">
+  <div class="head">
+    <p class="eyebrow">Looking ahead</p>
+    <h2>Three futures for Morocco</h2>
+  </div>
+  <div class="scen">
+    <article>
+      <span class="pill stress tag">Base case</span>
+      <h3>Managed scarcity</h3>
+      <p>Desalination scales to 1 Gm³/yr by 2030. Drip irrigation reaches 700 000 ha. Rainfall continues declining at current rate. Morocco remains water-scarce but avoids catastrophic shortage — at high financial cost and with persistent agricultural vulnerability.</p>
+      <div class="meta">
+        <b>2040 m³/cap</b><span>~650–750 — still below the scarcity threshold</span>
+        <b>Agriculture</b><span>Gradual reorientation to lower-water crops; olive, argan maintain edge</span>
+        <b>Geopolitics</b><span>Morocco a regional leader on water tech — drip irrigation exports to sub-Saharan Africa</span>
+      </div>
+    </article>
+    <article>
+      <span class="pill adeq tag">Optimistic</span>
+      <h3>Desalination leap</h3>
+      <p>Gulf-style investment (Saudi sovereign fund, UAE desal expertise) scales Moroccan desalination to 2.5 Gm³/yr by 2035. Rainfall stabilises. Water stress eases enough to allow genuine agricultural modernisation and attract water-intensive green hydrogen industry.</p>
+      <div class="meta">
+        <b>2040 m³/cap</b><span>~900–1 100 — approaching or crossing the scarcity threshold</span>
+        <b>Agriculture</b><span>Shift to high-value, low-water exports; cereals largely imported</span>
+        <b>Geopolitics</b><span>Morocco becomes the water-secure Atlantic hub; leverages position in NMGP and energy corridors</span>
+      </div>
+    </article>
+    <article>
+      <span class="pill ex tag">Pessimistic</span>
+      <h3>Aquifer collapse</h3>
+      <p>Souss-Massa aquifer breaches critical depletion threshold before 2035. Agadir export agriculture collapses. Desalination plants are behind schedule and under-powered. Rainfall deficit exceeds projections. Coastal migration from agricultural regions accelerates; urban water rationing extended to 15+ cities.</p>
+      <div class="meta">
+        <b>2040 m³/cap</b><span>&lt;500 in affected southern regions — extreme stress</span>
+        <b>Agriculture</b><span>Agadir citrus and tomato sector collapses; up to 400 000 jobs at risk</span>
+        <b>Geopolitics</b><span>Internal displacement pressure; refugee dynamics from sub-Saharan migration amplified</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 9. Watch list -->
+<section id="watch">
+  <div class="head">
+    <p class="eyebrow">Indicators to follow</p>
+    <h2>What to watch</h2>
+  </div>
+  <ul class="watch">
+    <li><b>Al Massira fill rate</b>Published weekly by Morocco's Ministry of Water. When it falls below 15%, expect emergency rationing orders for Casablanca. Track at eau.gov.ma.</li>
+    <li><b>National reservoir average</b>Morocco's 149 dams combined. Below 30% signals national drought emergency. 2023 hit 23%; 2026 recovery to ~38% after better Atlantic rains.</li>
+    <li><b>Casablanca desal ramp-up</b>The 300 Mm³/yr plant online in 2026. Watch monthly production vs. design capacity — early desal plants globally operate at 60–70% of nameplate for 2 years.</li>
+    <li><b>GERD filling schedule</b>Each km³ Ethiopia fills reduces Nile flow downstream. Egypt has signalled a red line at sustained &lt;40 billion m³/yr reaching Aswan. Watch AU mediation rounds.</li>
+    <li><b>Souss-Massa water table</b>Monitored by the Agence du bassin hydraulique. The piezometric level in key wells signals how close the aquifer is to economic depletion of the irrigated export belt.</li>
+    <li><b>Sahel rainfall (ITCZ shift)</b>The Inter-Tropical Convergence Zone has been shifting north erratically. A stable northward shift would bring more rainfall to the Sahel but alter Atlantic weather patterns for Morocco. Watch NOAA and ECMWF seasonal forecasts.</li>
+  </ul>
+</section>
+
+<!-- 10. Quiz -->
+<section id="quiz">
+  <div class="head">
+    <p class="eyebrow">Test yourself</p>
+    <h2>Four questions</h2>
+  </div>
+  <div class="quiz" id="quizEl"></div>
+  <p class="score" id="scoreEl" hidden></p>
+  <button type="button" class="btn" id="resetBtn" hidden>Retry</button>
+</section>
+
+<footer>
+  <p class="eyebrow">Sources</p>
+  <ol class="sources">
+    <li>FAO AQUASTAT — <a href="https://www.fao.org/aquastat/en/" target="_blank" rel="noopener">Country water profiles</a></li>
+    <li>World Bank — Water in Agriculture, Morocco country note (2023)</li>
+    <li>Morocco Ministry of Equipment and Water — Plan National de l'Eau 2020–2050</li>
+    <li>IPCC AR6 WG2 Chapter 10 — Africa regional climate projections</li>
+    <li>Lake Chad Basin Commission — Revitalization of Lake Chad (2018)</li>
+    <li>International Crisis Group — <a href="https://www.crisisgroup.org/africa/horn-africa/ethiopia/nile-dam-crisis" target="_blank" rel="noopener">The Nile Dam Crisis</a></li>
+    <li>The Conversation — <a href="https://theconversation.com/how-moroccos-water-crisis-is-being-addressed" target="_blank" rel="noopener">Morocco's water crisis response</a></li>
+  </ol>
+  <p class="small">Analysis for information purposes only, based on cited sources. Not forecasts or financial advice.</p>
+</footer>
+
+</main>
+
+<button type="button" class="btt" id="bttBtn" title="Back to top" aria-label="Back to top" hidden>↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9/dist/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* Theme */
+const root = document.documentElement;
+document.getElementById("themeToggle").addEventListener("click",()=>{
+  const dark = root.dataset.theme==="dark"||(!root.dataset.theme&&window.matchMedia("(prefers-color-scheme:dark)").matches);
+  root.dataset.theme = dark?"light":"dark";
+  try{localStorage.setItem("theme",root.dataset.theme);}catch(e){}
+});
+
+/* Back to top */
+const btt = document.getElementById("bttBtn");
+window.addEventListener("scroll",()=>{ btt.hidden = window.scrollY < 400; },{passive:true});
+btt.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+
+/* Country data */
+const WATER = {
+  morocco:{name:"Morocco",flag:"🇲🇦",m3cap:730,agri:85,stress:"scarce",
+    note:"149 large dams; 550 000 ha under drip irrigation. Al Massira dam hit 5% capacity in 2023, triggering emergency restrictions for Casablanca. Massive desalination programme underway targeting 1 Gm³/yr by 2030."},
+  algeria:{name:"Algeria",flag:"🇩🇿",m3cap:320,agri:65,stress:"extreme",
+    note:"Heavily dependent on the NWSA fossil aquifer. Oil revenues fund 17 desalination plants. Rainfall declining sharply in the north — the agricultural heart of the country."},
+  tunisia:{name:"Tunisia",flag:"🇹🇳",m3cap:420,agri:78,stress:"extreme",
+    note:"Water resources fully allocated. The Medjerda River — the only significant perennial river — is over-committed. Groundwater depletion in coastal aquifers causing saltwater intrusion."},
+  libya:{name:"Libya",flag:"🇱🇾",m3cap:108,agri:83,stress:"extreme",
+    note:"Great Man-Made River (GMR) extracts fossil water from Saharan aquifers. Non-renewable. Ongoing civil conflict has damaged irrigation infrastructure. Effectively no surface water."},
+  egypt:{name:"Egypt",flag:"🇪🇬",m3cap:570,agri:86,stress:"scarce",
+    note:"97% dependent on the Nile. Ethiopia's GERD dam threatens to cut peak-season flow by up to 25% during filling. Egypt has 106 million people and virtually no rainfall."},
+  mauritania:{name:"Mauritania",flag:"🇲🇷",m3cap:150,agri:91,stress:"extreme",
+    note:"The Senegal River is the only major freshwater source. Recurring droughts drive pastoralist displacement. Very limited irrigated agriculture despite large land area."},
+  mali:{name:"Mali",flag:"🇲🇱",m3cap:4700,agri:90,stress:"moderate",
+    note:"Niger River basin provides relatively high theoretical water availability. However, jihadist conflict has disrupted the Office du Niger irrigation scheme that feeds millions."},
+  burkinafaso:{name:"Burkina Faso",flag:"🇧🇫",m3cap:720,agri:89,stress:"scarce",
+    note:"80% of rainfall falls in just 4 months. Volta basin shared with Ghana and Côte d'Ivoire. Security crisis severely limits investment in water infrastructure."},
+  niger:{name:"Niger",flag:"🇳🇪",m3cap:290,agri:93,stress:"extreme",
+    note:"Over 50% of the population depends directly on rain-fed agriculture. Lake Chad basin is collapsing. 2023 coup removed a stabilising partner from regional water governance."},
+  chad:{name:"Chad",flag:"🇹🇩",m3cap:4100,agri:88,stress:"variable",
+    note:"National average hides extreme regional variation. Lake Chad, once 25 000 km², is now ~2 500 km². 30 million people across 4 countries have lost a primary water source."},
+  sudan:{name:"Sudan",flag:"🇸🇩",m3cap:960,agri:97,stress:"scarce",
+    note:"Civil war (2023–) has destroyed irrigation infrastructure in Gezira scheme — Africa's largest irrigation project. Nile-dependent; GERD negotiations directly impact Sudan."},
+  ethiopia:{name:"Ethiopia",flag:"🇪🇹",m3cap:1280,agri:94,stress:"stressed",
+    note:"GERD dam on the Blue Nile gives Ethiopia leverage over downstream Egypt and Sudan. High population growth (128 million) means per-capita figures will decline rapidly."},
+  nigeria:{name:"Nigeria",flag:"🇳🇬",m3cap:1600,agri:45,stress:"adequate",
+    note:"Relatively water-rich nationally but massive infrastructure deficit. Lake Chad borderlands face extreme stress. 220 million people mean absolute demand is enormous."},
+  senegal:{name:"Sénégal",flag:"🇸🇳",m3cap:2200,agri:92,stress:"stressed",
+    note:"Senegal River shared with Mauritania, Mali and Guinea. Groundwater is heavily exploited for peanut and horticulture irrigation. Offshore gas could fund water infrastructure."}
+};
+
+const STRESS_LABEL = {extreme:"Extreme scarcity",scarce:"Water scarce",stressed:"Water stressed",moderate:"Moderate",adequate:"Adequate",variable:"Variable"};
+const STRESS_PILL  = {extreme:"ex",scarce:"scar",stressed:"stress",moderate:"stress",adequate:"adeq",variable:"scar"};
+
+const WATER_ISO = {
+  "504":"morocco","12":"algeria","788":"tunisia","434":"libya","818":"egypt",
+  "478":"mauritania","466":"mali","854":"burkinafaso","562":"niger","148":"chad",
+  "729":"sudan","231":"ethiopia","566":"nigeria","686":"senegal"
+};
+
+const ORDER = ["morocco","algeria","tunisia","libya","egypt","mauritania",
+               "senegal","mali","burkinafaso","niger","chad","sudan","ethiopia","nigeria"];
+
+let currentId = null;
+let geoLayer  = null;
+
+function stressColor(s){
+  return s==="extreme"?"#9B1C17": s==="scarce"?"#B87020": (s==="adequate"||s==="moderate")?"#2C7550":"#1C6880";
+}
+
+function getStyle(f){
+  const id = WATER_ISO[String(f.id)];
+  if(!id) return {fillColor:"#C9BE9F",fillOpacity:.45,color:"rgba(255,255,255,.4)",weight:.5};
+  const d = WATER[id];
+  const col = stressColor(d.stress);
+  return id===currentId
+    ? {fillColor:col,fillOpacity:.98,color:"rgba(255,255,255,.8)",weight:1.5}
+    : {fillColor:col,fillOpacity:.72,color:"rgba(255,255,255,.5)",weight:.6};
+}
+
+function renderCountry(id){
+  const d = WATER[id]; if(!d) return;
+  const card = document.getElementById("countryCard");
+  const stressClass = STRESS_PILL[d.stress]||"stress";
+  card.innerHTML = `
+    <div class="cc-header">
+      <span class="cc-flag">${d.flag}</span>
+      <div>
+        <h3 style="font-size:1.1rem;margin:0">${d.name}</h3>
+        <span class="pill ${stressClass}">${STRESS_LABEL[d.stress]}</span>
+      </div>
+    </div>
+    <div class="cc-stats">
+      <span><b>${d.m3cap.toLocaleString()}</b> m³/cap/yr</span>
+      <span><b>${d.agri}%</b> water → agriculture</span>
+    </div>
+    <p class="cc-note">${d.note}</p>`;
+  card.classList.remove("fresh"); void card.offsetWidth; card.classList.add("fresh");
+  currentId = id;
+  if(geoLayer) geoLayer.setStyle(getStyle);
+  document.querySelectorAll(".clist button").forEach(b=>b.classList.toggle("active",b.dataset.id===id));
+  card.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+const lmap = L.map("mapDiv",{zoomControl:false,scrollWheelZoom:false,attributionControl:false});
+L.control.zoom({position:"topright"}).addTo(lmap);
+lmap.fitBounds([[0,-20],[38,52]]);
+
+fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+  .then(r=>r.json())
+  .then(topo=>{
+    const geo = topojson.feature(topo,topo.objects.countries);
+    geoLayer = L.geoJSON(geo,{
+      style: getStyle,
+      onEachFeature(f,layer){
+        const id = WATER_ISO[String(f.id)]; if(!id) return;
+        layer.bindTooltip(WATER[id].name,{sticky:true,className:"country-tip",direction:"top"});
+        layer.on("click",()=>renderCountry(id));
+        layer.on("mouseover",function(){ if(id!==currentId) this.setStyle({fillOpacity:.9}); });
+        layer.on("mouseout", function(){ if(id!==currentId) this.setStyle({fillOpacity:.72}); });
+      }
+    }).addTo(lmap);
+
+    const listEl = document.getElementById("countryList");
+    ORDER.forEach((id,i)=>{
+      const d = WATER[id];
+      const btn = document.createElement("button");
+      btn.dataset.id = id;
+      btn.setAttribute("role","listitem");
+      const dot = document.createElement("span");
+      dot.className="stress-dot"; dot.style.background=stressColor(d.stress);
+      btn.innerHTML=`<span class="c-num">${i+1}</span>`;
+      btn.appendChild(dot);
+      const nameSpan = document.createElement("span"); nameSpan.textContent=d.name;
+      btn.appendChild(nameSpan);
+      btn.addEventListener("click",()=>renderCountry(id));
+      listEl.appendChild(btn);
+    });
+    renderCountry("morocco");
+  })
+  .catch(()=>{
+    document.getElementById("mapWrap").innerHTML='<p style="padding:20px;color:var(--ink-soft)">Map could not load. Check your internet connection.</p>';
+  });
+
+/* Simulator */
+function updateSim(){
+  const rain  = parseFloat(document.getElementById("sRain").value);
+  const desal = parseFloat(document.getElementById("sDesal").value);
+  const irrig = parseFloat(document.getElementById("sIrrig").value);
+
+  document.getElementById("oRain").value  = (rain>=0?"+":"")+rain+"%";
+  document.getElementById("oDesal").value = desal.toFixed(1)+" Gm³/yr";
+  document.getElementById("oIrrig").value = irrig+"%";
+
+  const base = 22;
+  const renewable = base * (1 + rain/100);
+  const irrigSaved = 10 * (irrig/100) * 0.5;
+  const total = renewable + desal + irrigSaved;
+  const pop = 44;
+  const perCap = Math.round(total * 1000 / pop);
+  const stressThresh = 1700;
+  const pct = Math.min(100, Math.round(perCap / stressThresh * 100));
+
+  const stressLabel = perCap < 500 ? "Extreme scarcity" : perCap < 1000 ? "Water scarce" : perCap < 1700 ? "Water stressed" : "Adequate";
+  const stressColor2 = perCap < 500 ? "bad" : perCap < 1000 ? "up" : perCap < 1700 ? "blue" : "ok";
+  const barColor = perCap < 500 ? "var(--ex)" : perCap < 1000 ? "var(--scar)" : perCap < 1700 ? "var(--stress)" : "var(--adeq)";
+
+  document.getElementById("rTotal").textContent = total.toFixed(1)+" Gm³/yr";
+  document.getElementById("rCap").textContent   = perCap.toLocaleString()+" m³";
+  document.getElementById("rSaved").textContent = irrigSaved.toFixed(1)+" Gm³/yr";
+  document.getElementById("rStress").textContent = stressLabel;
+  document.getElementById("rStress").className   = "v "+stressColor2;
+  const bar = document.getElementById("stressBar");
+  bar.style.width = pct+"%";
+  bar.style.background = barColor;
+}
+["sRain","sDesal","sIrrig"].forEach(id=>document.getElementById(id).addEventListener("input",updateSim));
+updateSim();
+
+/* Quiz */
+const QS = [
+  {q:"What percentage of Morocco's water goes to agriculture?",
+   opts:["25%","55%","85%","95%"],ans:2,
+   why:"Agriculture accounts for about 85% of Morocco's total water withdrawal — leaving only 15% for industry, domestic use and the environment. This structural imbalance is at the heart of Morocco's water reform challenge."},
+  {q:"By how much has Lake Chad shrunk since 1960?",
+   opts:["20%","50%","75%","90%"],ans:3,
+   why:"Lake Chad has lost approximately 90% of its surface area since the 1960s — down from around 25 000 km² to roughly 2 500 km² today. The decline is driven by climate change and upstream irrigation abstraction."},
+  {q:"Morocco's annual renewable water per capita is about 730 m³. At what level does the UN define 'water scarcity'?",
+   opts:["500 m³/cap/yr","1 000 m³/cap/yr","2 000 m³/cap/yr","5 000 m³/cap/yr"],ans:1,
+   why:"The UN water scarcity threshold is 1 000 m³ per person per year. Morocco at ~730 m³ is clearly below it. For context, a water-secure country like France has roughly 3 000 m³/cap/yr."},
+  {q:"Which country is building the Grand Ethiopian Renaissance Dam, alarming downstream neighbours?",
+   opts:["Sudan","Kenya","Ethiopia","Uganda"],ans:2,
+   why:"Ethiopia is building the GERD on the Blue Nile. When fully filled, it could reduce Nile peak-season flow reaching Egypt by up to 25%. Three rounds of AU-mediated talks have so far failed to produce a binding water-sharing agreement."}
+];
+
+let answers = new Array(QS.length).fill(null);
+
+function buildQuiz(){
+  const el = document.getElementById("quizEl"); el.innerHTML=""; answers.fill(null);
+  QS.forEach((q,i)=>{
+    const div = document.createElement("div"); div.className="q";
+    const qp = document.createElement("p"); qp.textContent=q.q; qp.style.fontWeight="600";
+    const opts = document.createElement("div"); opts.className="opts";
+    q.opts.forEach((o,j)=>{
+      const btn = document.createElement("button"); btn.className="opt"; btn.type="button"; btn.textContent=o;
+      btn.addEventListener("click",()=>answer(i,j));
+      opts.appendChild(btn);
+    });
+    div.appendChild(qp); div.appendChild(opts); el.appendChild(div);
+  });
+  document.getElementById("scoreEl").hidden=true;
+  document.getElementById("resetBtn").hidden=true;
+}
+
+function answer(qi,ai){
+  if(answers[qi]!==null) return;
+  answers[qi]=ai;
+  const div=document.querySelectorAll(".q")[qi];
+  div.querySelectorAll(".opt").forEach((b,j)=>{
+    b.disabled=true;
+    if(j===QS[qi].ans) b.classList.add("right");
+    else if(j===ai) b.classList.add("wrong");
+  });
+  const why=document.createElement("p"); why.className="why";
+  why.innerHTML=(ai===QS[qi].ans?"<b>Correct.</b> ":"<b class='no'>Incorrect.</b> ")+QS[qi].why;
+  div.appendChild(why);
+  if(answers.every(a=>a!==null)){
+    const score=answers.filter((a,i)=>a===QS[i].ans).length;
+    const sc=document.getElementById("scoreEl");
+    sc.textContent=`Score: ${score} / ${QS.length}`;
+    sc.hidden=false;
+    document.getElementById("resetBtn").hidden=false;
+  }
+}
+document.getElementById("resetBtn").addEventListener("click",buildQuiz);
+buildQuiz();
+
+})();
+</script>
+</body>
+</html>

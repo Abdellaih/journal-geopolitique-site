@@ -59,8 +59,9 @@ p{margin:0}
 .lede{font-size:clamp(1.1rem,2.5vw,1.38rem);font-style:italic;color:var(--teal);max-width:44ch;line-height:1.3}
 .lede-en{font-size:.93rem;color:var(--ink-soft);max-width:60ch;padding-top:2px;border-top:1px solid var(--rule)}
 /* Plates grid */
-.plates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-@media (max-width:680px){.plates{grid-template-columns:1fr}}
+.plates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.plates{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.plates{grid-template-columns:1fr}}
 /* Base plate — shared by both <a> and <div> variants */
 .plate{display:flex;flex-direction:column;gap:11px;padding:22px;border:1px solid var(--rule);min-width:0}
 a.plate{background:var(--panel);color:var(--ink);text-decoration:none;transition:border-color .15s,transform .15s}
@@ -135,6 +136,20 @@ footer{border-top:3px double var(--ink);padding-top:16px;font-size:.87rem;color:
       <span class="eyebrow">Dossier interactif · Hormuz 2026</span>
       <h2>From Hormuz to the Pump</h2>
       <p>Comment une guerre dans le Golfe fait monter le prix du gasoil au Maroc. Carte des détroits, simulateur de prix, scénarios et quiz.</p>
+      <div class="tagrow">
+        <span class="pill blue">EN</span>
+        <span class="pill amber">Carte</span>
+        <span class="pill amber">Simulateur</span>
+        <span class="pill amber">Quiz</span>
+      </div>
+      <span class="go">Open dossier →</span>
+    </a>
+
+    <!-- Water dossier -->
+    <a class="plate" href="water/" hreflang="en">
+      <span class="eyebrow">Dossier interactif · Eau &amp; Alimentation · oct. 2026</span>
+      <h2>The Thirst Belt</h2>
+      <p>Le Maroc a franchi le seuil de pénurie d'eau. Le lac Tchad a perdu 90 % de sa surface. Comment la sécheresse, les barrages et les nappes phréatiques redessinent le Maghreb et le Sahel.</p>
       <div class="tagrow">
         <span class="pill blue">EN</span>
         <span class="pill amber">Carte</span>
