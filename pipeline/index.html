@@ -112,7 +112,7 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .pipe-eu-glow{fill:none;stroke:#5DB6CF;stroke-width:7;stroke-linecap:round;opacity:.2;pointer-events:none}
 .capital-dot{fill:#fff;stroke:#A65C05;stroke-width:1.8;pointer-events:none}
 .capital-dot.active-dot{fill:#A65C05}
-.country-label{font-family:"IBM Plex Mono",monospace;font-size:7.5px;fill:#13222A;text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.05em;text-transform:uppercase;font-weight:500;opacity:.75}
+.country-label{font-family:"IBM Plex Mono",monospace;font-size:10px;fill:var(--ink);text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.08em;text-transform:uppercase;font-weight:600;opacity:.6}
 .map-tooltip{position:absolute;background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:5px 10px;pointer-events:none;white-space:nowrap;display:none;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 .map-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:3px}
 .map-controls button{width:30px;height:30px;font-family:var(--f-mono);font-size:16px;font-weight:600;line-height:1;border:1.5px solid var(--ink-soft);background:var(--panel);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,color .12s}
@@ -617,9 +617,9 @@ const PIPE_EU = {type:"Feature",geometry:{type:"LineString",coordinates:[
 const W=800, H=480;
 const svg = d3.select("#mapSvg").attr("viewBox",`0 0 ${W} ${H}`);
 
-// Zoom tightly to the pipeline corridor
+// Zoom to the pipeline corridor — wide enough to include Nigeria (Niger Delta ~7°E)
 const regionBbox = {type:"Feature",geometry:{type:"Polygon",coordinates:[[
-  [-20,3],[5,3],[5,36],[-20,36],[-20,3]
+  [-22,2],[14,2],[14,37],[-22,37],[-22,2]
 ]]},properties:{}};
 const projection = d3.geoMercator().fitExtent([[16,16],[W-16,H-16]], regionBbox);
 const geoPath = d3.geoPath(projection);
@@ -724,30 +724,13 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
         .attr("cx",cx).attr("cy",cy).attr("r",3.5);
     });
 
-    // Country labels (only pipeline countries with enough screen area)
+    // Two anchor labels only — Morocco (large, visible) and Nigeria (start of pipeline)
     const labelG = mainG.append("g");
-    const skipLabels = new Set(["gambia","guineabissau","togo","benin"]);
-    geo.features.forEach(f=>{
-      const id = PIPELINE_ISO[f.id]; if(!id) return;
-      if(skipLabels.has(id)) return;
-      const [lx,ly] = geoPath.centroid(f);
-      if(isNaN(lx)||isNaN(ly)) return;
-      labelG.append("text")
-        .attr("class","country-label")
-        .attr("x",lx).attr("y",ly)
-        .text(COUNTRIES[id]?.name.toUpperCase()||id);
+    [["morocco",[-7,32]],["nigeria",[8,9]]].forEach(([id,[lon,lat]])=>{
+      const [lx,ly] = projection([lon,lat]);
+      labelG.append("text").attr("class","country-label")
+        .attr("x",lx).attr("y",ly).text(COUNTRIES[id]?.name.toUpperCase()||id);
     });
-
-    // Spain label
-    const [sx,sy] = projection([-3.7,40.4]);
-    labelG.append("text").attr("class","country-label")
-      .attr("x",sx).attr("y",sy).attr("opacity",.6).text("SPAIN");
-
-    // "→ EUROPE" label near top
-    const [ex,ey] = projection([-5.2,36.2]);
-    labelG.append("text").attr("class","country-label")
-      .attr("x",ex).attr("y",ey-10).attr("opacity",.8)
-      .attr("fill","#1C6880").text("→ EUROPE");
 
     renderCountry("nigeria");
   })
