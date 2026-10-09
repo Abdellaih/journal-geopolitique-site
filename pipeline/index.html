@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9/dist/leaflet.min.css">
 <style>
 :root{
   --paper:#ECF0EE; --panel:#F6F8F6; --sea:#D4E4E9; --sea-line:#86AEBD; --land:#DCCF9F;
@@ -96,28 +97,15 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .chain h3{font-size:1.05rem}
 .chain p{font-size:.93rem}
 
-/* Route map — D3 SVG */
-#mapWrap{border:1px solid var(--rule);background:#C8DCEA;overflow:hidden;position:relative;border-radius:2px}
-#mapSvg{display:block;width:100%;height:auto}
-.map-sea{fill:#C8DCEA}
-.map-graticule{fill:none;stroke:#A0C0D4;stroke-width:.4;opacity:.5}
-.country-bg{fill:#E4DDD0;stroke:#fff;stroke-width:.5}
-.country-path{fill:#D6CCBA;stroke:#fff;stroke-width:.6;cursor:default;transition:fill .15s}
-.country-path.pipeline{fill:#D4A96A;stroke:#fff;stroke-width:.8;cursor:pointer;transition:fill .15s}
-.country-path.pipeline:hover{fill:#C08040}
-.country-path.pipeline.active{fill:#A65C05;stroke:#fff;stroke-width:1.2}
-.pipe-glow{fill:none;stroke:#F4A050;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.25;pointer-events:none}
-.pipe-route{fill:none;stroke:#A65C05;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
-.pipe-eu{fill:none;stroke:#1C6880;stroke-width:2.5;stroke-dasharray:8 6;stroke-linecap:round;pointer-events:none}
-.pipe-eu-glow{fill:none;stroke:#5DB6CF;stroke-width:7;stroke-linecap:round;opacity:.2;pointer-events:none}
-.capital-dot{fill:#fff;stroke:#A65C05;stroke-width:1.8;pointer-events:none}
-.capital-dot.active-dot{fill:#A65C05}
-.country-label{font-family:"IBM Plex Mono",monospace;font-size:10px;fill:var(--ink);text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.08em;text-transform:uppercase;font-weight:600;opacity:.6}
-.map-tooltip{position:absolute;background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:5px 10px;pointer-events:none;white-space:nowrap;display:none;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.map-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:3px}
-.map-controls button{width:30px;height:30px;font-family:var(--f-mono);font-size:16px;font-weight:600;line-height:1;border:1.5px solid var(--ink-soft);background:var(--panel);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,color .12s}
-.map-controls button:hover{border-color:var(--ink);color:var(--ink)}
-.map-controls .sep{height:6px}
+/* Route map — Leaflet */
+#mapWrap{border:1px solid var(--rule);overflow:hidden;position:relative;border-radius:2px}
+#mapDiv{height:420px;background:#C8DCEA}
+.leaflet-container{background:#C8DCEA!important}
+.leaflet-control-zoom{border:none!important;box-shadow:none!important}
+.leaflet-control-zoom a{width:28px!important;height:28px!important;line-height:28px!important;font-size:16px!important;border:1.5px solid var(--ink-soft)!important;background:var(--panel)!important;color:var(--ink)!important;font-family:var(--f-mono)!important;border-radius:0!important;margin-bottom:3px!important}
+.leaflet-control-zoom a:hover{border-color:var(--ink)!important}
+.leaflet-tooltip.country-tip{background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:4px 9px;border:none;border-radius:0;box-shadow:0 2px 8px rgba(0,0,0,.25);letter-spacing:.06em;white-space:nowrap}
+.leaflet-tooltip.country-tip::before{display:none}
 .maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
 .maplegend span{display:inline-flex;align-items:center;gap:8px}
 
@@ -293,15 +281,8 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
     <p class="measure">The pipeline runs almost entirely offshore, hugging the Atlantic coast from the Niger Delta to the Strait of Gibraltar. Select a country to see its role.</p>
   </div>
   <div class="stack">
-    <div id="mapWrap" aria-label="Interactive map of the Nigeria-Morocco Gas Pipeline route" style="position:relative">
-      <svg id="mapSvg" viewBox="0 0 800 680"></svg>
-      <div class="map-tooltip" id="mapTooltip"></div>
-      <div class="map-controls">
-        <button id="zoomIn" title="Zoom in">+</button>
-        <button id="zoomOut" title="Zoom out">−</button>
-        <div class="sep"></div>
-        <button id="zoomReset" title="Reset view" style="font-size:13px">⌂</button>
-      </div>
+    <div id="mapWrap" aria-label="Interactive map of the Nigeria-Morocco Gas Pipeline route">
+      <div id="mapDiv"></div>
     </div>
     <div class="maplegend">
       <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#A65C05" stroke-width="4" stroke-linecap="round"/></svg>NMGP pipeline</span>
@@ -514,7 +495,7 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
 
 <button type="button" class="btt" id="bttBtn" title="Back to top" aria-label="Back to top" hidden>↑</button>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9/dist/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
 (function(){
@@ -614,53 +595,17 @@ const PIPE_EU = {type:"Feature",geometry:{type:"LineString",coordinates:[
   [-7.62,33.59],[-5.60,35.90]
 ]}};
 
-const W=800, H=480;
-const svg = d3.select("#mapSvg").attr("viewBox",`0 0 ${W} ${H}`);
+// Leaflet map — no tiles, just vector country shapes on a solid sea background
+let currentCountryId = null;
+let countryGeoLayer = null;
 
-// Zoom to the pipeline corridor — wide enough to include Nigeria (Niger Delta ~7°E)
-const regionBbox = {type:"Feature",geometry:{type:"Polygon",coordinates:[[
-  [-22,2],[14,2],[14,37],[-22,37],[-22,2]
-]]},properties:{}};
-const projection = d3.geoMercator().fitExtent([[16,16],[W-16,H-16]], regionBbox);
-const geoPath = d3.geoPath(projection);
-
-// Clip everything to SVG bounds
-const defs = svg.append("defs");
-defs.append("clipPath").attr("id","mapClip")
-  .append("rect").attr("width",W).attr("height",H);
-
-// Sea background (outside zoom group so it always fills)
-svg.append("rect").attr("class","map-sea").attr("width",W).attr("height",H);
-
-// Single zoomable group
-const mainG = svg.append("g").attr("clip-path","url(#mapClip)");
-
-// Graticule inside zoom group
-mainG.append("path").attr("class","map-graticule")
-  .datum(d3.geoGraticule().step([5,5])()).attr("d",geoPath);
-
-// Zoom behaviour
-const zoomBehavior = d3.zoom()
-  .scaleExtent([1, 10])
-  .on("zoom", evt => mainG.attr("transform", evt.transform));
-svg.call(zoomBehavior).on("dblclick.zoom", null);
-
-document.getElementById("zoomIn").addEventListener("click", () =>
-  svg.transition().duration(300).call(zoomBehavior.scaleBy, 1.6));
-document.getElementById("zoomOut").addEventListener("click", () =>
-  svg.transition().duration(300).call(zoomBehavior.scaleBy, 1/1.6));
-document.getElementById("zoomReset").addEventListener("click", () =>
-  svg.transition().duration(400).call(zoomBehavior.transform, d3.zoomIdentity));
-
-const tooltip = document.getElementById("mapTooltip");
-function showTip(evt, text){
-  const box = document.getElementById("mapWrap").getBoundingClientRect();
-  tooltip.textContent = text;
-  tooltip.style.display = "block";
-  tooltip.style.left = (evt.clientX - box.left + 12)+"px";
-  tooltip.style.top  = (evt.clientY - box.top  - 28)+"px";
+function getStyle(f){
+  const id = PIPELINE_ISO[f.id];
+  if(!id) return {fillColor:"#C9BE9F",fillOpacity:.55,color:"rgba(255,255,255,.45)",weight:.5};
+  return id===currentCountryId
+    ? {fillColor:"#A65C05",fillOpacity:.95,color:"rgba(255,255,255,.8)",weight:1.5}
+    : {fillColor:"#D4A050",fillOpacity:.75,color:"rgba(255,255,255,.6)",weight:.8};
 }
-function hideTip(){ tooltip.style.display="none"; }
 
 function renderCountry(id){
   const c = COUNTRIES[id]; if(!c) return;
@@ -675,61 +620,49 @@ function renderCountry(id){
       <dt>What it gains</dt><dd>${c.gain}</dd>
       <dt>Key risk</dt><dd>${c.risk}</dd>
     </dl>`;
-  svg.selectAll(".country-path.active").classed("active",false);
-  svg.selectAll(".capital-dot").classed("active-dot",false);
-  svg.selectAll(`.country-path[data-id="${id}"]`).classed("active",true);
-  svg.selectAll(`.capital-dot[data-id="${id}"]`).classed("active-dot",true);
+  currentCountryId = id;
+  if(countryGeoLayer) countryGeoLayer.setStyle(getStyle);
   card.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
+
+const lmap = L.map("mapDiv",{
+  zoomControl: false,
+  scrollWheelZoom: false,
+  attributionControl: false
+});
+L.control.zoom({position:"topright"}).addTo(lmap);
+lmap.fitBounds([[2,-22],[37,14]]);
 
 fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
   .then(r=>r.json())
   .then(topo=>{
     const geo = topojson.feature(topo, topo.objects.countries);
 
-    const countryG = mainG.append("g");
+    countryGeoLayer = L.geoJSON(geo,{
+      style: getStyle,
+      onEachFeature(f,layer){
+        const id = PIPELINE_ISO[f.id];
+        if(!id) return;
+        layer.bindTooltip(COUNTRIES[id].name,{sticky:true,className:"country-tip",direction:"top"});
+        layer.on("click",()=>renderCountry(id));
+        layer.on("mouseover",function(){ if(id!==currentCountryId) this.setStyle({fillOpacity:.92}); });
+        layer.on("mouseout", function(){ if(id!==currentCountryId) this.setStyle({fillOpacity:.75}); });
+      }
+    }).addTo(lmap);
 
-    // All countries — pipeline ones amber, others muted gray
-    countryG.selectAll("path")
-      .data(geo.features).join("path")
-      .attr("class", d => "country-path" + (PIPELINE_ISO[d.id] ? " pipeline" : ""))
-      .attr("data-id", d => PIPELINE_ISO[d.id] || null)
-      .attr("d", geoPath)
-      .on("mousemove", function(evt, d){
-        const id = PIPELINE_ISO[d.id];
-        if(id) showTip(evt, COUNTRIES[id]?.name + " — click for details");
-      })
-      .on("mouseleave", hideTip)
-      .on("click", function(_, d){ const id = PIPELINE_ISO[d.id]; if(id) renderCountry(id); });
+    // Pipeline route (amber solid)
+    L.polyline(PIPE_LINE.geometry.coordinates.map(([lo,la])=>[la,lo]),
+      {color:"#A65C05",weight:3.5,opacity:.9,lineCap:"round",lineJoin:"round"}).addTo(lmap);
 
-    // All country borders
-    countryG.append("path")
-      .datum(topojson.mesh(topo, topo.objects.countries, (a,b) => a !== b))
-      .attr("fill","none").attr("stroke","rgba(255,255,255,.55)").attr("stroke-width",.5)
-      .attr("d", geoPath);
-
-    // Pipeline glow + route
-    const pipeG = mainG.append("g");
-    pipeG.append("path").datum(PIPE_EU).attr("class","pipe-eu-glow").attr("d",geoPath);
-    pipeG.append("path").datum(PIPE_LINE).attr("class","pipe-glow").attr("d",geoPath);
-    pipeG.append("path").datum(PIPE_EU).attr("class","pipe-eu").attr("d",geoPath);
-    pipeG.append("path").datum(PIPE_LINE).attr("class","pipe-route").attr("d",geoPath);
+    // Morocco–Spain connection (teal dashed)
+    L.polyline(PIPE_EU.geometry.coordinates.map(([lo,la])=>[la,lo]),
+      {color:"#1C6880",weight:2.5,opacity:.75,dashArray:"8 5",lineCap:"round"}).addTo(lmap);
 
     // Capital dots
-    const dotG = mainG.append("g");
-    Object.entries(CAPITALS).forEach(([id,[lon,lat]])=>{
-      const [cx,cy] = projection([lon,lat]);
-      dotG.append("circle")
-        .attr("class","capital-dot").attr("data-id",id)
-        .attr("cx",cx).attr("cy",cy).attr("r",3.5);
-    });
-
-    // Two anchor labels only — Morocco (large, visible) and Nigeria (start of pipeline)
-    const labelG = mainG.append("g");
-    [["morocco",[-7,32]],["nigeria",[8,9]]].forEach(([id,[lon,lat]])=>{
-      const [lx,ly] = projection([lon,lat]);
-      labelG.append("text").attr("class","country-label")
-        .attr("x",lx).attr("y",ly).text(COUNTRIES[id]?.name.toUpperCase()||id);
+    Object.entries(CAPITALS).forEach(([id,[lo,la]])=>{
+      L.circleMarker([la,lo],{
+        radius:4,fillColor:"#fff",color:"#A65C05",weight:2,fillOpacity:1
+      }).addTo(lmap).on("click",()=>renderCountry(id));
     });
 
     renderCountry("nigeria");
