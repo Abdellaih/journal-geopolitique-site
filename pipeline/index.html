@@ -112,7 +112,7 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .pipe-eu-glow{fill:none;stroke:#5DB6CF;stroke-width:7;stroke-linecap:round;opacity:.2;pointer-events:none}
 .capital-dot{fill:#fff;stroke:#A65C05;stroke-width:1.8;pointer-events:none}
 .capital-dot.active-dot{fill:#A65C05}
-.country-label{font-family:"IBM Plex Mono",monospace;font-size:9px;fill:#13222A;text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.07em;text-transform:uppercase;font-weight:600;opacity:.85}
+.country-label{font-family:"IBM Plex Mono",monospace;font-size:7.5px;fill:#13222A;text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.05em;text-transform:uppercase;font-weight:500;opacity:.75}
 .map-tooltip{position:absolute;background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:5px 10px;pointer-events:none;white-space:nowrap;display:none;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 .map-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:3px}
 .map-controls button{width:30px;height:30px;font-family:var(--f-mono);font-size:16px;font-weight:600;line-height:1;border:1.5px solid var(--ink-soft);background:var(--panel);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,color .12s}
@@ -122,9 +122,9 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .maplegend span{display:inline-flex;align-items:center;gap:8px}
 
 /* Country card */
-.countrycard{background:var(--panel);border:1px solid var(--rule);padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;min-height:120px}
-.countrycard dl{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:7px 14px;margin:0}
-.countrycard dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:3px}
+.countrycard{background:var(--panel);border:1px solid var(--rule);padding:11px 14px;display:grid;grid-template-columns:minmax(0,1fr);gap:7px;min-height:60px}
+.countrycard dl{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:5px 12px;margin:0;font-size:.9rem}
+.countrycard dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
 .countrycard dd{margin:0}
 @media (max-width:520px){.countrycard dl{grid-template-columns:1fr;gap:2px}.countrycard dd{margin-bottom:6px}}
 .pill{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor}
@@ -614,7 +614,7 @@ const PIPE_EU = {type:"Feature",geometry:{type:"LineString",coordinates:[
   [-7.62,33.59],[-5.60,35.90]
 ]}};
 
-const W=800, H=680;
+const W=800, H=480;
 const svg = d3.select("#mapSvg").attr("viewBox",`0 0 ${W} ${H}`);
 
 // Zoom tightly to the pipeline corridor
@@ -667,7 +667,7 @@ function renderCountry(id){
   const card = document.getElementById("countryCard");
   card.innerHTML = `
     <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-      <h3 style="font-size:1.3rem;margin:0">${c.name}</h3>
+      <h3 style="font-size:1rem;margin:0">${c.name}</h3>
       <span class="pill ${c.pill}">${c.role}</span>
     </div>
     <dl>
