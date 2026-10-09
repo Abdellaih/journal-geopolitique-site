@@ -125,6 +125,8 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .cc-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .cc-flag{font-size:1.7rem;line-height:1;flex:none}
 .cc-title{display:flex;flex-direction:column;gap:5px}
+.cc-stats{display:flex;flex-wrap:wrap;gap:4px 16px;font-family:var(--f-mono);font-size:11px;color:var(--ink-soft);padding:7px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.cc-stats b{color:var(--ink);font-weight:600}
 
 /* Timeline */
 .timeline-wrap{padding-block:26px 0}
@@ -208,6 +210,27 @@ input[type=range]{width:100%;accent-color:var(--price)}
 .watch li{border:1px solid var(--rule);background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
 .watch li b{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.02em}
 
+/* Financing cards */
+.finance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+.fcard{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.fcard .f-type{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.fcard .f-name{font-family:var(--f-display);font-weight:700;font-size:1.15rem;text-transform:uppercase;line-height:1.1}
+.fcard .f-amt{font-family:var(--f-mono);font-size:1.1rem;font-weight:600;color:var(--price)}
+.fcard .f-want{font-size:.85rem;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:7px;margin-top:2px}
+.fcard .f-want b{color:var(--ink);font-style:normal}
+
+/* Comparison table */
+.compare-wrap{overflow-x:auto}
+table.ctable{width:100%;border-collapse:collapse;font-size:.87rem;min-width:560px}
+.ctable th{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--ink);text-align:left;color:var(--ink-soft);white-space:nowrap}
+.ctable td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+.ctable tr:hover td{background:var(--sea)}
+.ctable td.hl{font-weight:700;color:var(--price)}
+.ctable .st-active{color:var(--good);font-weight:600}
+.ctable .st-killed{color:var(--hazard);font-weight:600}
+.ctable .st-stalled{color:var(--ink-soft)}
+.ctable .st-partial{color:var(--price);font-weight:600}
+
 /* Footer */
 .sources{columns:2 280px;column-gap:28px;font-size:.85rem;margin:0;padding-left:1.1em}
 .sources li{break-inside:avoid;margin-bottom:6px}
@@ -269,6 +292,8 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
   <a href="#why">Why now</a>
   <a href="#route">The route</a>
   <a href="#economics">The economics</a>
+  <a href="#financing">Financing</a>
+  <a href="#compare">Comparison</a>
   <a href="#challenges">The obstacles</a>
   <a href="#scenarios">Three scenarios</a>
   <a href="#morocco">Morocco's stake</a>
@@ -395,7 +420,135 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
   </div>
 </section>
 
-<!-- 4. Challenges -->
+<!-- 4. Financing -->
+<section id="financing">
+  <div class="head">
+    <p class="eyebrow">The money question</p>
+    <h2>Who funds $25 billion?</h2>
+    <p class="measure">No single institution can back a project of this scale. The financing model will be a layered stack of public development banks, sovereign funds, and private capital — each with a different agenda.</p>
+  </div>
+  <div class="finance-grid">
+    <div class="fcard">
+      <span class="f-type">Multilateral</span>
+      <span class="f-name">World Bank / IFC</span>
+      <span class="f-amt">Up to $3–5 bn</span>
+      <p class="f-want"><b>What it wants:</b> Proven ESG compliance, domestic offtake for energy access, MIGA political risk insurance for each host country. Precedent: Nigeria LNG Trains 1–6 (IFC co-financed).</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Multilateral</span>
+      <span class="f-name">African Development Bank</span>
+      <span class="f-amt">$2–4 bn</span>
+      <p class="f-want"><b>What it wants:</b> Energy-access mandate aligns perfectly — AfDB has endorsed the project. Requires local content clauses and environmental assessments for each national segment.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Sovereign wealth</span>
+      <span class="f-name">Gulf Funds (ADIA, QIA, PIF)</span>
+      <span class="f-amt">$5–8 bn</span>
+      <p class="f-want"><b>What it wants:</b> Long-horizon equity stake, priority offtake for regional re-export, and strategic positioning in Africa–Europe energy corridor. PIF already active in African gas assets.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Development finance</span>
+      <span class="f-name">European Investment Bank</span>
+      <span class="f-amt">$2–3 bn (conditional)</span>
+      <p class="f-want"><b>What it wants:</b> REPowerEU exception for strategic supply diversification. The EU Green Deal limits gas project lending; an approved derogation — expected in 2027 — is required. Offtake agreements from EU member states are a prerequisite.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Bilateral / export credit</span>
+      <span class="f-name">US DFC / EXIM</span>
+      <span class="f-amt">$1–2 bn</span>
+      <p class="f-want"><b>What it wants:</b> US foreign policy leverage in Sahel, LNG equipment contracts for American manufacturers, and countering Chinese infrastructure influence. More likely under energy-security framing.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Private / energy major</span>
+      <span class="f-name">TotalEnergies, Shell, KKR</span>
+      <span class="f-amt">$6–10 bn</span>
+      <p class="f-want"><b>What it wants:</b> Bankable 20-year offtake contracts from European utilities before committing equity. Requires final investment decision and political risk insurance. Shell is already a NNPC partner in Nigeria.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Pipeline comparison -->
+<section id="compare">
+  <div class="head">
+    <p class="eyebrow">Global context</p>
+    <h2>How the NMGP compares</h2>
+    <p class="measure">Measured against the world's major long-distance gas pipelines, the Atlantic pipeline is the longest ever attempted — and among the most politically complex.</p>
+  </div>
+  <div class="compare-wrap">
+    <table class="ctable" aria-label="Pipeline comparison table">
+      <thead>
+        <tr>
+          <th>Pipeline</th>
+          <th>Route</th>
+          <th>Length</th>
+          <th>Capacity</th>
+          <th>Cost</th>
+          <th>Countries</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="hl">NMGP (Atlantic)</td>
+          <td>Nigeria → Morocco</td>
+          <td>6,800 km</td>
+          <td>30 bcm/yr</td>
+          <td>$25 bn</td>
+          <td>13</td>
+          <td class="st-partial">IGA signed 2026</td>
+        </tr>
+        <tr>
+          <td>Trans-Saharan (TSGP)</td>
+          <td>Nigeria → Algeria → Europe</td>
+          <td>4,400 km</td>
+          <td>30 bcm/yr</td>
+          <td>$13 bn</td>
+          <td>3</td>
+          <td class="st-stalled">Stalled (political)</td>
+        </tr>
+        <tr>
+          <td>TAPI</td>
+          <td>Turkmenistan → Pakistan → India</td>
+          <td>1,800 km</td>
+          <td>33 bcm/yr</td>
+          <td>$8 bn</td>
+          <td>4</td>
+          <td class="st-partial">~20% built</td>
+        </tr>
+        <tr>
+          <td>Nord Stream 2</td>
+          <td>Russia → Germany</td>
+          <td>1,230 km</td>
+          <td>55 bcm/yr</td>
+          <td>$11 bn</td>
+          <td>2</td>
+          <td class="st-killed">Sanctioned 2022</td>
+        </tr>
+        <tr>
+          <td>Eastern Med (EastMed)</td>
+          <td>Israel → Greece → Italy</td>
+          <td>1,900 km</td>
+          <td>10 bcm/yr</td>
+          <td>$7 bn</td>
+          <td>3</td>
+          <td class="st-stalled">Abandoned 2022</td>
+        </tr>
+        <tr>
+          <td>Southern Gas Corridor</td>
+          <td>Azerbaijan → Turkey → Italy</td>
+          <td>3,500 km</td>
+          <td>16 bcm/yr</td>
+          <td>$45 bn</td>
+          <td>7</td>
+          <td class="st-active">Operational since 2020</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small" style="margin-top:10px">bcm/yr = billion cubic metres per year. Costs are project-lifetime estimates. TAPI = Turkmenistan-Afghanistan-Pakistan-India pipeline.</p>
+</section>
+
+<!-- 6. Challenges -->
 <section id="challenges">
   <div class="head">
     <p class="eyebrow">What could go wrong</p>
@@ -623,6 +776,22 @@ const FLAGS = {
   liberia:"🇱🇷",sierraleone:"🇸🇱",guinea:"🇬🇳",guineabissau:"🇬🇼",
   gambia:"🇬🇲",senegal:"🇸🇳",mauritania:"🇲🇷",morocco:"🇲🇦"
 };
+// Population (M), electricity access (%), GDP/cap (USD, approx 2024), key port
+const STATS = {
+  nigeria:     {pop:220,  access:57, gdp:2200, port:"Lagos"},
+  benin:       {pop:13,   access:43, gdp:1400, port:"Cotonou"},
+  togo:        {pop:9,    access:55, gdp:950,  port:"Lomé"},
+  ghana:       {pop:34,   access:85, gdp:2300, port:"Tema"},
+  ivorycoast:  {pop:28,   access:72, gdp:2500, port:"Abidjan"},
+  liberia:     {pop:5.4,  access:28, gdp:600,  port:"Monrovia"},
+  sierraleone: {pop:8.5,  access:26, gdp:500,  port:"Freetown"},
+  guinea:      {pop:14,   access:45, gdp:1000, port:"Conakry"},
+  guineabissau:{pop:2.1,  access:30, gdp:800,  port:"Bissau"},
+  gambia:      {pop:2.7,  access:63, gdp:750,  port:"Banjul"},
+  senegal:     {pop:18,   access:72, gdp:1600, port:"Dakar"},
+  mauritania:  {pop:4.7,  access:48, gdp:2100, port:"Nouakchott"},
+  morocco:     {pop:38,   access:99, gdp:3900, port:"Casablanca"}
+};
 const ORDER = ["nigeria","benin","togo","ghana","ivorycoast","liberia",
                "sierraleone","guinea","guineabissau","gambia","senegal","mauritania","morocco"];
 
@@ -685,6 +854,7 @@ function getStyle(f){
 
 function renderCountry(id){
   const c = COUNTRIES[id]; if(!c) return;
+  const s = STATS[id]||{};
   const card = document.getElementById("countryCard");
   card.innerHTML = `
     <div class="cc-header">
@@ -693,6 +863,12 @@ function renderCountry(id){
         <h3 style="font-size:1.1rem;margin:0">${c.name}</h3>
         <span class="pill ${c.pill}">${c.role}</span>
       </div>
+    </div>
+    <div class="cc-stats">
+      <span><b>${s.pop}</b> M pop.</span>
+      <span><b>${s.access}%</b> electricity access</span>
+      <span><b>$${s.gdp}</b> GDP/cap</span>
+      <span>⚓ ${s.port}</span>
     </div>
     <dl>
       <dt>Pipeline role</dt><dd>${c.what}</dd>
