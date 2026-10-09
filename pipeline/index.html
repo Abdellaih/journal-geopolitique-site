@@ -609,7 +609,7 @@ const svg = d3.select("#mapSvg").attr("viewBox",`0 0 ${W} ${H}`);
 
 // Zoom tightly to the pipeline corridor
 const regionBbox = {type:"Feature",geometry:{type:"Polygon",coordinates:[[
-  [-21,3],[7,3],[7,37],[-21,37],[-21,3]
+  [-20,3],[5,3],[5,36],[-20,36],[-20,3]
 ]]},properties:{}};
 const projection = d3.geoMercator().fitExtent([[16,16],[W-16,H-16]], regionBbox);
 const geoPath = d3.geoPath(projection);
@@ -660,30 +660,25 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
   .then(topo=>{
     const geo = topojson.feature(topo, topo.objects.countries);
 
-    // Only the 13 pipeline countries
-    const pipelineFeatures = geo.features.filter(f => PIPELINE_ISO[f.id]);
     const countryG = svg.append("g").attr("clip-path","url(#mapClip)");
 
-    // Subtle drop shadow for country shapes
-    const fShadow = defs.append("filter").attr("id","shadow").attr("x","-10%").attr("y","-10%").attr("width","120%").attr("height","120%");
-    fShadow.append("feDropShadow").attr("dx",0).attr("dy",2).attr("stdDeviation",4).attr("flood-color","rgba(0,0,0,.18)");
-
-    countryG.append("g").attr("filter","url(#shadow)")
-      .selectAll("path")
-      .data(pipelineFeatures).join("path")
-      .attr("class", "country-path pipeline")
-      .attr("data-id", d=>PIPELINE_ISO[d.id])
+    // All countries — pipeline ones amber, others muted gray
+    countryG.selectAll("path")
+      .data(geo.features).join("path")
+      .attr("class", d => "country-path" + (PIPELINE_ISO[d.id] ? " pipeline" : ""))
+      .attr("data-id", d => PIPELINE_ISO[d.id] || null)
       .attr("d", geoPath)
-      .on("mousemove", function(evt,d){
-        showTip(evt, COUNTRIES[PIPELINE_ISO[d.id]]?.name+" — click for details");
+      .on("mousemove", function(evt, d){
+        const id = PIPELINE_ISO[d.id];
+        if(id) showTip(evt, COUNTRIES[id]?.name + " — click for details");
       })
       .on("mouseleave", hideTip)
-      .on("click", function(_,d){ renderCountry(PIPELINE_ISO[d.id]); });
+      .on("click", function(_, d){ const id = PIPELINE_ISO[d.id]; if(id) renderCountry(id); });
 
-    // Shared borders between pipeline countries only
+    // All country borders
     countryG.append("path")
-      .datum(topojson.mesh(topo, topo.objects.countries,(a,b)=>PIPELINE_ISO[a.id]&&PIPELINE_ISO[b.id]))
-      .attr("fill","none").attr("stroke","rgba(255,255,255,.7)").attr("stroke-width",.8)
+      .datum(topojson.mesh(topo, topo.objects.countries, (a,b) => a !== b))
+      .attr("fill","none").attr("stroke","rgba(255,255,255,.55)").attr("stroke-width",.5)
       .attr("d", geoPath);
 
     // Pipeline glow + route
