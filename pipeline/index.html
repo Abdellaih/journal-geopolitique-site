@@ -102,6 +102,9 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 @media (max-width:520px){#leafletMap{height:380px}}
 .leaflet-control-attribution{font-size:10px}
 .leaflet-popup-content-wrapper{font-family:var(--f-mono);font-size:12px;border-radius:0;border:1px solid var(--ink)}
+/* Dark mode: invert OSM tiles */
+:root[data-theme="dark"] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg)}}
 .maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
 .maplegend span{display:inline-flex;align-items:center;gap:8px}
 
@@ -604,13 +607,6 @@ const COUNTRY_LATLNG = {
   morocco:      [33.59, -7.62],
 };
 
-const isDark = ()=> document.documentElement.dataset.theme==="dark" ||
-  (!document.documentElement.dataset.theme && window.matchMedia("(prefers-color-scheme:dark)").matches);
-
-const tileLight = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
-const tileDark  = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
-const tileAttr  = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
-
 const map = L.map("leafletMap", {
   center: [14, -8],
   zoom: 4,
@@ -618,7 +614,10 @@ const map = L.map("leafletMap", {
   zoomControl: true,
 });
 
-let tileLayer = L.tileLayer(isDark() ? tileDark : tileLight, {attribution: tileAttr, maxZoom: 19}).addTo(map);
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 19,
+}).addTo(map);
 
 // Pipeline polyline
 L.polyline(PIPELINE_COORDS, {color:"#A65C05", weight:4, opacity:.9, lineJoin:"round"}).addTo(map);
@@ -670,14 +669,6 @@ function renderCountry(id, marker){
   if(m){ m.setStyle(id==="morocco"?markerStyleMorocco(true):{...markerStyle(true),radius:id==="nigeria"?11:8}); activeMarker=m; }
   card.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
-
-// Swap tiles on theme toggle
-if(themeBtn) themeBtn.addEventListener("click", ()=>{
-  setTimeout(()=>{
-    map.removeLayer(tileLayer);
-    tileLayer = L.tileLayer(isDark()?tileDark:tileLight,{attribution:tileAttr,maxZoom:19}).addTo(map);
-  }, 50);
-});
 
 renderCountry("nigeria");
 
