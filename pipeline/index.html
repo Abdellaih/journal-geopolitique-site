@@ -114,6 +114,10 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .capital-dot.active-dot{fill:#A65C05}
 .country-label{font-family:"IBM Plex Mono",monospace;font-size:9px;fill:#13222A;text-anchor:middle;dominant-baseline:middle;pointer-events:none;letter-spacing:.07em;text-transform:uppercase;font-weight:600;opacity:.85}
 .map-tooltip{position:absolute;background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:5px 10px;pointer-events:none;white-space:nowrap;display:none;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.map-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:3px}
+.map-controls button{width:30px;height:30px;font-family:var(--f-mono);font-size:16px;font-weight:600;line-height:1;border:1.5px solid var(--ink-soft);background:var(--panel);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,color .12s}
+.map-controls button:hover{border-color:var(--ink);color:var(--ink)}
+.map-controls .sep{height:6px}
 .maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
 .maplegend span{display:inline-flex;align-items:center;gap:8px}
 
@@ -292,6 +296,12 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
     <div id="mapWrap" aria-label="Interactive map of the Nigeria-Morocco Gas Pipeline route" style="position:relative">
       <svg id="mapSvg" viewBox="0 0 800 680"></svg>
       <div class="map-tooltip" id="mapTooltip"></div>
+      <div class="map-controls">
+        <button id="zoomIn" title="Zoom in">+</button>
+        <button id="zoomOut" title="Zoom out">−</button>
+        <div class="sep"></div>
+        <button id="zoomReset" title="Reset view" style="font-size:13px">⌂</button>
+      </div>
     </div>
     <div class="maplegend">
       <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#A65C05" stroke-width="4" stroke-linecap="round"/></svg>NMGP pipeline</span>
@@ -619,11 +629,28 @@ const defs = svg.append("defs");
 defs.append("clipPath").attr("id","mapClip")
   .append("rect").attr("width",W).attr("height",H);
 
-// Sea background
+// Sea background (outside zoom group so it always fills)
 svg.append("rect").attr("class","map-sea").attr("width",W).attr("height",H);
-// Graticule
-svg.append("path").attr("class","map-graticule")
-  .datum(d3.geoGraticule().step([5,5])()).attr("d",geoPath).attr("clip-path","url(#mapClip)");
+
+// Single zoomable group
+const mainG = svg.append("g").attr("clip-path","url(#mapClip)");
+
+// Graticule inside zoom group
+mainG.append("path").attr("class","map-graticule")
+  .datum(d3.geoGraticule().step([5,5])()).attr("d",geoPath);
+
+// Zoom behaviour
+const zoomBehavior = d3.zoom()
+  .scaleExtent([1, 10])
+  .on("zoom", evt => mainG.attr("transform", evt.transform));
+svg.call(zoomBehavior).on("dblclick.zoom", null);
+
+document.getElementById("zoomIn").addEventListener("click", () =>
+  svg.transition().duration(300).call(zoomBehavior.scaleBy, 1.6));
+document.getElementById("zoomOut").addEventListener("click", () =>
+  svg.transition().duration(300).call(zoomBehavior.scaleBy, 1/1.6));
+document.getElementById("zoomReset").addEventListener("click", () =>
+  svg.transition().duration(400).call(zoomBehavior.transform, d3.zoomIdentity));
 
 const tooltip = document.getElementById("mapTooltip");
 function showTip(evt, text){
@@ -660,7 +687,7 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
   .then(topo=>{
     const geo = topojson.feature(topo, topo.objects.countries);
 
-    const countryG = svg.append("g").attr("clip-path","url(#mapClip)");
+    const countryG = mainG.append("g");
 
     // All countries — pipeline ones amber, others muted gray
     countryG.selectAll("path")
@@ -682,14 +709,14 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
       .attr("d", geoPath);
 
     // Pipeline glow + route
-    const pipeG = svg.append("g").attr("clip-path","url(#mapClip)");
+    const pipeG = mainG.append("g");
     pipeG.append("path").datum(PIPE_EU).attr("class","pipe-eu-glow").attr("d",geoPath);
     pipeG.append("path").datum(PIPE_LINE).attr("class","pipe-glow").attr("d",geoPath);
     pipeG.append("path").datum(PIPE_EU).attr("class","pipe-eu").attr("d",geoPath);
     pipeG.append("path").datum(PIPE_LINE).attr("class","pipe-route").attr("d",geoPath);
 
     // Capital dots
-    const dotG = svg.append("g").attr("clip-path","url(#mapClip)");
+    const dotG = mainG.append("g");
     Object.entries(CAPITALS).forEach(([id,[lon,lat]])=>{
       const [cx,cy] = projection([lon,lat]);
       dotG.append("circle")
@@ -698,7 +725,7 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
     });
 
     // Country labels (only pipeline countries with enough screen area)
-    const labelG = svg.append("g").attr("clip-path","url(#mapClip)");
+    const labelG = mainG.append("g");
     const skipLabels = new Set(["gambia","guineabissau","togo","benin"]);
     geo.features.forEach(f=>{
       const id = PIPELINE_ISO[f.id]; if(!id) return;
