@@ -578,21 +578,44 @@ const PIPELINE_ISO = {
   "384":"ivorycoast","430":"liberia","694":"sierraleone","324":"guinea",
   "624":"guineabissau","270":"gambia","686":"senegal","478":"mauritania","504":"morocco"
 };
-// Capital cities [lon, lat] for each pipeline country
+// Pipeline connection points [lon, lat] — coastal / port cities, not inland capitals
 const CAPITALS = {
-  nigeria:[7.49,9.07], benin:[2.43,6.37], togo:[1.22,6.13], ghana:[-0.19,5.55],
-  ivorycoast:[-5.35,6.37], liberia:[-10.80,6.30], sierraleone:[-13.24,8.49],
-  guinea:[-13.68,9.54], guineabissau:[-15.58,11.86], gambia:[-16.57,13.45],
-  senegal:[-17.44,14.69], mauritania:[-15.96,18.09], morocco:[-6.84,33.97]
+  nigeria:     [3.39,  6.45],  // Lagos (departure terminal)
+  benin:       [2.43,  6.37],  // Cotonou
+  togo:        [1.22,  6.13],  // Lomé
+  ghana:       [-0.19, 5.55],  // Tema / Accra
+  ivorycoast:  [-3.97, 5.35],  // Abidjan
+  liberia:     [-10.80,6.30],  // Monrovia
+  sierraleone: [-13.24,8.49],  // Freetown
+  guinea:      [-13.68,9.54],  // Conakry
+  guineabissau:[-15.58,11.86], // Bissau
+  gambia:      [-16.57,13.45], // Banjul
+  senegal:     [-17.44,14.69], // Dakar
+  mauritania:  [-15.96,18.09], // Nouakchott
+  morocco:     [-7.62, 33.59]  // Casablanca (end terminal)
 };
+// Pipeline route — passes exactly through each connection point
 const PIPE_LINE = {type:"Feature",geometry:{type:"LineString",coordinates:[
-  [3.40,6.45],[2.42,6.35],[1.22,6.13],[-0.20,5.56],[-4.02,5.28],
-  [-8.50,4.90],[-10.80,6.32],[-13.23,8.49],[-13.71,9.54],
-  [-15.60,11.86],[-16.57,13.45],[-17.44,14.69],[-15.98,18.09],
-  [-16.80,22.00],[-13.50,27.00],[-7.62,33.59]
+  [3.39,  6.45],   // Nigeria   – Lagos
+  [2.43,  6.37],   // Benin     – Cotonou
+  [1.22,  6.13],   // Togo      – Lomé
+  [-0.19, 5.55],   // Ghana     – Tema/Accra
+  [-3.97, 5.35],   // Côte d'Ivoire – Abidjan
+  [-10.80,6.30],   // Liberia   – Monrovia
+  [-13.24,8.49],   // Sierra Leone – Freetown
+  [-13.68,9.54],   // Guinea    – Conakry
+  [-15.58,11.86],  // Guinea-Bissau – Bissau
+  [-16.57,13.45],  // Gambia    – Banjul
+  [-17.44,14.69],  // Senegal   – Dakar
+  [-15.96,18.09],  // Mauritania – Nouakchott
+  [-16.20,21.50],  // Western Sahara (coast)
+  [-14.20,24.50],  // Western Sahara (north)
+  [-13.20,27.18],  // Laâyoune area
+  [-9.60, 30.42],  // Agadir area
+  [-7.62, 33.59]   // Morocco   – Casablanca
 ]}};
 const PIPE_EU = {type:"Feature",geometry:{type:"LineString",coordinates:[
-  [-7.62,33.59],[-5.60,35.90]
+  [-7.62,33.59],[-5.60,35.90]  // Casablanca → Gibraltar
 ]}};
 
 // Leaflet map — no tiles, just vector country shapes on a solid sea background
