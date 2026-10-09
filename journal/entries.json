@@ -1,6 +1,32 @@
 {
- "updated": "2026-10-08",
+ "updated": "2026-10-09",
  "entries": [
+  {
+   "id": "2026-10-07-minurso-mandate-review",
+   "date": "2026-10-07",
+   "category": "Diplomacy",
+   "region": "Morocco",
+   "oil": "none",
+   "importance": 3,
+   "source": "Security Council Report",
+   "url": "https://www.securitycouncilreport.org/monthly-forecast/2026-10/western-sahara-17.php",
+   "addedBy": "claude",
+   "createdAt": 1791546260000,
+   "en": {
+    "title": "UN Security Council enters critical phase on MINURSO mandate renewal",
+    "what": "The UN Security Council opened closed consultations on 7–8 October on the future of MINURSO, the peacekeeping mission monitoring the ceasefire in Western Sahara, whose mandate expires on 31 October. Special Representative Alexander Ivanko and Personal Envoy Staffan de Mistura briefed the Council. The renewal takes place under Resolution 2797 (October 2025), which also requested a strategic review of the mission's future.",
+    "why": "MINURSO is the only major UN peacekeeping mission without a human rights monitoring component — a longstanding point of contention. The strategic review introduces real uncertainty: the Council could renew, reshape, or let the mandate lapse. France and the US support Morocco's autonomy plan; Russia and China abstained on the last renewal, signalling limited enthusiasm for the status quo.",
+    "morocco": "The mandate's renewal, scope, and duration directly affect Morocco's position on the Sahara dossier. A weakened or reshaped MINURSO could shift diplomatic momentum. Morocco will be watching the US and French positions closely.",
+    "next": "The Council vote, expected before 31 October. De Mistura's report on the state of negotiations."
+   },
+   "fr": {
+    "title": "Le Conseil de sécurité entre dans une phase critique sur le renouvellement de la MINURSO",
+    "what": "Le Conseil de sécurité de l'ONU a ouvert les 7 et 8 octobre des consultations à huis clos sur l'avenir de la MINURSO, la mission de maintien de la paix chargée de surveiller le cessez-le-feu au Sahara occidental, dont le mandat expire le 31 octobre. Le Représentant spécial Alexander Ivanko et l'Envoyé personnel Staffan de Mistura ont informé le Conseil. Le renouvellement intervient dans le cadre de la résolution 2797 (octobre 2025), qui avait également demandé un examen stratégique de l'avenir de la mission.",
+    "why": "La MINURSO est la seule grande mission de maintien de la paix de l'ONU dépourvue de volet de surveillance des droits de l'homme — un point de friction récurrent. L'examen stratégique introduit une incertitude réelle : le Conseil pourrait renouveler, remodeler ou laisser le mandat s'éteindre. La France et les États-Unis soutiennent le plan d'autonomie du Maroc ; la Russie et la Chine s'étaient abstenues lors du dernier renouvellement, signalant une adhésion limitée au statu quo.",
+    "morocco": "Le renouvellement, la portée et la durée du mandat affectent directement la position du Maroc sur le dossier saharien. Une MINURSO affaiblie ou remaniée pourrait modifier l'équilibre diplomatique. Le Maroc scrutera de près les positions américaine et française.",
+    "next": "Le vote du Conseil, attendu avant le 31 octobre. Le rapport de De Mistura sur l'état des négociations."
+   }
+  },
   {
    "id": "2026-10-04-opec-holds-november-output",
    "date": "2026-10-04",
