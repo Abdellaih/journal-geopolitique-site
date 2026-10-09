@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Du Nigéria à l'Europe — Le Gazoduc Atlantique</title>
+<meta name="description" content="Un explainer interactif sur le gazoduc Nigéria-Maroc de 25 milliards de dollars : tracé, économie, géopolitique et ce que cela signifie pour le Maroc en tant que pont énergétique de l'Afrique.">
+<meta property="og:title" content="Du Nigéria à l'Europe — Le Gazoduc Atlantique">
+<meta property="og:description" content="Comment un gazoduc de 25 milliards de dollars le long de la côte atlantique pourrait faire du Maroc le pont énergétique entre l'Afrique et l'Europe.">
+<meta property="og:type" content="article">
+<link rel="alternate" hreflang="en" href="./index.html">
+<link rel="alternate" hreflang="fr" href="./fr.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%2313222A' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23A0186B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9/dist/leaflet.min.css">
+<style>
+:root{
+  --paper:#ECF0EE; --panel:#F6F8F6; --sea:#D4E4E9; --sea-line:#86AEBD; --land:#DCCF9F;
+  --ink:#13222A; --ink-soft:#4A5C64; --rule:#B9C6C8;
+  --hazard:#A0186B; --price:#A65C05; --teal:#1C6880; --good:#2C7550;
+  --f-display:"Big Shoulders Display","Arial Narrow","Roboto Condensed",sans-serif;
+  --f-body:"Source Serif 4","Source Serif Pro",Georgia,serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A; --land:#5C5330;
+    --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+    --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#091216; --panel:#0E1A1F; --sea:#0F2129; --sea-line:#3A6B7A; --land:#5C5330;
+  --ink:#D9E4E6; --ink-soft:#93A6AC; --rule:#24363D;
+  --hazard:#E567B6; --price:#EFA43B; --teal:#5DB6CF; --good:#6BC290;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px;padding-block:28px 72px}
+@media (max-width:520px){.wrap{padding-inline:16px}body{font-size:16px}}
+a{color:var(--teal);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--hazard);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;color:var(--ink)}
+h1{font-weight:800;font-size:clamp(3rem,10vw,6rem);line-height:.88;text-transform:uppercase}
+h2{font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);line-height:.95;text-transform:uppercase;letter-spacing:.01em}
+h3{font-weight:600;font-size:1.25rem;line-height:1.15;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}
+.measure{max-width:66ch}
+.stack{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.water{font-style:italic;color:var(--teal)}
+.small{font-size:.86rem;color:var(--ink-soft)}
+section{border-top:1px solid var(--rule);padding-block:52px 8px}
+section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.sitenav{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:22px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.sitenav a{color:var(--ink-soft);text-decoration:none}.sitenav a:hover{color:var(--ink)}
+.theme-btn{font-family:var(--f-mono);font-size:11px;padding:3px 8px;border:1px solid var(--ink-soft);background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
+.theme-btn:hover{border-color:var(--ink);color:var(--ink)}
+.btt{position:fixed;bottom:24px;right:20px;width:42px;height:42px;font-family:var(--f-mono);font-size:15px;font-weight:600;border:1.5px solid var(--ink-soft);background:var(--panel);color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.btt:hover{border-color:var(--ink);color:var(--ink)}
+.hero{display:flex;flex-direction:column;gap:18px;padding-block:8px 40px}
+.hero-sub{font-size:clamp(1.1rem,2.4vw,1.4rem);font-style:italic;color:var(--teal);max-width:44ch;line-height:1.3}
+.lede{font-size:1.05rem;max-width:66ch}
+.ticker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--rule);background:var(--panel);margin-top:10px}
+.tick{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tick+.tick{border-left:1px solid var(--rule)}
+.tick .label{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.tick .val{font-family:var(--f-mono);font-size:clamp(1.4rem,3.5vw,2rem);font-weight:500;line-height:1.1;font-variant-numeric:tabular-nums}
+.tick .val.ok{color:var(--good)} .tick .val.warn{color:var(--price)} .tick .val.hz{color:var(--hazard);font-family:var(--f-display);font-weight:800;text-transform:uppercase}
+.tick .sub{font-size:.82rem;color:var(--ink-soft);line-height:1.4}
+@media (max-width:760px){.ticker{grid-template-columns:repeat(2,minmax(0,1fr))}.tick+.tick{border-left:0;border-top:1px solid var(--rule)}}
+.titleblock{border:3px double var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:10px;background:var(--panel);max-width:780px}
+.titleblock ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.titleblock li::marker{color:var(--hazard)}
+.toc{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px;font-family:var(--f-mono);font-size:12.5px;letter-spacing:.04em}
+.toc a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule)}
+.toc a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:0;counter-reset:leg;border-top:1px solid var(--rule)}
+.chain li{counter-increment:leg;padding:16px 16px 16px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:4px 12px;align-content:start}
+.chain li::before{content:counter(leg);font-family:var(--f-display);font-weight:800;font-size:2rem;line-height:1;color:var(--hazard);grid-row:span 2}
+.chain h3{font-size:1.05rem}
+.chain p{font-size:.93rem}
+/* Route map — Leaflet */
+.map-layout{display:grid;grid-template-columns:minmax(0,1fr) 190px;border:1px solid var(--rule);overflow:hidden;border-radius:2px}
+@media(max-width:680px){.map-layout{grid-template-columns:1fr}}
+#mapWrap{border-right:1px solid var(--rule)}
+#mapDiv{height:420px;background:#BDD4E0}
+.leaflet-container{background:#BDD4E0!important}
+.leaflet-control-zoom{border:none!important;box-shadow:none!important}
+.leaflet-control-zoom a{width:28px!important;height:28px!important;line-height:28px!important;font-size:16px!important;border:1.5px solid var(--ink-soft)!important;background:var(--panel)!important;color:var(--ink)!important;font-family:var(--f-mono)!important;border-radius:0!important;margin-bottom:3px!important}
+.leaflet-control-zoom a:hover{border-color:var(--ink)!important}
+.leaflet-tooltip.country-tip{background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:4px 9px;border:none;border-radius:0;box-shadow:0 2px 8px rgba(0,0,0,.25);letter-spacing:.06em;white-space:nowrap}
+.leaflet-tooltip.country-tip::before{display:none}
+.clist{overflow-y:auto;max-height:420px;display:flex;flex-direction:column;background:var(--panel)}
+@media(max-width:680px){.clist{max-height:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+.clist button{all:unset;box-sizing:border-box;width:100%;padding:8px 11px;border-bottom:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink);transition:background .1s}
+.clist button:hover{background:var(--sea)}
+.clist button.active{background:var(--price);color:#fff}
+.clist button.active .c-num{color:rgba(255,255,255,.65)}
+.c-num{font-family:var(--f-mono);font-size:10px;color:var(--ink-soft);flex:none;min-width:14px}
+.c-flag{font-size:1em;flex:none;line-height:1}
+.maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
+.maplegend span{display:inline-flex;align-items:center;gap:8px}
+@keyframes cdfade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.countrycard.fresh{animation:cdfade .18s ease-out}
+.cc-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cc-flag{font-size:1.7rem;line-height:1;flex:none}
+.cc-title{display:flex;flex-direction:column;gap:5px}
+.cc-stats{display:flex;flex-wrap:wrap;gap:4px 16px;font-family:var(--f-mono);font-size:11px;color:var(--ink-soft);padding:7px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.cc-stats b{color:var(--ink);font-weight:600}
+/* Timeline */
+.timeline-wrap{padding-block:26px 0}
+.timeline-track{display:flex;align-items:flex-start;gap:0;position:relative;overflow-x:auto;padding-bottom:4px}
+.timeline-track::before{content:'';position:absolute;left:7px;right:7px;top:30px;height:2px;background:var(--rule);z-index:0}
+.ms{flex:1;min-width:86px;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1;padding-inline:4px}
+.ms .my{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-soft);height:20px;display:flex;align-items:center}
+.ms .md{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--rule);background:var(--panel);flex:none;transition:background .2s}
+.ms.done .md{background:var(--teal);border-color:var(--teal)}
+.ms.now .md{background:var(--price);border-color:var(--price);box-shadow:0 0 0 3px color-mix(in srgb,var(--price) 22%,transparent)}
+.ms .ml{font-size:.73rem;text-align:center;color:var(--ink-soft);line-height:1.35;padding-inline:2px}
+.ms.done .my{color:var(--teal)}
+.ms.now .my,.ms.now .ml{color:var(--price);font-weight:600}
+.ms.future .my,.ms.future .ml{opacity:.6}
+.countrycard{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;min-height:70px}
+.countrycard dl{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:5px 12px;margin:0;font-size:.9rem}
+.countrycard dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
+.countrycard dd{margin:0}
+@media (max-width:520px){.countrycard dl{grid-template-columns:1fr;gap:2px}.countrycard dd{margin-bottom:6px}}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor}
+.pill.ok{color:var(--good)} .pill.warn{color:var(--price)} .pill.hz{color:var(--hazard)} .pill.neutral{color:var(--ink-soft)}
+/* Simulator */
+.plate{background:var(--sea);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.plate-title{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+input[type=range]{width:100%;accent-color:var(--price)}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-size:.95rem}
+.ctl label output{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.ctl .hint{font-size:.8rem;color:var(--ink-soft);line-height:1.35}
+.sim{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.sim{grid-template-columns:1fr}}
+.results{background:var(--panel);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline}
+.kv{display:flex;flex-direction:column;gap:2px;min-width:0}
+.kv .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.kv .v{font-family:var(--f-mono);font-size:1.5rem;font-weight:500;font-variant-numeric:tabular-nums}
+.kv .v.up{color:var(--price)} .kv .v.ok{color:var(--good)}
+.compbar{display:flex;height:24px;border:1px solid var(--rule);overflow:hidden;background:var(--panel);margin-top:6px}
+.compbar div{height:100%;transition:width .25s}
+@media (prefers-reduced-motion:reduce){.compbar div{transition:none}}
+.c-ng{background:var(--price)} .c-ma{background:var(--teal)} .c-wa{background:var(--good)}
+.complegend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.85rem;margin-top:4px}
+.complegend span{display:inline-flex;align-items:center;gap:6px}
+.complegend i{width:10px;height:10px;flex:none;border:1px solid var(--rule)}
+/* Financing cards */
+.finance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+.fcard{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.fcard .f-type{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.fcard .f-name{font-family:var(--f-display);font-weight:700;font-size:1.15rem;text-transform:uppercase;line-height:1.1}
+.fcard .f-amt{font-family:var(--f-mono);font-size:1.1rem;font-weight:600;color:var(--price)}
+.fcard .f-want{font-size:.85rem;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:7px;margin-top:2px}
+.fcard .f-want b{color:var(--ink);font-style:normal}
+/* Comparison table */
+.compare-wrap{overflow-x:auto}
+table.ctable{width:100%;border-collapse:collapse;font-size:.87rem;min-width:560px}
+.ctable th{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--ink);text-align:left;color:var(--ink-soft);white-space:nowrap}
+.ctable td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+.ctable tr:hover td{background:var(--sea)}
+.ctable td.hl{font-weight:700;color:var(--price)}
+.ctable .st-active{color:var(--good);font-weight:600}
+.ctable .st-killed{color:var(--hazard);font-weight:600}
+.ctable .st-stalled{color:var(--ink-soft)}
+.ctable .st-partial{color:var(--price);font-weight:600}
+/* Scenarios */
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.scen{grid-template-columns:1fr}}
+.scen article{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.scen .tag{align-self:flex-start}
+.scen .meta{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:4px 10px;font-size:.9rem;border-top:1px solid var(--rule);padding-top:8px;margin-top:4px}
+.scen .meta b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;padding-top:2px}
+/* Challenges */
+.challenges{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0 28px}
+.challenges div{border-top:1px solid var(--rule);padding-block:14px;display:flex;flex-direction:column;gap:6px}
+.flag{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--hazard)}
+/* Quiz */
+.quiz{display:flex;flex-direction:column;gap:16px;max-width:780px}
+.q{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.q .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.q .opts{grid-template-columns:1fr}}
+.q .opt{text-align:left;font:inherit;font-size:.93rem;padding:9px 12px;border:1px solid var(--ink-soft);background:var(--paper);color:var(--ink);cursor:pointer}
+.q .opt:hover:not([disabled]){border-color:var(--ink)}
+.q .opt[disabled]{cursor:default}
+.q .opt.right{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.q .opt.wrong{border-color:var(--hazard);box-shadow:inset 4px 0 0 var(--hazard)}
+.q .why{font-size:.9rem}
+.q .why b{color:var(--good)} .q .why b.no{color:var(--hazard)}
+.score{font-family:var(--f-mono);font-size:.93rem}
+.btn{font-family:var(--f-mono);font-size:13px;padding:8px 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+/* Watch */
+.watch{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.watch{grid-template-columns:1fr}}
+.watch li{border:1px solid var(--rule);background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.watch li b{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.02em}
+/* Footer */
+.sources{columns:2 280px;column-gap:28px;font-size:.85rem;margin:0;padding-left:1.1em}
+.sources li{break-inside:avoid;margin-bottom:6px}
+footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display:flex;flex-direction:column;gap:12px}
+</style>
+<script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<main class="wrap">
+
+<nav class="sitenav">
+  <a href="../">← Accueil / Home</a>
+  <span style="display:flex;gap:16px;align-items:center">
+    <button type="button" id="themeToggle" class="theme-btn" title="Clair / Sombre">◐</button>
+    <a href="./index.html">🇬🇧 English</a>
+    <a href="../journal/">Journal géopolitique →</a>
+  </span>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">Explainer · Infrastructure énergétique · Mis à jour octobre 2026</p>
+  <h1>Du Nigéria<br>à l'Europe</h1>
+  <p class="hero-sub">Comment un gazoduc de 25 milliards de dollars pourrait faire du Maroc le pont énergétique de l'Afrique</p>
+  <p class="lede">Un gazoduc de 6 800 kilomètres le long de la côte atlantique. Treize pays. Trente milliards de mètres cubes de gaz par an. S'il est construit, le gazoduc atlantique africain sera le plus long gazoduc sous-marin du monde — et il se termine au Maroc, offrant à l'Europe une nouvelle voie loin du gaz russe et donnant à la nation d'Afrique la plus riche en gaz un moyen de cesser de brûler sa richesse.</p>
+  <div class="ticker">
+    <div class="tick">
+      <span class="label">Coût du projet</span>
+      <span class="val warn">25 Md$</span>
+      <span class="sub">Estimation. L'un des plus grands projets énergétiques jamais proposés en Afrique.</span>
+    </div>
+    <div class="tick">
+      <span class="label">Longueur</span>
+      <span class="val">6 800 km</span>
+      <span class="sub">Du Nigéria au Maroc le long de la côte atlantique. Majoritairement offshore.</span>
+    </div>
+    <div class="tick">
+      <span class="label">Capacité</span>
+      <span class="val ok">30 Gm³/an</span>
+      <span class="sub">Milliards de mètres cubes par an. ~15 Gm³ destinés au Maroc et à l'Europe.</span>
+    </div>
+    <div class="tick">
+      <span class="label">Statut</span>
+      <span class="val hz">Approuvé</span>
+      <span class="sub">Les chefs d'État de la CEDEAO ont signé l'AGI en juillet 2026. Début des travaux visé : 2028.</span>
+    </div>
+  </div>
+</header>
+
+<aside class="titleblock">
+  <p class="eyebrow">En bref</p>
+  <ul>
+    <li>Le Nigéria brûle chaque année des milliards de dollars de gaz faute de voie d'exportation. Le gazoduc résout ce problème.</li>
+    <li>400 millions de personnes en Afrique de l'Ouest manquent d'électricité fiable. Chaque pays du tracé exige des points de soutirage en échange de son soutien.</li>
+    <li>L'Europe a besoin d'alternatives au gaz russe depuis 2022. Le Maroc est déjà connecté à l'Espagne via deux gazoducs existants — le NMGP s'y branche.</li>
+    <li>Le Maroc est au carrefour. Il perçoit des droits de transit, renforce ses liens avec 13 voisins et devient le hub gazier du continent.</li>
+    <li>Les obstacles sont réels : 25 Md$ requièrent des investisseurs, plusieurs segments traversent des zones politiquement fragiles, et le tronçon du Sahara Occidental est disputé.</li>
+  </ul>
+</aside>
+<nav class="toc">
+  <a href="#why">Pourquoi maintenant</a>
+  <a href="#route">Le tracé</a>
+  <a href="#economics">L'économie</a>
+  <a href="#financing">Financement</a>
+  <a href="#compare">Comparaison</a>
+  <a href="#challenges">Les obstacles</a>
+  <a href="#scenarios">Trois scénarios</a>
+  <a href="#morocco">L'enjeu marocain</a>
+  <a href="#watch">À surveiller</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<!-- Chronologie -->
+<div class="timeline-wrap">
+  <p class="eyebrow" style="margin-bottom:14px">Chronologie du projet</p>
+  <div class="timeline-track">
+    <div class="ms done"><span class="my">2002</span><div class="md"></div><span class="ml">Protocole d'accord initial</span></div>
+    <div class="ms done"><span class="my">2016</span><div class="md"></div><span class="ml">Étude de faisabilité</span></div>
+    <div class="ms done"><span class="my">2021</span><div class="md"></div><span class="ml">L'Algérie coupe le MEG</span></div>
+    <div class="ms now"><span class="my">2026 ★</span><div class="md"></div><span class="ml">AGI signé — nous sommes ici</span></div>
+    <div class="ms future"><span class="my">2028</span><div class="md"></div><span class="ml">Début des travaux prévu</span></div>
+    <div class="ms future"><span class="my">2035</span><div class="md"></div><span class="ml">Premier gaz attendu</span></div>
+  </div>
+</div>
+
+<!-- 1. Pourquoi maintenant -->
+<section id="why">
+  <div class="head">
+    <p class="eyebrow">Les trois problèmes résolus</p>
+    <h2>Pourquoi ce gazoduc, pourquoi maintenant</h2>
+    <p class="measure">Trois crises énergétiques distinctes, toutes pointant vers la même réponse.</p>
+  </div>
+  <ol class="chain">
+    <li>
+      <h3>Le gaz gaspillé du Nigéria</h3>
+      <p>Le Nigéria possède les plus grandes réserves prouvées de gaz d'Afrique — environ 209 billions de pieds cubes. Il brûle également plus de gaz que presque n'importe quel autre pays : plus de 7 milliards de mètres cubes brûlés à la torche en 2023, l'équivalent d'environ un quart de la consommation annuelle totale d'énergie du Maroc. La cause est simple : pas de canalisations pour l'acheminer.</p>
+    </li>
+    <li>
+      <h3>Le déficit électrique d'Afrique de l'Ouest</h3>
+      <p>Plus de 600 millions de personnes en Afrique subsaharienne manquent d'électricité fiable. Chaque pays que le gazoduc traverse — Bénin, Togo, Ghana, Côte d'Ivoire, Libéria, Sierra Leone, Guinée, Guinée-Bissau, Gambie, Sénégal, Mauritanie — a accepté des points de soutirage car la production au gaz est le moyen le plus rapide de combler leur déficit électrique.</p>
+    </li>
+    <li>
+      <h3>Le problème du gaz russe en Europe</h3>
+      <p>Après l'invasion de l'Ukraine en 2022, l'UE a réduit le gaz russe de 40 % de son approvisionnement à quasi zéro. Le GNL américain et qatari a comblé le vide — à prix fort. Un nouveau gazoduc depuis un fournisseur africain stable est exactement ce que les ministres européens de l'énergie réclamaient. Le Maroc est connecté à l'Espagne via le gazoduc Maghreb-Europe (MEG) et le gazoduc Pedro Duran Farell, d'une capacité combinée d'environ 14 Gm³/an.</p>
+    </li>
+    <li>
+      <h3>La fenêtre stratégique du Maroc</h3>
+      <p>Le gazoduc entre en Europe via le Maroc, pas l'Algérie. Ce n'est pas un hasard : Alger a fermé le MEG au Maroc en 2021 en raison de la rupture des relations diplomatiques. Rabat se positionne désormais comme le pays de transit atlantique fiable. Être le carrefour donne au Maroc du levier, des revenus de transit, et une prétention au leadership énergétique régional qu'il n'avait pas auparavant.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- 2. Le tracé -->
+<section id="route">
+  <div class="head">
+    <p class="eyebrow">La géographie</p>
+    <h2>13 pays, un gazoduc</h2>
+    <p class="measure">Le gazoduc longe presque entièrement les côtes offshore, longeant la côte atlantique du delta du Niger au détroit de Gibraltar. Sélectionnez un pays pour voir son rôle.</p>
+  </div>
+  <div class="stack">
+    <div class="map-layout">
+      <div id="mapWrap" aria-label="Carte interactive du tracé du gazoduc Nigéria-Maroc">
+        <div id="mapDiv"></div>
+      </div>
+      <div class="clist" id="countryList" role="list" aria-label="Pays du gazoduc"></div>
+    </div>
+    <div class="maplegend">
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#A65C05" stroke-width="4" stroke-linecap="round"/></svg>Gazoduc NMGP</span>
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#1C6880" stroke-width="2.5" stroke-dasharray="8 5" stroke-linecap="round"/></svg>Connexion Maroc–Espagne</span>
+      <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#fff" stroke="#A65C05" stroke-width="2"/></svg>Cliquer sur un pays</span>
+    </div>
+    <div class="countrycard" id="countryCard" aria-live="polite">
+      <p class="eyebrow">Sélectionnez un pays</p>
+      <p>Cliquez sur un point de la carte ou sur un nom à droite pour voir le rôle du pays, ce qu'il gagne et les risques principaux.</p>
+    </div>
+    <p class="small">Le gazoduc est majoritairement offshore. Le segment du Sahara Occidental (entre la Mauritanie et le Maroc proprement dit) est un territoire politiquement disputé.</p>
+  </div>
+</section>
+
+<!-- 3. L'économie -->
+<section id="economics">
+  <div class="head">
+    <p class="eyebrow">Les chiffres</p>
+    <h2>Qui reçoit quoi</h2>
+    <p class="measure">À pleine capacité, 30 milliards de mètres cubes par an circulent vers le nord. Ajustez la répartition pour voir ce que chaque région reçoit et ce que le Nigéria gagne.</p>
+  </div>
+  <div class="plate">
+    <p class="plate-title">Simulateur · répartir le gaz</p>
+    <div class="sim">
+      <div class="stack">
+        <div class="ctl">
+          <label for="sPrice"><span>Prix du gaz (spot Europe)</span><output id="oPrice">12 $/MMBtu</output></label>
+          <input id="sPrice" type="range" min="6" max="25" step="0.5" value="12">
+          <span class="hint">Le TTF européen était autour de 12–14 $/MMBtu mi-2026. La prime de guerre s'ajoute au prix de base.</span>
+        </div>
+        <div class="ctl">
+          <label for="sEu"><span>Part vers Maroc &amp; Europe</span><output id="oEu">50%</output></label>
+          <input id="sEu" type="range" min="20" max="80" step="5" value="50">
+          <span class="hint">La part restante approvisionne les pays de soutirage d'Afrique de l'Ouest le long du tracé.</span>
+        </div>
+        <div class="ctl">
+          <label for="sUtil"><span>Taux d'utilisation</span><output id="oUtil">80%</output></label>
+          <input id="sUtil" type="range" min="30" max="100" step="5" value="80">
+          <span class="hint">Les nouveaux gazoducs fonctionnent rarement à pleine capacité immédiatement. 80 % est une hypothèse à moyen terme optimiste.</span>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="results">
+          <div class="row">
+            <div class="kv"><span class="k">Total gaz transporté</span><span class="v" id="rTotal">24 Gm³/an</span></div>
+            <div class="kv"><span class="k">Vers Maroc &amp; Europe</span><span class="v ok" id="rEu">12 Gm³/an</span></div>
+            <div class="kv"><span class="k">Vers Afrique de l'Ouest</span><span class="v ok" id="rWa">12 Gm³/an</span></div>
+          </div>
+          <div class="row">
+            <div class="kv"><span class="k">Revenus Nigéria</span><span class="v up" id="rRev">11,5 Md$/an</span></div>
+            <div class="kv"><span class="k">Droit transit Maroc (est.)</span><span class="v" id="rTransit">~0,8 Md$/an</span></div>
+          </div>
+          <div class="compbar" id="simBar" aria-hidden="true">
+            <div class="c-eu"></div><div class="c-wa"></div>
+          </div>
+          <div class="complegend">
+            <span><i style="background:var(--teal)"></i>Maroc &amp; Europe</span>
+            <span><i style="background:var(--good)"></i>Afrique de l'Ouest</span>
+          </div>
+        </div>
+        <p class="small">L'estimation des revenus utilise une part nigériane de 30 % du prix au puits après frais de transit et de liquéfaction. Le droit de transit est illustratif. Pas une projection financière.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Financement -->
+<section id="financing">
+  <div class="head">
+    <p class="eyebrow">La question de l'argent</p>
+    <h2>Qui finance 25 milliards ?</h2>
+    <p class="measure">Aucune institution seule ne peut soutenir un projet de cette ampleur. Le modèle de financement sera un empilement de banques de développement publiques, fonds souverains et capitaux privés — chacun avec un agenda différent.</p>
+  </div>
+  <div class="finance-grid">
+    <div class="fcard">
+      <span class="f-type">Multilatéral</span>
+      <span class="f-name">Banque mondiale / SFI</span>
+      <span class="f-amt">Jusqu'à 3–5 Md$</span>
+      <p class="f-want"><b>Ce qu'elle veut :</b> Conformité ESG prouvée, soutirage domestique pour l'accès à l'énergie, assurance risque politique MIGA pour chaque pays hôte. Précédent : Nigeria LNG Trains 1–6 (cofinancé par la SFI).</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Multilatéral</span>
+      <span class="f-name">Banque africaine de développement</span>
+      <span class="f-amt">2–4 Md$</span>
+      <p class="f-want"><b>Ce qu'elle veut :</b> Le mandat d'accès à l'énergie s'aligne parfaitement — la BAD a approuvé le projet. Exige des clauses de contenu local et des évaluations environnementales pour chaque segment national.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Fonds souverain</span>
+      <span class="f-name">Fonds du Golfe (ADIA, QIA, PIF)</span>
+      <span class="f-amt">5–8 Md$</span>
+      <p class="f-want"><b>Ce qu'ils veulent :</b> Participation au capital à long terme, soutirage prioritaire pour la réexportation régionale, positionnement stratégique dans le corridor énergétique Afrique–Europe. PIF déjà actif dans les actifs gaziers africains.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Finance de développement</span>
+      <span class="f-name">Banque européenne d'investissement</span>
+      <span class="f-amt">2–3 Md$ (conditionnel)</span>
+      <p class="f-want"><b>Ce qu'elle veut :</b> Dérogation REPowerEU pour la diversification stratégique des approvisionnements. Le Pacte vert européen limite le prêt pour les projets gaziers ; une dérogation approuvée — attendue en 2027 — est requise.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Bilatéral / crédit export</span>
+      <span class="f-name">US DFC / EXIM</span>
+      <span class="f-amt">1–2 Md$</span>
+      <p class="f-want"><b>Ce qu'ils veulent :</b> Levier de politique étrangère américaine au Sahel, contrats d'équipement GNL pour fabricants américains, contre-influence des infrastructures chinoises. Plus probable sous un cadre de sécurité énergétique.</p>
+    </div>
+    <div class="fcard">
+      <span class="f-type">Privé / major énergétique</span>
+      <span class="f-name">TotalEnergies, Shell, KKR</span>
+      <span class="f-amt">6–10 Md$</span>
+      <p class="f-want"><b>Ce qu'ils veulent :</b> Contrats de soutirage bancables sur 20 ans de la part de services publics européens avant de s'engager en capital. Nécessite une décision finale d'investissement et une assurance risque politique. Shell est déjà partenaire de la NNPC au Nigéria.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Comparaison -->
+<section id="compare">
+  <div class="head">
+    <p class="eyebrow">Contexte mondial</p>
+    <h2>Le NMGP en perspective</h2>
+    <p class="measure">Comparé aux grands gazoducs longue distance du monde, le gazoduc atlantique est le plus long jamais tenté — et parmi les plus politiquement complexes.</p>
+  </div>
+  <div class="compare-wrap">
+    <table class="ctable" aria-label="Tableau comparatif des gazoducs">
+      <thead>
+        <tr>
+          <th>Gazoduc</th>
+          <th>Tracé</th>
+          <th>Longueur</th>
+          <th>Capacité</th>
+          <th>Coût</th>
+          <th>Pays</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="hl">NMGP (Atlantique)</td>
+          <td>Nigéria → Maroc</td>
+          <td>6 800 km</td>
+          <td>30 Gm³/an</td>
+          <td>25 Md$</td>
+          <td>13</td>
+          <td class="st-partial">AGI signé 2026</td>
+        </tr>
+        <tr>
+          <td>Trans-Saharien (TSGP)</td>
+          <td>Nigéria → Algérie → Europe</td>
+          <td>4 400 km</td>
+          <td>30 Gm³/an</td>
+          <td>13 Md$</td>
+          <td>3</td>
+          <td class="st-stalled">Bloqué (politique)</td>
+        </tr>
+        <tr>
+          <td>TAPI</td>
+          <td>Turkménistan → Pakistan → Inde</td>
+          <td>1 800 km</td>
+          <td>33 Gm³/an</td>
+          <td>8 Md$</td>
+          <td>4</td>
+          <td class="st-partial">~20 % construit</td>
+        </tr>
+        <tr>
+          <td>Nord Stream 2</td>
+          <td>Russie → Allemagne</td>
+          <td>1 230 km</td>
+          <td>55 Gm³/an</td>
+          <td>11 Md$</td>
+          <td>2</td>
+          <td class="st-killed">Sanctionné 2022</td>
+        </tr>
+        <tr>
+          <td>EastMed</td>
+          <td>Israël → Grèce → Italie</td>
+          <td>1 900 km</td>
+          <td>10 Gm³/an</td>
+          <td>7 Md$</td>
+          <td>3</td>
+          <td class="st-stalled">Abandonné 2022</td>
+        </tr>
+        <tr>
+          <td>Corridor gazier sud</td>
+          <td>Azerbaïdjan → Turquie → Italie</td>
+          <td>3 500 km</td>
+          <td>16 Gm³/an</td>
+          <td>45 Md$</td>
+          <td>7</td>
+          <td class="st-active">Opérationnel depuis 2020</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small" style="margin-top:10px">Gm³/an = milliards de mètres cubes par an. Coûts : estimations sur la durée de vie du projet. TAPI = Turkménistan-Afghanistan-Pakistan-Inde.</p>
+</section>
+
+<!-- 6. Les obstacles -->
+<section id="challenges">
+  <div class="head">
+    <p class="eyebrow">Ce qui pourrait mal tourner</p>
+    <h2>Cinq obstacles</h2>
+  </div>
+  <div class="challenges">
+    <div>
+      <span class="flag">Financement</span>
+      <h3>25 milliards cherchent investisseurs</h3>
+      <p>Aucune décision finale d'investissement n'a été prise. Les banques de développement occidentales sont prudentes face aux nouvelles infrastructures gazières au regard des engagements zéro émission. La société de projet sera basée à Casablanca ; l'autorité gouvernante à Abuja. Attirer des capitaux privés dépend de contrats de soutirage bancables de 13 États.</p>
+    </div>
+    <div>
+      <span class="flag">Fragilité politique</span>
+      <h3>Coups d'État et instabilité en route</h3>
+      <p>Le gazoduc traverse la Guinée et la Guinée-Bissau, toutes deux victimes de coups d'État récents. Le Libéria et la Sierra Leone font face à des défis de gouvernance. Un seul État défaillant sur le tracé peut perturber l'approvisionnement ou rendre l'assurance inabordable.</p>
+    </div>
+    <div>
+      <span class="flag">Sahara Occidental</span>
+      <h3>Territoire disputé sur le tracé</h3>
+      <p>Entre la Mauritanie et le Maroc proprement dit se trouve le Sahara Occidental, dont la souveraineté est contestée. Le Maroc l'administre ; le Front Polisario le revendique. Les infrastructures construites là-bas sont juridiquement et diplomatiquement sensibles, affectant les contrats de soutirage européens.</p>
+    </div>
+    <div>
+      <span class="flag">Concurrence</span>
+      <h3>GNL et autres gazoducs</h3>
+      <p>L'Europe contractualise à long terme du GNL américain et qatari. Le gazoduc trans-saharien (Algérie–Nigéria) est un tracé concurrent que l'Algérie soutient depuis des décennies. Si les prix du GNL baissent ou que l'Algérie rétablit ses liens avec l'Europe, le cas du NMGP s'affaiblit.</p>
+    </div>
+    <div>
+      <span class="flag">Calendrier</span>
+      <h3>Premier gaz en 2031 — optimiste</h3>
+      <p>La construction de 6 800 km de gazoduc majoritairement sous-marin dans 13 juridictions n'a jamais été réalisée. L'AGI a été signé en juillet 2026 ; une décision finale d'investissement, les marchés et la construction prennent généralement 6 à 10 ans. Du premier gaz avant 2033–2035 serait exceptionnel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Trois scénarios -->
+<section id="scenarios">
+  <div class="head">
+    <p class="eyebrow">Et ensuite</p>
+    <h2>Trois scénarios</h2>
+  </div>
+  <div class="scen">
+    <article>
+      <span class="pill ok tag">Scénario de base</span>
+      <h3>Retardé mais construit</h3>
+      <p>La société de projet boucle son financement en 2028–29. La construction commence simultanément au Nigéria et au Maroc, se rejoignant au milieu. Premier gaz : 2033–2034. Le Maroc devient un modeste hub gazier pour l'Europe.</p>
+      <div class="meta">
+        <b>Premier gaz</b><span>2033–34</span>
+        <b>Revenus</b><span>8–12 Md$/an pour le Nigéria à 10–14 $ le gaz</span>
+        <b>Pour le Maroc</b><span>Droits de transit, sécurité énergétique, influence régionale</span>
+      </div>
+    </article>
+    <article>
+      <span class="pill warn tag">Optimiste</span>
+      <h3>Accéléré</h3>
+      <p>Des prix du gaz européen élevés et une pression diplomatique américaine accélèrent le financement. Les grands fonds souverains du Golfe coinvestissent. Construction démarrée en 2027. Premier gaz : 2031. L'UE signe des accords de soutirage cadres directement avec la société de projet.</p>
+      <div class="meta">
+        <b>Premier gaz</b><span>2031</span>
+        <b>Revenus</b><span>13–16 Md$/an si le gaz dépasse 12 $</span>
+        <b>Pour le Maroc</b><span>Aubaine stratégique — devient le premier fournisseur africain de gaz de l'UE</span>
+      </div>
+    </article>
+    <article>
+      <span class="pill hz tag">Pessimiste</span>
+      <h3>Bloqué par la finance et le politique</h3>
+      <p>Les banques européennes déclinent pour des raisons de règles zéro émission. Un coup d'État en Guinée force un détour. L'Algérie intensifie la diplomatie trans-saharienne. La société de projet existe sur le papier mais le financement stagne après 2030. Le GNL comble le vide.</p>
+      <div class="meta">
+        <b>Premier gaz</b><span>Après 2035, ou jamais</span>
+        <b>Revenus</b><span>Quasi nuls ; le Nigéria continue le torchage</span>
+        <b>Pour le Maroc</b><span>Capital diplomatique dépensé ; retour aux discussions bilatérales</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 8. L'enjeu marocain -->
+<section id="morocco">
+  <div class="head">
+    <p class="eyebrow">L'angle marocain</p>
+    <h2>Pourquoi c'est capital pour le Maroc</h2>
+  </div>
+  <div class="stack measure">
+    <p>Le Maroc importe la totalité de son gaz et presque tout son pétrole. Il n'a ni raffinerie ni gazoduc depuis un pays producteur — une vulnérabilité structurelle que le choc d'Hormuz de 2026 a exposée. Le NMGP change cette équation de trois façons.</p>
+  </div>
+  <div class="challenges" style="margin-top:20px">
+    <div>
+      <span class="flag" style="color:var(--good)">Sécurité énergétique</span>
+      <h3>Un approvisionnement en gaz domestique</h3>
+      <p>Le Maroc importe actuellement du GNL d'Espagne, qui réexporte des cargaisons américaines et qataries. Disposer d'un soutirage sur gazoduc donne à Rabat un approvisionnement direct et à long terme qui ne peut être interrompu par la volatilité du marché spot ou la fermeture d'un détroit lointain.</p>
+    </div>
+    <div>
+      <span class="flag" style="color:var(--good)">Hub de transit</span>
+      <h3>Droits et levier géopolitique</h3>
+      <p>Chaque mètre cube destiné à l'Europe passe par le territoire marocain et la connexion MEG vers l'Espagne. Les droits de transit sont estimés à 0,05–0,08 $/MMBtu pour 1 000 km — sur 15 Gm³/an vers l'Europe, cela représente des centaines de millions de dirhams par an. Plus important encore, être le verrou donne au Maroc une place à chaque table énergétique européenne.</p>
+    </div>
+    <div>
+      <span class="flag" style="color:var(--good)">Leadership régional</span>
+      <h3>Le pont énergétique de l'Afrique</h3>
+      <p>Le siège social de la société de projet à Casablanca et l'architecture diplomatique que le Maroc a bâtie avec 13 États de la CEDEAO consolident son rôle d'ancre énergétique atlantique du continent. Cela renforce la stratégie africaine plus large du Maroc — réintégration de l'Union africaine en 2017, sommet Atlantique Afrique en 2023, processus de Rabat sur la stabilité sahélienne.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9. À surveiller -->
+<section id="watch">
+  <div class="head">
+    <p class="eyebrow">Indicateurs à suivre</p>
+    <h2>À surveiller</h2>
+  </div>
+  <ul class="watch">
+    <li><b>Décision finale d'investissement</b>L'objectif est 2027. Pas de DFI = pas de gazoduc. Surveiller le premier contrat de soutirage bancable d'un acheteur européen.</li>
+    <li><b>Société de projet, Casablanca</b>La société a été mandatée au sommet de la CEDEAO. Sa constitution et son premier conseil d'administration sont les prochaines étapes concrètes.</li>
+    <li><b>Gazoduc trans-saharien</b>Le tracé concurrent de l'Algérie. Tout rapprochement entre Alger et Rabat — ou Alger et l'UE — modifie la carte concurrentielle.</li>
+    <li><b>Prix du gaz européen</b>Au-dessus de 10 $/MMBtu, le NMGP est compétitif. En dessous de 8 $, le GNL américain devient moins cher et plus difficile à supplanter.</li>
+    <li><b>Stabilité Guinée &amp; Guinée-Bissau</b>Deux coups d'État sur le tracé en cinq ans. Les crises politiques déclenchent des clauses de force majeure et dissuadent les investisseurs.</li>
+    <li><b>Vote Sahara Occidental, 31 oct.</b>Le renouvellement du mandat MINURSO à l'ONU (prévu le 31 octobre 2026) affecte le statut juridique et diplomatique du segment le plus contesté du gazoduc.</li>
+  </ul>
+</section>
+
+<!-- 10. Quiz -->
+<section id="quiz">
+  <div class="head">
+    <p class="eyebrow">Testez-vous</p>
+    <h2>Quatre questions</h2>
+  </div>
+  <div class="quiz" id="quizEl"></div>
+  <p class="score" id="scoreEl" hidden></p>
+  <button type="button" class="btn" id="resetBtn" hidden>Recommencer</button>
+</section>
+
+<footer>
+  <p class="eyebrow">Sources</p>
+  <ol class="sources">
+    <li>Global Energy Monitor — <a href="https://www.gem.wiki/Nigeria-Morocco_Gas_Pipeline" target="_blank" rel="noopener">Nigeria-Morocco Gas Pipeline</a></li>
+    <li>CEDEAO / IAEOGS — <a href="https://www.iaeogs.com/2026/07/21/west-african-leaders-sign-landmark-deal-for-25-billion-nigeria-morocco-gas-pipeline/" target="_blank" rel="noopener">Les dirigeants ouest-africains signent l'AGI, juillet 2026</a></li>
+    <li>Morocco World News — <a href="https://www.moroccoworldnews.com/2026/07/329758/new-study-details-construction-plan-for-25-billion-morocco-nigeria-gas-pipeline/" target="_blank" rel="noopener">Nouvelle étude sur le plan de construction, juillet 2026</a></li>
+    <li>Wikipédia — <a href="https://en.wikipedia.org/wiki/African_Atlantic_Gas_Pipeline" target="_blank" rel="noopener">African Atlantic Gas Pipeline</a></li>
+    <li>The Africa Report — <a href="https://www.theafricareport.com/425422/how-the-e23bn-nigeria-morocco-pipeline-could-reshape-african-energy/" target="_blank" rel="noopener">Comment le gazoduc pourrait remodeler l'énergie africaine</a></li>
+  </ol>
+  <p class="small">Analyses à titre informatif, fondées sur les sources citées. Pas des prévisions ni des conseils financiers.</p>
+</footer>
+
+</main>
+
+<button type="button" class="btt" id="bttBtn" title="Retour en haut" aria-label="Retour en haut" hidden>↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9/dist/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* Thème */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeToggle");
+if(themeBtn) themeBtn.addEventListener("click", ()=>{
+  const dark = root.dataset.theme==="dark"||(!root.dataset.theme&&window.matchMedia("(prefers-color-scheme:dark)").matches);
+  root.dataset.theme = dark?"light":"dark";
+  try{localStorage.setItem("theme",root.dataset.theme);}catch(e){}
+});
+
+/* Retour en haut */
+const btt = document.getElementById("bttBtn");
+window.addEventListener("scroll",()=>{ btt.hidden = window.scrollY < 400; },{passive:true});
+btt.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+
+/* Données pays */
+const COUNTRIES = {
+  nigeria:{name:"Nigéria",role:"Pays source",pill:"ok",
+    what:"Le point de départ du gaz. Le Nigéria détient plus de 200 billions de pieds cubes de réserves prouvées — les plus importantes d'Afrique. Il brûle actuellement plus de 7 Gm³/an faute de voies d'exportation.",
+    gain:"Jusqu'à 12 Md$/an de revenus à pleine capacité. Fin du torchage du gaz. Financement du budget de l'État et diversification au-delà du pétrole brut.",
+    risk:"Sécurité dans le delta du Niger, demande intérieure en gaz et nécessité d'achever le gazoduc Ajaokuta–Kaduna–Kano avant que le collecteur du NMGP ne soit prêt."},
+  benin:{name:"Bénin",role:"Transit + soutirage",pill:"neutral",
+    what:"Courte côte, forte valeur de transit. Le Bénin accueille une station de compression et prélève du gaz pour la production électrique domestique.",
+    gain:"Amélioration de l'approvisionnement électrique pour Cotonou et l'industrie environnante. Droits de transit sur le gaz transitant par le pays.",
+    risk:"Faibles capacités institutionnelles pour négocier et appliquer des accords complexes sur les gazoducs."},
+  togo:{name:"Togo",role:"Transit + soutirage",pill:"neutral",
+    what:"Lomé est un hub commercial régional. Le Togo voit le gazoduc comme ancre de ses ambitions d'industrialisation.",
+    gain:"Gaz pour la zone franche industrielle prévue à Lomé. Réduction de la dépendance aux importations d'électricité coûteuses depuis le Ghana.",
+    risk:"Petit marché ; les volumes de soutirage pourraient être trop faibles pour justifier le coût d'interconnexion sans soutien des bailleurs."},
+  ghana:{name:"Ghana",role:"Soutirage majeur",pill:"ok",
+    what:"Le Ghana possède son propre gaz offshore (champs Jubilee, TEN) mais la production est irrégulière. Le NMGP fournit un appoint fiable et un approvisionnement supplémentaire.",
+    gain:"Fin des coupures de courant chroniques (\"dumsor\"). Gaz pour le corridor industriel de Tema. Potentiel de réexportation vers le Burkina Faso enclavé.",
+    risk:"Les infrastructures gazières existantes du Ghana sont partiellement inachevées ; l'intégration au NMGP nécessite des capitaux."},
+  ivorycoast:{name:"Côte d'Ivoire",role:"Soutirage majeur",pill:"ok",
+    what:"La plus grande économie de la région après le Nigéria et le Ghana. Abidjan est la capitale financière de l'Afrique de l'Ouest francophone.",
+    gain:"Alimente l'expansion du port industriel de San Pedro. Gaz pour la production d'engrais ciblant l'agriculture sahélienne.",
+    risk:"La Côte d'Ivoire exige un prix reflétant son pouvoir de négociation — les négociations sur les conditions de soutirage ont été lentes."},
+  liberia:{name:"Libéria",role:"Transit + petit soutirage",pill:"warn",
+    what:"Parmi les pays les moins électrifiés du tracé. Monrovia dépend fortement de la production diesel coûteuse.",
+    gain:"Énergie abordable pour la capitale et les mines de minerai de fer. Pourrait attirer de nouveaux investissements industriels.",
+    risk:"Fragilité de gouvernance post-guerre civile ; faible solvabilité souveraine rend le financement des interconnexions locales plus difficile."},
+  sierraleone:{name:"Sierra Leone",role:"Transit + soutirage",pill:"warn",
+    what:"Freetown a accueilli le sommet de la CEDEAO où les dirigeants ont signé l'AGI en juillet 2026. Engagement politique fort.",
+    gain:"Électricité pour Freetown, le secteur minier et une potentielle distribution urbaine de gaz.",
+    risk:"Similaire au Libéria — le manque d'infrastructures domestiques signifie que le bénéfice du gaz nécessite des investissements supplémentaires."},
+  guinea:{name:"Guinée",role:"Transit",pill:"hz",
+    what:"Conakry se trouve sur le tracé. La Guinée est l'un des pays les plus politiquement instables sur le parcours du gazoduc.",
+    gain:"Approvisionnement potentiel en gaz pour la transformation de la bauxite et de l'alumine — la Guinée possède les plus grandes réserves mondiales de bauxite.",
+    risk:"Gouvernement militaire depuis le coup d'État de 2021. Risque de force majeure et complications d'assurance pour les investisseurs."},
+  guineabissau:{name:"Guinée-Bissau",role:"Transit",pill:"hz",
+    what:"Petit pays avec une longue histoire de coups d'État — huit réussis ou tentés depuis l'indépendance. Le gazoduc passe en mer.",
+    gain:"Soutirage domestique minimal attendu ; principalement des revenus de transit.",
+    risk:"Parmi les plus hauts risques politiques sur l'ensemble du tracé. Les investisseurs exigent des clauses d'arbitrage international solides."},
+  gambia:{name:"Gambie",role:"Transit + petit soutirage",pill:"neutral",
+    what:"Entourée par le Sénégal. Banjul pourrait bénéficier d'un embranchement, principalement pour la production d'électricité.",
+    gain:"Électricité abordable pour un pays où les coûts de l'énergie sont parmi les plus élevés d'Afrique de l'Ouest.",
+    risk:"Très petit marché ; l'économie d'un embranchement dédié est marginale sans financement concessionnel."},
+  senegal:{name:"Sénégal",role:"Soutirage majeur",pill:"ok",
+    what:"Dakar est un pilier de la stabilité en Afrique de l'Ouest. Le Sénégal développe aussi son propre gaz offshore (Greater Tortue Ahmeyim) et voit le NMGP comme complémentaire.",
+    gain:"Gaz pour la demande électrique en forte croissance de Dakar, une nouvelle industrie d'engrais et l'exportation potentielle vers le Mali.",
+    risk:"Le Sénégal pourrait préférer sa propre voie d'exportation de GNL à l'intégration NMGP — les intérêts se recoupent partiellement."},
+  mauritania:{name:"Mauritanie",role:"Transit + soutirage",pill:"neutral",
+    what:"Nouakchott se situe juste au sud du Sahara Occidental. La Mauritanie possède son propre gaz (Greater Tortue avec le Sénégal) et voit le gazoduc comme une opportunité de transit.",
+    gain:"Droits de transit, approvisionnement en gaz domestique et pont entre la zone CEDEAO et le Maroc.",
+    risk:"Le segment de Mauritanie vers le Sahara Occidental est le tronçon diplomatiquement le plus complexe du gazoduc."},
+  morocco:{name:"Maroc",role:"Hub et porte vers l'Europe",pill:"ok",
+    what:"Le terminus nord et la connexion vers l'Europe. Le Maroc administre le Sahara Occidental, par où passe le dernier tronçon. Casablanca accueille la société de projet.",
+    gain:"Droits de transit (0,5–1 Md$/an à plein débit), approvisionnement en gaz domestique et statut géopolitique de pont énergétique de l'Afrique. Réduit la dépendance aux marchés spot du GNL.",
+    risk:"Le différend sur la souveraineté du Sahara Occidental complique juridiquement le tracé. Si le processus MINURSO produit un résultat défavorable, les contrats de soutirage européens pourraient être contestés."}
+};
+
+const FLAGS = {
+  nigeria:"🇳🇬",benin:"🇧🇯",togo:"🇹🇬",ghana:"🇬🇭",ivorycoast:"🇨🇮",
+  liberia:"🇱🇷",sierraleone:"🇸🇱",guinea:"🇬🇳",guineabissau:"🇬🇼",
+  gambia:"🇬🇲",senegal:"🇸🇳",mauritania:"🇲🇷",morocco:"🇲🇦"
+};
+const STATS = {
+  nigeria:     {pop:220,  access:57, gdp:2200, port:"Lagos"},
+  benin:       {pop:13,   access:43, gdp:1400, port:"Cotonou"},
+  togo:        {pop:9,    access:55, gdp:950,  port:"Lomé"},
+  ghana:       {pop:34,   access:85, gdp:2300, port:"Tema"},
+  ivorycoast:  {pop:28,   access:72, gdp:2500, port:"Abidjan"},
+  liberia:     {pop:5.4,  access:28, gdp:600,  port:"Monrovia"},
+  sierraleone: {pop:8.5,  access:26, gdp:500,  port:"Freetown"},
+  guinea:      {pop:14,   access:45, gdp:1000, port:"Conakry"},
+  guineabissau:{pop:2.1,  access:30, gdp:800,  port:"Bissau"},
+  gambia:      {pop:2.7,  access:63, gdp:750,  port:"Banjul"},
+  senegal:     {pop:18,   access:72, gdp:1600, port:"Dakar"},
+  mauritania:  {pop:4.7,  access:48, gdp:2100, port:"Nouakchott"},
+  morocco:     {pop:38,   access:99, gdp:3900, port:"Casablanca"}
+};
+const ORDER = ["nigeria","benin","togo","ghana","ivorycoast","liberia",
+               "sierraleone","guinea","guineabissau","gambia","senegal","mauritania","morocco"];
+
+const PIPELINE_ISO = {
+  "566":"nigeria","204":"benin","768":"togo","288":"ghana",
+  "384":"ivorycoast","430":"liberia","694":"sierraleone","324":"guinea",
+  "624":"guineabissau","270":"gambia","686":"senegal","478":"mauritania","504":"morocco"
+};
+const CAPITALS = {
+  nigeria:[3.39,6.45],benin:[2.43,6.37],togo:[1.22,6.13],ghana:[-0.19,5.55],
+  ivorycoast:[-3.97,5.35],liberia:[-10.80,6.30],sierraleone:[-13.24,8.49],
+  guinea:[-13.68,9.54],guineabissau:[-15.58,11.86],gambia:[-16.57,13.45],
+  senegal:[-17.44,14.69],mauritania:[-15.96,18.09],morocco:[-7.62,33.59]
+};
+const PIPE_LINE = {type:"Feature",geometry:{type:"LineString",coordinates:[
+  [3.39,6.45],[2.43,6.37],[1.22,6.13],[-0.19,5.55],[-3.97,5.35],
+  [-10.80,6.30],[-13.24,8.49],[-13.68,9.54],[-15.58,11.86],
+  [-16.57,13.45],[-17.44,14.69],[-15.96,18.09],
+  [-16.20,21.50],[-14.20,24.50],[-13.20,27.18],[-9.60,30.42],[-7.62,33.59]
+]}};
+const PIPE_EU = {type:"Feature",geometry:{type:"LineString",coordinates:[[-7.62,33.59],[-5.60,35.90]]}};
+
+let currentCountryId = null;
+let countryGeoLayer = null;
+
+function getStyle(f){
+  const id = PIPELINE_ISO[f.id];
+  if(!id) return {fillColor:"#C9BE9F",fillOpacity:.55,color:"rgba(255,255,255,.45)",weight:.5};
+  return id===currentCountryId
+    ? {fillColor:"#A65C05",fillOpacity:.95,color:"rgba(255,255,255,.8)",weight:1.5}
+    : {fillColor:"#D4A050",fillOpacity:.75,color:"rgba(255,255,255,.6)",weight:.8};
+}
+
+function renderCountry(id){
+  const c = COUNTRIES[id]; if(!c) return;
+  const s = STATS[id]||{};
+  const card = document.getElementById("countryCard");
+  card.innerHTML = `
+    <div class="cc-header">
+      <span class="cc-flag">${FLAGS[id]||""}</span>
+      <div class="cc-title">
+        <h3 style="font-size:1.1rem;margin:0">${c.name}</h3>
+        <span class="pill ${c.pill}">${c.role}</span>
+      </div>
+    </div>
+    <div class="cc-stats">
+      <span><b>${s.pop}</b> M hab.</span>
+      <span><b>${s.access}%</b> accès électricité</span>
+      <span><b>${s.gdp} $</b> PIB/hab</span>
+      <span>⚓ ${s.port}</span>
+    </div>
+    <dl>
+      <dt>Rôle dans le gazoduc</dt><dd>${c.what}</dd>
+      <dt>Ce qu'il gagne</dt><dd>${c.gain}</dd>
+      <dt>Risque principal</dt><dd>${c.risk}</dd>
+    </dl>`;
+  card.classList.remove("fresh");
+  void card.offsetWidth;
+  card.classList.add("fresh");
+  currentCountryId = id;
+  if(countryGeoLayer) countryGeoLayer.setStyle(getStyle);
+  document.querySelectorAll(".clist button").forEach(b=>b.classList.toggle("active",b.dataset.id===id));
+  card.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+const lmap = L.map("mapDiv",{zoomControl:false,scrollWheelZoom:false,attributionControl:false});
+L.control.zoom({position:"topright"}).addTo(lmap);
+lmap.fitBounds([[2,-22],[37,14]]);
+
+fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+  .then(r=>r.json())
+  .then(topo=>{
+    const geo = topojson.feature(topo, topo.objects.countries);
+    countryGeoLayer = L.geoJSON(geo,{
+      style: getStyle,
+      onEachFeature(f,layer){
+        const id = PIPELINE_ISO[f.id]; if(!id) return;
+        layer.bindTooltip(COUNTRIES[id].name,{sticky:true,className:"country-tip",direction:"top"});
+        layer.on("click",()=>renderCountry(id));
+        layer.on("mouseover",function(){ if(id!==currentCountryId) this.setStyle({fillOpacity:.92}); });
+        layer.on("mouseout", function(){ if(id!==currentCountryId) this.setStyle({fillOpacity:.75}); });
+      }
+    }).addTo(lmap);
+
+    L.polyline(PIPE_LINE.geometry.coordinates.map(([lo,la])=>[la,lo]),
+      {color:"#F4A050",weight:14,opacity:.18,lineCap:"round",lineJoin:"round"}).addTo(lmap);
+    L.polyline(PIPE_LINE.geometry.coordinates.map(([lo,la])=>[la,lo]),
+      {color:"#A65C05",weight:3.5,opacity:.92,lineCap:"round",lineJoin:"round"}).addTo(lmap);
+    L.polyline(PIPE_EU.geometry.coordinates.map(([lo,la])=>[la,lo]),
+      {color:"#1C6880",weight:2.5,opacity:.75,dashArray:"8 5",lineCap:"round"}).addTo(lmap);
+
+    Object.entries(CAPITALS).forEach(([id,[lo,la]])=>{
+      L.circleMarker([la,lo],{radius:5,fillColor:"#fff",color:"#A65C05",weight:2,fillOpacity:1})
+        .addTo(lmap).on("click",()=>renderCountry(id));
+    });
+
+    const listEl = document.getElementById("countryList");
+    ORDER.forEach((id,i)=>{
+      const btn = document.createElement("button");
+      btn.dataset.id = id;
+      btn.setAttribute("role","listitem");
+      btn.innerHTML = `<span class="c-num">${i+1}</span><span class="c-flag">${FLAGS[id]||""}</span><span>${COUNTRIES[id].name}</span>`;
+      btn.addEventListener("click",()=>renderCountry(id));
+      listEl.appendChild(btn);
+    });
+    renderCountry("nigeria");
+  })
+  .catch(()=>{
+    document.getElementById("mapWrap").innerHTML=
+      '<p style="padding:20px;color:var(--ink-soft)">La carte n\'a pas pu se charger. Vérifiez votre connexion internet.</p>';
+  });
+
+/* Simulateur */
+function fmt(n,dec){return n.toFixed(dec??1);}
+function updateSim(){
+  const price = parseFloat(document.getElementById("sPrice").value);
+  const euPct = parseFloat(document.getElementById("sEu").value)/100;
+  const util  = parseFloat(document.getElementById("sUtil").value)/100;
+  document.getElementById("oPrice").value = fmt(price,0)+" $/MMBtu";
+  document.getElementById("oEu").value    = fmt(euPct*100,0)+"%";
+  document.getElementById("oUtil").value  = fmt(util*100,0)+"%";
+  const total = 30*util;
+  const eu    = total*euPct;
+  const wa    = total*(1-euPct);
+  const rev   = total*1000*6.117*price*0.28/1e9;
+  const trans = eu*1000*6.117*0.065/1e9;
+  document.getElementById("rTotal").textContent   = fmt(total)+" Gm³/an";
+  document.getElementById("rEu").textContent      = fmt(eu)+" Gm³/an";
+  document.getElementById("rWa").textContent      = fmt(wa)+" Gm³/an";
+  document.getElementById("rRev").textContent     = fmt(rev,1)+" Md$/an";
+  document.getElementById("rTransit").textContent = "~"+fmt(trans,2)+" Md$/an";
+  const bar = document.getElementById("simBar");
+  bar.querySelector(".c-eu").style.width = (euPct*100)+"%";
+  bar.querySelector(".c-wa").style.width = ((1-euPct)*100)+"%";
+  bar.querySelector(".c-eu").style.background = "var(--teal)";
+  bar.querySelector(".c-wa").style.background = "var(--good)";
+}
+["sPrice","sEu","sUtil"].forEach(id=>document.getElementById(id).addEventListener("input",updateSim));
+updateSim();
+
+/* Quiz */
+const QS = [
+  {q:"Quelle est la longueur du gazoduc Nigéria-Maroc ?",opts:["~2 000 km","~4 500 km","~6 800 km","~10 000 km"],ans:2,why:"Le gazoduc s'étend sur environ 6 800 km le long de la côte atlantique, ce qui en fait l'un des plus longs gazoducs jamais proposés au monde."},
+  {q:"Combien de pays le gazoduc traverse-t-il ?",opts:["5","8","13","17"],ans:2,why:"Le tracé passe par 13 pays : Nigéria, Bénin, Togo, Ghana, Côte d'Ivoire, Libéria, Sierra Leone, Guinée, Guinée-Bissau, Gambie, Sénégal, Mauritanie et Maroc."},
+  {q:"Pourquoi le gazoduc se termine-t-il au Maroc plutôt qu'en Algérie ?",opts:["Le Maroc a des ports plus profonds","L'Algérie a fermé son gazoduc au Maroc en 2021","Le Maroc dispose de plus de stockage de gaz","Le tracé est plus court via le Maroc"],ans:1,why:"L'Algérie a fermé le gazoduc Maghreb-Europe (MEG) au Maroc en octobre 2021 après la rupture des relations diplomatiques. Le Maroc s'est alors positionné comme le pays de transit atlantique de référence."},
+  {q:"Quelle est la capacité annuelle du gazoduc ?",opts:["5 Gm³/an","15 Gm³/an","30 Gm³/an","60 Gm³/an"],ans:2,why:"Le gazoduc atlantique africain est conçu pour transporter 30 milliards de mètres cubes par an, dont environ la moitié est destinée au Maroc et aux marchés européens."}
+];
+let answers = new Array(QS.length).fill(null);
+function buildQuiz(){
+  const el = document.getElementById("quizEl"); el.innerHTML="";
+  answers.fill(null);
+  QS.forEach((q,i)=>{
+    const div = document.createElement("div"); div.className="q";
+    const qp = document.createElement("p"); qp.textContent=q.q; qp.style.fontWeight="600";
+    const opts = document.createElement("div"); opts.className="opts";
+    q.opts.forEach((o,j)=>{
+      const btn = document.createElement("button"); btn.className="opt"; btn.type="button"; btn.textContent=o;
+      btn.addEventListener("click",()=>answer(i,j));
+      opts.appendChild(btn);
+    });
+    div.appendChild(qp); div.appendChild(opts);
+    el.appendChild(div);
+  });
+  document.getElementById("scoreEl").hidden=true;
+  document.getElementById("resetBtn").hidden=true;
+}
+function answer(qi,ai){
+  if(answers[qi]!==null) return;
+  answers[qi]=ai;
+  const div = document.querySelectorAll(".q")[qi];
+  const btns = div.querySelectorAll(".opt");
+  btns.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===QS[qi].ans) b.classList.add("right");
+    else if(j===ai) b.classList.add("wrong");
+  });
+  const why = document.createElement("p"); why.className="why";
+  const correct = ai===QS[qi].ans;
+  why.innerHTML=(correct?"<b>Correct.</b> ":"<b class='no'>Incorrect.</b> ")+QS[qi].why;
+  div.appendChild(why);
+  if(answers.every(a=>a!==null)){
+    const score = answers.filter((a,i)=>a===QS[i].ans).length;
+    const sc = document.getElementById("scoreEl");
+    sc.textContent=`Score : ${score} / ${QS.length}`;
+    sc.hidden=false;
+    document.getElementById("resetBtn").hidden=false;
+  }
+}
+document.getElementById("resetBtn").addEventListener("click",buildQuiz);
+buildQuiz();
+
+})();
+</script>
+</body>
+</html>
