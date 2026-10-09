@@ -98,19 +98,49 @@ section>.head{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
 .chain p{font-size:.93rem}
 
 /* Route map — Leaflet */
-#mapWrap{border:1px solid var(--rule);overflow:hidden;position:relative;border-radius:2px}
-#mapDiv{height:420px;background:#C8DCEA}
-.leaflet-container{background:#C8DCEA!important}
+.map-layout{display:grid;grid-template-columns:minmax(0,1fr) 190px;border:1px solid var(--rule);overflow:hidden;border-radius:2px}
+@media(max-width:680px){.map-layout{grid-template-columns:1fr}}
+#mapWrap{border-right:1px solid var(--rule)}
+#mapDiv{height:420px;background:#BDD4E0}
+.leaflet-container{background:#BDD4E0!important}
 .leaflet-control-zoom{border:none!important;box-shadow:none!important}
 .leaflet-control-zoom a{width:28px!important;height:28px!important;line-height:28px!important;font-size:16px!important;border:1.5px solid var(--ink-soft)!important;background:var(--panel)!important;color:var(--ink)!important;font-family:var(--f-mono)!important;border-radius:0!important;margin-bottom:3px!important}
 .leaflet-control-zoom a:hover{border-color:var(--ink)!important}
 .leaflet-tooltip.country-tip{background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:4px 9px;border:none;border-radius:0;box-shadow:0 2px 8px rgba(0,0,0,.25);letter-spacing:.06em;white-space:nowrap}
 .leaflet-tooltip.country-tip::before{display:none}
+.clist{overflow-y:auto;max-height:420px;display:flex;flex-direction:column;background:var(--panel)}
+@media(max-width:680px){.clist{max-height:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+.clist button{all:unset;box-sizing:border-box;width:100%;padding:8px 11px;border-bottom:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink);transition:background .1s}
+.clist button:hover{background:var(--sea)}
+.clist button.active{background:var(--price);color:#fff}
+.clist button.active .c-num{color:rgba(255,255,255,.65)}
+.c-num{font-family:var(--f-mono);font-size:10px;color:var(--ink-soft);flex:none;min-width:14px}
+.c-flag{font-size:1em;flex:none;line-height:1}
 .maplegend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;color:var(--ink-soft)}
 .maplegend span{display:inline-flex;align-items:center;gap:8px}
 
 /* Country card */
-.countrycard{background:var(--panel);border:1px solid var(--rule);padding:11px 14px;display:grid;grid-template-columns:minmax(0,1fr);gap:7px;min-height:60px}
+@keyframes cdfade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.countrycard.fresh{animation:cdfade .18s ease-out}
+.cc-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cc-flag{font-size:1.7rem;line-height:1;flex:none}
+.cc-title{display:flex;flex-direction:column;gap:5px}
+
+/* Timeline */
+.timeline-wrap{padding-block:26px 0}
+.timeline-track{display:flex;align-items:flex-start;gap:0;position:relative;overflow-x:auto;padding-bottom:4px}
+.timeline-track::before{content:'';position:absolute;left:7px;right:7px;top:30px;height:2px;background:var(--rule);z-index:0}
+.ms{flex:1;min-width:86px;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1;padding-inline:4px}
+.ms .my{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-soft);height:20px;display:flex;align-items:center}
+.ms .md{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--rule);background:var(--panel);flex:none;transition:background .2s}
+.ms.done .md{background:var(--teal);border-color:var(--teal)}
+.ms.now .md{background:var(--price);border-color:var(--price);box-shadow:0 0 0 3px color-mix(in srgb,var(--price) 22%,transparent)}
+.ms .ml{font-size:.73rem;text-align:center;color:var(--ink-soft);line-height:1.35;padding-inline:2px}
+.ms.done .my{color:var(--teal)}
+.ms.now .my,.ms.now .ml{color:var(--price);font-weight:600}
+.ms.future .my,.ms.future .ml{opacity:.6}
+
+.countrycard{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;min-height:70px}
 .countrycard dl{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:5px 12px;margin:0;font-size:.9rem}
 .countrycard dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
 .countrycard dd{margin:0}
@@ -246,6 +276,19 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
   <a href="#quiz">Quiz</a>
 </nav>
 
+<!-- Timeline strip -->
+<div class="timeline-wrap">
+  <p class="eyebrow" style="margin-bottom:14px">Project timeline</p>
+  <div class="timeline-track">
+    <div class="ms done"><span class="my">2002</span><div class="md"></div><span class="ml">Initial MOU signed</span></div>
+    <div class="ms done"><span class="my">2016</span><div class="md"></div><span class="ml">Feasibility study</span></div>
+    <div class="ms done"><span class="my">2021</span><div class="md"></div><span class="ml">Algeria cuts MEG pipeline</span></div>
+    <div class="ms now"><span class="my">2026 ★</span><div class="md"></div><span class="ml">IGA signed — we are here</span></div>
+    <div class="ms future"><span class="my">2028</span><div class="md"></div><span class="ml">Construction start target</span></div>
+    <div class="ms future"><span class="my">2035</span><div class="md"></div><span class="ml">First gas expected</span></div>
+  </div>
+</div>
+
 <!-- 1. Why now -->
 <section id="why">
   <div class="head">
@@ -281,19 +324,22 @@ footer{border-top:3px double var(--ink);margin-top:56px;padding-top:22px;display
     <p class="measure">The pipeline runs almost entirely offshore, hugging the Atlantic coast from the Niger Delta to the Strait of Gibraltar. Select a country to see its role.</p>
   </div>
   <div class="stack">
-    <div id="mapWrap" aria-label="Interactive map of the Nigeria-Morocco Gas Pipeline route">
-      <div id="mapDiv"></div>
+    <div class="map-layout">
+      <div id="mapWrap" aria-label="Interactive map of the Nigeria-Morocco Gas Pipeline route">
+        <div id="mapDiv"></div>
+      </div>
+      <div class="clist" id="countryList" role="list" aria-label="Pipeline countries"></div>
     </div>
     <div class="maplegend">
       <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#A65C05" stroke-width="4" stroke-linecap="round"/></svg>NMGP pipeline</span>
-      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#1C6880" stroke-width="2.5" stroke-dasharray="8 5" stroke-linecap="round"/></svg>Existing Morocco–Spain connection</span>
-      <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#fff" stroke="#13222A" stroke-width="2"/></svg>Click a country for details</span>
+      <span><svg width="34" height="10" aria-hidden="true"><line x1="2" y1="5" x2="32" y2="5" stroke="#1C6880" stroke-width="2.5" stroke-dasharray="8 5" stroke-linecap="round"/></svg>Morocco–Spain connection</span>
+      <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#fff" stroke="#A65C05" stroke-width="2"/></svg>Click a country</span>
     </div>
     <div class="countrycard" id="countryCard" aria-live="polite">
-      <p class="eyebrow">Select a country above</p>
-      <p>Click any dot on the map to see that country's role, what it gains, and the key risks on its segment.</p>
+      <p class="eyebrow">Select a country</p>
+      <p>Click a dot on the map or a name on the right to see that country's role, what it gains, and the key risks.</p>
     </div>
-    <p class="small">Schematic only — not to geographic scale. The pipeline is mostly offshore. The Western Sahara segment (between Mauritania and Morocco proper) is politically disputed territory.</p>
+    <p class="small">Pipeline is mostly offshore. The Western Sahara segment (between Mauritania and Morocco proper) is politically disputed territory.</p>
   </div>
 </section>
 
@@ -572,7 +618,14 @@ const COUNTRIES = {
 };
 
 
-/* D3 + TopoJSON map */
+const FLAGS = {
+  nigeria:"🇳🇬",benin:"🇧🇯",togo:"🇹🇬",ghana:"🇬🇭",ivorycoast:"🇨🇮",
+  liberia:"🇱🇷",sierraleone:"🇸🇱",guinea:"🇬🇳",guineabissau:"🇬🇼",
+  gambia:"🇬🇲",senegal:"🇸🇳",mauritania:"🇲🇷",morocco:"🇲🇦"
+};
+const ORDER = ["nigeria","benin","togo","ghana","ivorycoast","liberia",
+               "sierraleone","guinea","guineabissau","gambia","senegal","mauritania","morocco"];
+
 const PIPELINE_ISO = {
   "566":"nigeria","204":"benin","768":"togo","288":"ghana",
   "384":"ivorycoast","430":"liberia","694":"sierraleone","324":"guinea",
@@ -634,17 +687,24 @@ function renderCountry(id){
   const c = COUNTRIES[id]; if(!c) return;
   const card = document.getElementById("countryCard");
   card.innerHTML = `
-    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-      <h3 style="font-size:1rem;margin:0">${c.name}</h3>
-      <span class="pill ${c.pill}">${c.role}</span>
+    <div class="cc-header">
+      <span class="cc-flag">${FLAGS[id]||""}</span>
+      <div class="cc-title">
+        <h3 style="font-size:1.1rem;margin:0">${c.name}</h3>
+        <span class="pill ${c.pill}">${c.role}</span>
+      </div>
     </div>
     <dl>
       <dt>Pipeline role</dt><dd>${c.what}</dd>
       <dt>What it gains</dt><dd>${c.gain}</dd>
       <dt>Key risk</dt><dd>${c.risk}</dd>
     </dl>`;
+  card.classList.remove("fresh");
+  void card.offsetWidth;
+  card.classList.add("fresh");
   currentCountryId = id;
   if(countryGeoLayer) countryGeoLayer.setStyle(getStyle);
+  document.querySelectorAll(".clist button").forEach(b=>b.classList.toggle("active",b.dataset.id===id));
   card.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
@@ -673,9 +733,12 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
       }
     }).addTo(lmap);
 
+    // Pipeline glow (soft halo behind the route)
+    L.polyline(PIPE_LINE.geometry.coordinates.map(([lo,la])=>[la,lo]),
+      {color:"#F4A050",weight:14,opacity:.18,lineCap:"round",lineJoin:"round"}).addTo(lmap);
     // Pipeline route (amber solid)
     L.polyline(PIPE_LINE.geometry.coordinates.map(([lo,la])=>[la,lo]),
-      {color:"#A65C05",weight:3.5,opacity:.9,lineCap:"round",lineJoin:"round"}).addTo(lmap);
+      {color:"#A65C05",weight:3.5,opacity:.92,lineCap:"round",lineJoin:"round"}).addTo(lmap);
 
     // Morocco–Spain connection (teal dashed)
     L.polyline(PIPE_EU.geometry.coordinates.map(([lo,la])=>[la,lo]),
@@ -684,8 +747,19 @@ fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
     // Capital dots
     Object.entries(CAPITALS).forEach(([id,[lo,la]])=>{
       L.circleMarker([la,lo],{
-        radius:4,fillColor:"#fff",color:"#A65C05",weight:2,fillOpacity:1
+        radius:5,fillColor:"#fff",color:"#A65C05",weight:2,fillOpacity:1
       }).addTo(lmap).on("click",()=>renderCountry(id));
+    });
+
+    // Build country sidebar list
+    const listEl = document.getElementById("countryList");
+    ORDER.forEach((id,i)=>{
+      const btn = document.createElement("button");
+      btn.dataset.id = id;
+      btn.setAttribute("role","listitem");
+      btn.innerHTML = `<span class="c-num">${i+1}</span><span class="c-flag">${FLAGS[id]||""}</span><span>${COUNTRIES[id].name}</span>`;
+      btn.addEventListener("click",()=>renderCountry(id));
+      listEl.appendChild(btn);
     });
 
     renderCountry("nigeria");
